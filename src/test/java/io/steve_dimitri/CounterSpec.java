@@ -6,6 +6,7 @@ import org.junit.Test;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 import static org.junit.Assert.*;
 
@@ -13,15 +14,6 @@ import static org.junit.Assert.*;
  * Created by stevejaminson on 5/24/16.
  */
 public class CounterSpec {
-    
-
-    @Before
-    public void init(){
-        Counter.totalApples = 0;
-        Counter.totalCookies = 0;
-        Counter.totalBread = 0;
-        Counter.totalMilks = 0;
-    }
 
     @Test
     public void getMilkInfoTestNumber(){
@@ -42,6 +34,7 @@ public class CounterSpec {
 
     @Test
     public void getMilkInfoTestPrice(){
+        Counter.milkPrices = new TreeMap<Double, Integer>();
         Counter counter = new Counter();
         ItemParser parser = new ItemParser();
         try {
@@ -106,6 +99,5 @@ public class CounterSpec {
         int expected = 2;
         int actual = counter.applePrices.get(0.23);
         assertEquals(expected,actual);
-        counter.setMilkPrices();
     }
 }

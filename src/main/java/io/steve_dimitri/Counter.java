@@ -18,7 +18,6 @@ public class Counter {
     static TreeMap<Double,Integer> breadPrices = new TreeMap<Double, Integer>();
     static TreeMap<Double,Integer> cookiePrices = new TreeMap<Double, Integer>();
     static TreeMap<Double,Integer> applePrices = new TreeMap<Double, Integer>();
-    ArrayList<Double> priceOfMilk = new ArrayList<Double>();
 
     public void getMilkInfo(ArrayList<Item> items){
         for(int i = 0; i < items.size(); i++){
@@ -76,10 +75,5 @@ public class Counter {
             }
         }
     }
-
-    public void setMilkPrices(){
-        System.out.println(applePrices.keySet().toArray()[0]);
-        System.out.println(applePrices.get(applePrices.keySet().toArray()[0]));
-        }
 
 }
