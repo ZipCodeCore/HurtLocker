@@ -50,10 +50,40 @@ public class ItemParser {
     }
 
     public String formatArrayListIntoString(ArrayList<Item> groceryList) {
+
+        TreeMap<String, Integer> names = countNames(groceryList);
+        ArrayList<String> namesIterator = new ArrayList<>();
+        ArrayList<String> namesOccurences = new ArrayList<>();
+
+        for (Map.Entry<String, Integer> entry : names.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+            namesIterator.add(key);
+            namesOccurences.add("" + value);
+        }
+
+        TreeMap<String, TreeMap<Double, Integer>> prices = countPrices(groceryList);
+        ArrayList<Double> pricesIterator = new ArrayList<>();
+        ArrayList<Integer> pricesOccurences = new ArrayList<>();
+
+        for (Map.Entry<String, TreeMap<Double, Integer>> entry : prices.entrySet()) {
+            TreeMap<Double, Integer> childMap = entry.getValue();
+
+            for (Map.Entry<Double, Integer> entry2 : childMap.entrySet()) {
+                Double childKey = entry2.getKey();
+                Integer childValue = entry2.getValue();
+                pricesIterator.add(childKey);
+                pricesOccurences.add(childValue);
+            }
+        }
         String formattedString = "";
-        for (int i = 0; i < groceryList.size(); i++) {
-            formattedString += String.format("name:%8s\t\t\tSeen: %d times\n=============\nPrice:%7.2f\n-------------\n\n",
-                    groceryList.get(i).getName(), countNames(groceryList).get(groceryList.get(i).getName()), groceryList.get(i).getPrice());
+        for (int i = 0; i < 4; i++) {
+            formattedString += String.format("name:%8s\t\t\tSeen: %s times\n=============\n", namesIterator.get(i), namesOccurences.get(i));
+
+            for (int j = 0; j < pricesIterator.size() ; j++) {
+                formattedString += String.format("Price:%7.2f\t\t\tSeen: %d times\n-------------\n\n", pricesIterator.get(j), pricesOccurences.get(j)+1);
+            }
+
         }
 
         return formattedString;
@@ -83,7 +113,7 @@ public class ItemParser {
     }
 
     public TreeMap<String, Integer> countNames(ArrayList<Item> groceryList) {
-       TreeMap<String, Integer> counter = new TreeMap<>();
+        TreeMap<String, Integer> counter = new TreeMap<>();
 
         ArrayList<String> milk = new ArrayList<>();
         ArrayList<String> cookies = new ArrayList<>();
@@ -128,7 +158,6 @@ public class ItemParser {
         ArrayList<Double> cookiesPrices = new ArrayList<>();
         ArrayList<Double> breadPrices = new ArrayList<>();
         ArrayList<Double> applesPrices = new ArrayList<>();
-
 
 
         for (int i = 0; i < groceryList.size(); i++) {
