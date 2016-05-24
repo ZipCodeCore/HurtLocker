@@ -31,7 +31,6 @@ public class App {
 //            String key = entry.getKey().toString();
 //            String value = entry.getValue().toString();
 //            System.out.println("Key: " + key + " " + "Value: " + value);
-        System.out.println(parser.getErrorCount());
         format.stringFormat();
         }
     }
