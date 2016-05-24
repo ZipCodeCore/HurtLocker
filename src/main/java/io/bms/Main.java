@@ -1,3 +1,5 @@
+package io.bms;
+
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -12,6 +14,8 @@ public class Main {
     }
 
     public static void main(String[] args) throws Exception{
-
+        ItemParser itemParser = new ItemParser();
+        Main main = new Main();
+        itemParser.engine(main.readRawDataToString());
     }
 }
