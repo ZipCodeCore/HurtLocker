@@ -51,9 +51,9 @@ public class StringUtilitiesSpec {
         thrown.expect(Error.class);
         thrown.expectMessage("Missing Value");
         StringUtilities.grabValue("naMe:");
-        int expectedCount = 1;
-        int actualCount =Error.returnCount();
-        assertEquals(expectedCount,actualCount);
+        String expectedString = "Errors\t\t\t\tseen: 1 times";
+        String actualString = Error.formattedToString();
+        assertEquals(expectedString,actualString);
     }
 
     @Test
@@ -62,6 +62,14 @@ public class StringUtilitiesSpec {
         String expectedValue = "cookies";
         String actualValue = StringUtilities.spellingCorrector(testCase);
         assertEquals(expectedValue,actualValue);
+    }
+
+    @Test
+    public void normalizeWordTest(){
+        String testCase = "CoOkiEs";
+        String expectedString = "cookies";
+        String actualString = StringUtilities.normalizeWord(testCase);
+        assertEquals(expectedString,actualString);
     }
 
 }

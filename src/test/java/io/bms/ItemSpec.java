@@ -43,10 +43,11 @@ public class ItemSpec {
     @Test
     public void formattedToStringTest(){
         item.addPriceOccurence("2.50");
-        String expectedValue = "name:    Milk\t\tseen: 1 times\n=============\t\t=============\n";
-        expectedValue+="Price:\t 3.10\t\tseen: 1 times";
+        String expectedValue = "name:\tmilk\t\tseen: 2 times\n=============\t\t=============\n";
+        expectedValue+="Price:\t2.50\t\tseen: 1 times";
         expectedValue+="\n-------------\t\t-------------\n";
-        expectedValue+="Price:\t 2.50\t\tseen: 1 times";
+        expectedValue+="Price:\t3.10\t\tseen: 1 times";
+        expectedValue+="\n-------------\t\t-------------\n";
         String actualValue = item.formattedToString();
         assertEquals(expectedValue,actualValue);
 

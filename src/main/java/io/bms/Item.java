@@ -1,6 +1,4 @@
 package io.bms;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -49,8 +47,6 @@ public class Item {
                     .append("\t\tseen: "+entry.getValue().intValue()+" times\n")
                     .append("-------------\t\t-------------\n");
         }
-
-
 
         return stringBuilder.toString();
     }

@@ -8,21 +8,21 @@ import java.util.HashMap;
  */
 public class ItemParser {
 
-    HashMap<String,Item> groceryMap = new HashMap<>();
-    String currentItemKey;
+    private HashMap<String,Item> groceryMap = new HashMap<>();
 
     public void engine(String input){
         String[] itemsArray = StringUtilities.parseStringArray(input);
         for(int i = 0; i < itemsArray.length; i++){
             String[] currentItemArray = StringUtilities.splitStringIntoKeyValuePairs(itemsArray[i]);
-            addItem(currentItemArray[0],currentItemArray[1]);
+            String currentItemName = addItem(currentItemArray[0]);
+            addPrice(currentItemName,currentItemArray[1]);
         }
         printGroceryMap();
         printErrors();
     }
 
     private void printErrors() {
-        System.out.println(Error.formatedToString());
+        System.out.println(Error.formattedToString());
     }
 
     private void printGroceryMap() {
@@ -31,35 +31,31 @@ public class ItemParser {
         }
     }
 
-    public void addItem(String currentItem, String currentPrice){
-        String price = null;
+    public String addItem(String currentItem){
         String itemName;
-
-
         try{
             itemName = StringUtilities.grabValue(currentItem);
 
         }catch (Error e){itemName = null;}
-
-        try{
-            price = StringUtilities.grabValue(currentPrice);
-
-        }catch (Error e){itemName = null;}
-
-
-
         if(itemName!=null){
             itemName = StringUtilities.normalizeWord(itemName);
-
             itemName = StringUtilities.spellingCorrector(itemName);
             if(!checkItemExist(itemName)){
                 Item item = new Item(itemName);
                 groceryMap.put(itemName,item);
             }
         }
-        if((price!=null)&&(itemName!=null)){
-            price = StringUtilities.normalizeWord(price);
+        return itemName;
+    }
 
+    private void addPrice(String itemName, String currentPrice){
+        String price = null;
+        try{
+            price = StringUtilities.grabValue(currentPrice);
+
+        }catch (Error e){itemName = null;}
+
+        if((price!=null)&&(itemName!=null)){
             if(groceryMap.get(itemName).checkPriceExists(price)){
                 groceryMap.get(itemName).addCounter(price);
             }
@@ -67,15 +63,7 @@ public class ItemParser {
                 groceryMap.get(itemName).addPriceOccurence(price);
             }
         }
-
-
-
-
-
-
-
     }
-
     public boolean checkItemExist(String itemName){
         return groceryMap.containsKey(itemName);
     }

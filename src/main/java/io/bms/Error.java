@@ -1,7 +1,7 @@
 package io.bms;
 
 /**
- * Created by samhudgens on 5/24/16.
+ * Created by bms on 5/24/16.
  */
 public class Error extends Throwable{
 
@@ -12,11 +12,7 @@ public class Error extends Throwable{
         counter++;
     }
 
-    public static String formatedToString(){
+    public static String formattedToString(){
         return "Errors\t\t\t\tseen: "+counter+" times";
-    }
-
-    public static int returnCount(){
-        return counter;
     }
 }
