@@ -42,13 +42,7 @@ public class ItemParserTest {
 
     @Test
     public void formatArrayListIntoString() throws Exception {
-        item.setName("Cookies");
-        item.setPrice(2.22);
-        ArrayList<Item> groceryList = new ArrayList<>();
-        groceryList.add(item);
-        String expectedValue = String.format("name:%8s\t\t\tSeen: %d times\n=============\nPrice:%7.2f\n-------------\n\n", item.getName(),itemParser.countNames(groceryList).get(groceryList.get(0).getName()), item.getPrice());
-        String actualValue = itemParser.formatArrayListIntoString(groceryList);
-        assertEquals("The expected value is name: right justified followed by equals sign line and the price: right jusitified", expectedValue, actualValue);
+
     }
 
     @Test
@@ -70,31 +64,12 @@ public class ItemParserTest {
 
     @Test
     public void countPricesTest() {
-        item.setName("milk");
-        item2.setName("milk");
-        item.setPrice(2.2);
-        item2.setPrice(2.6);
-        ArrayList<Item> groceries = new ArrayList<>();
-        groceries.add(item);
-        groceries.add(item2);
-        int expectedValue = 2;
-        int actualValue = itemParser.countPrices(groceries).get("Milk").size();
-        assertEquals("The expected value is 2", expectedValue, actualValue);
+
     }
 
     @Test
     public void countNamesTest() {
-        item.setName("Cookies");
-        item2.setName("milk");
-        item3.setName("Apples");
-        ArrayList<Item> groceries = new ArrayList<>();
-        groceries.add(item);
-        groceries.add(item2);
-        groceries.add(item3);
-        int expectedValue = 1;
-        TreeMap<String, Integer> hashmap = itemParser.countNames(groceries);
-        int actualValue = itemParser.countNames(groceries).get("Cookies");
-        assertEquals("the expected value is one", expectedValue, actualValue);
+
     }
 
     @Test

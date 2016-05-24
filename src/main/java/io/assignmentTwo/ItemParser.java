@@ -1,6 +1,5 @@
 package io.assignmentTwo;
 
-import java.lang.reflect.Array;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -23,7 +22,7 @@ public class ItemParser {
             Item item = new Item();
             for (int i = 0; i < row.size(); ++i) {
                 if (i == 0) {
-                    Pattern pattern = Pattern.compile("(?i)name:\\w+");
+                    Pattern pattern = Pattern.compile("(?i)name:[A-za-z]+");
                     Matcher matcher = pattern.matcher(row.get(i));
 
                     while (matcher.find()) {
@@ -51,41 +50,49 @@ public class ItemParser {
 
     public String formatArrayListIntoString(ArrayList<Item> groceryList) {
 
-        TreeMap<String, Integer> names = countNames(groceryList);
-        ArrayList<String> namesIterator = new ArrayList<>();
-        ArrayList<String> namesOccurences = new ArrayList<>();
-
+        String formattedString = "";
+        HashMap<String, Integer> names = countNames(groceryList);
+        TreeMap<Double, Integer> applePrices = countApplePrices(groceryList);
+        TreeMap<Double, Integer> breadPrices = countBreadPrices(groceryList);
+        TreeMap<Double, Integer> cookiePrices = countCookiePrices(groceryList);
+        TreeMap<Double, Integer> milkPrices = countMilkPrices(groceryList);
         for (Map.Entry<String, Integer> entry : names.entrySet()) {
             String key = entry.getKey();
             Object value = entry.getValue();
-            namesIterator.add(key);
-            namesOccurences.add("" + value);
-        }
 
-        TreeMap<String, TreeMap<Double, Integer>> prices = countPrices(groceryList);
-        ArrayList<Double> pricesIterator = new ArrayList<>();
-        ArrayList<Integer> pricesOccurences = new ArrayList<>();
-
-        for (Map.Entry<String, TreeMap<Double, Integer>> entry : prices.entrySet()) {
-            TreeMap<Double, Integer> childMap = entry.getValue();
-
-            for (Map.Entry<Double, Integer> entry2 : childMap.entrySet()) {
-                Double childKey = entry2.getKey();
-                Integer childValue = entry2.getValue();
-                pricesIterator.add(childKey);
-                pricesOccurences.add(childValue);
-            }
-        }
-        String formattedString = "";
-        for (int i = 0; i < 4; i++) {
-            formattedString += String.format("name:%8s\t\t\tSeen: %s times\n=============\n", namesIterator.get(i), namesOccurences.get(i));
-
-            for (int j = 0; j < pricesIterator.size() ; j++) {
-                formattedString += String.format("Price:%7.2f\t\t\tSeen: %d times\n-------------\n\n", pricesIterator.get(j), pricesOccurences.get(j)+1);
+            formattedString += String.format("name:    %s   \tseen: %d times\n=============   \t=============\n", key, value);
+            if (isMilk(key)) {
+                for (Map.Entry<Double, Integer> entry1 : milkPrices.entrySet()) {
+                    Double key1 = entry1.getKey();
+                    Integer value1 = entry1.getValue();
+                    formattedString += String.format("Price:    %.2f   \tseen: %d times\n-------------   \t-------------\n\n", key1, value1);
+                }
             }
 
-        }
+            if (isCookies(key)) {
+                for (Map.Entry<Double, Integer> entry2 : cookiePrices.entrySet()) {
+                    Double key1 = entry2.getKey();
+                    Integer value1 = entry2.getValue();
+                    formattedString += String.format("Price:    %.2f   \tseen: %d times\n-------------   \t-------------\n\n", key1, value1);
+                }
+            }
 
+            if (isBread(key)) {
+                for (Map.Entry<Double, Integer> entry3 : breadPrices.entrySet()) {
+                    Double key1 = entry3.getKey();
+                    Integer value1 = entry3.getValue();
+                    formattedString += String.format("Price:    %.2f   \tseen: %d times\n-------------   \t-------------\n\n", key1, value1);
+                }
+            }
+
+            if (isApples(key)) {
+                for (Map.Entry<Double, Integer> entry3 : applePrices.entrySet()) {
+                    Double key1 = entry3.getKey();
+                    Integer value1 = entry3.getValue();
+                    formattedString += String.format("Price:    %.2f   \tseen: %d times\n-------------   \t-------------\n\n", key1, value1);
+                }
+            }
+        }
         return formattedString;
     }
 
@@ -101,7 +108,7 @@ public class ItemParser {
     public ArrayList<ArrayList<String>> separateKeyPairValues(String[] splitByLines) {
         ArrayList<ArrayList<String>> sv = new ArrayList<>();
         for (int i = 0; i < splitByLines.length; i++) {
-            Pattern pattern = Pattern.compile("\\w+:\\w+([.]?\\d?)*");
+            Pattern pattern = Pattern.compile("([^:@^*%;!]*)(:)([^:@^*%;!]*)");
             Matcher matcher = pattern.matcher(splitByLines[i]);
             ArrayList<String> lines = new ArrayList<>();
             while (matcher.find()) {
@@ -112,104 +119,128 @@ public class ItemParser {
         return sv;
     }
 
-    public TreeMap<String, Integer> countNames(ArrayList<Item> groceryList) {
-        TreeMap<String, Integer> counter = new TreeMap<>();
-
-        ArrayList<String> milk = new ArrayList<>();
-        ArrayList<String> cookies = new ArrayList<>();
-        ArrayList<String> bread = new ArrayList<>();
-        ArrayList<String> apples = new ArrayList<>();
-
+    public int countMilk(ArrayList<Item> groceryList) {
+        int counter = 0;
 
         for (int i = 0; i < groceryList.size(); i++) {
-            String name = groceryList.get(i).getName();
-            double price = groceryList.get(i).getPrice();
-            if (isApples(name)) {
-                apples.add("ANOTHERONE");
-            }
-            if (isBread(name)) {
-                bread.add("ANOTHERONE");
-            }
-            if (isCookies(name)) {
-                cookies.add("ANOTHERONE");
-            }
-            if (isMilk(name)) {
-                milk.add("ANOTHERONE");
+            if (isMilk((groceryList.get(i).getName()))) {
+                counter++;
             }
         }
-
-        counter.put("Milk", milk.size());
-        counter.put("Cookies", cookies.size());
-        counter.put("Bread", bread.size());
-        counter.put("Apples", apples.size());
-
         return counter;
     }
 
-    public TreeMap<String, TreeMap<Double, Integer>> countPrices(ArrayList<Item> groceryList) {
-
-        TreeMap<String, TreeMap<Double, Integer>> pricesCounter = new TreeMap<>();
-        TreeMap<Double, Integer> milkCounter = new TreeMap<>();
-        TreeMap<Double, Integer> breadCounter = new TreeMap<>();
-        TreeMap<Double, Integer> cookieCounter = new TreeMap<>();
-        TreeMap<Double, Integer> applesCounter = new TreeMap<>();
-
-        ArrayList<Double> milkPrices = new ArrayList<>();
-        ArrayList<Double> cookiesPrices = new ArrayList<>();
-        ArrayList<Double> breadPrices = new ArrayList<>();
-        ArrayList<Double> applesPrices = new ArrayList<>();
-
+    public int countBread(ArrayList<Item> groceryList) {
+        int counter = 0;
 
         for (int i = 0; i < groceryList.size(); i++) {
-
-            String name = groceryList.get(i).getName();
-            double price = groceryList.get(i).getPrice();
-            if (isApples(name)) {
-                applesPrices.add(price);
-            }
-            if (isBread(name)) {
-                breadPrices.add(price);
-            }
-            if (isCookies(name)) {
-                cookiesPrices.add(price);
-            }
-            if (isMilk(name)) {
-                milkPrices.add(price);
+            if (isBread((groceryList.get(i).getName()))) {
+                counter++;
             }
         }
-
-        for (int i = 0; i < milkPrices.size(); i++) {
-            double currentIndex = milkPrices.get(i);
-            int occurrences = Collections.frequency(milkPrices, currentIndex);
-            milkCounter.put(currentIndex, occurrences);
-
-        }
-
-        for (int i = 0; i < cookiesPrices.size(); i++) {
-            double currentIndex = cookiesPrices.get(i);
-            int occurrences = Collections.frequency(cookiesPrices, currentIndex);
-            cookieCounter.put(currentIndex, occurrences);
-        }
-
-        for (int i = 0; i < breadPrices.size(); i++) {
-            double currentIndex = breadPrices.get(i);
-            int occurrences = Collections.frequency(breadPrices, currentIndex);
-            breadCounter.put(currentIndex, occurrences);
-        }
-
-        for (int i = 0; i < applesPrices.size(); i++) {
-            double currentIndex = cookiesPrices.get(i);
-            int occurrences = Collections.frequency(applesPrices, currentIndex);
-            applesCounter.put(currentIndex, occurrences);
-        }
-
-        pricesCounter.put("Milk", milkCounter);
-        pricesCounter.put("Bread", breadCounter);
-        pricesCounter.put("Cookies", cookieCounter);
-        pricesCounter.put("Apples", applesCounter);
-
-        return pricesCounter;
+        return counter;
     }
+
+    public int countCookies(ArrayList<Item> groceryList) {
+        int counter = 0;
+
+        for (int i = 0; i < groceryList.size(); i++) {
+            if (isCookies(groceryList.get(i).getName())) {
+                counter++;
+            }
+        }
+        return counter;
+    }
+
+    public int countApples(ArrayList<Item> groceryList) {
+        int counter = 0;
+
+        for (int i = 0; i < groceryList.size(); i++) {
+            if (isApples(groceryList.get(i).getName())) {
+                counter++;
+            }
+        }
+        return counter;
+    }
+
+    public HashMap<String, Integer> countNames(ArrayList<Item> groceryList) {
+        int apples = countApples(groceryList);
+        int bread = countBread(groceryList);
+        int cookies = countCookies(groceryList);
+        int milk = countMilk(groceryList);
+        HashMap<String, Integer> nameOccurences = new HashMap<>();
+        nameOccurences.put("Milk", milk);
+        nameOccurences.put("Cookies", cookies);
+        nameOccurences.put("Bread", bread);
+        nameOccurences.put("Apples", apples);
+        return nameOccurences;
+
+    }
+
+    public TreeMap<Double, Integer> countMilkPrices(ArrayList<Item> groceryList) {
+        ArrayList<Double> milkPrices = new ArrayList<>();
+
+        for (int i = 0; i < groceryList.size(); i++) {
+            if (isMilk((groceryList.get(i).getName()))) {
+                milkPrices.add(groceryList.get(i).getPrice());
+            }
+        }
+        TreeMap<Double, Integer> milkPriceOccurences = new TreeMap<>();
+        for (int i = 0; i < milkPrices.size(); i++) {
+            milkPriceOccurences.put(milkPrices.get(i), Collections.frequency(milkPrices, milkPrices.get(i)));
+        }
+
+        return milkPriceOccurences;
+    }
+
+    public TreeMap<Double, Integer> countBreadPrices(ArrayList<Item> groceryList) {
+        ArrayList<Double> breadPrices = new ArrayList<>();
+
+        for (int i = 0; i < groceryList.size(); i++) {
+            if (isBread((groceryList.get(i).getName()))) {
+                breadPrices.add(groceryList.get(i).getPrice());
+            }
+        }
+        TreeMap<Double, Integer> breadPriceOccurences = new TreeMap<>();
+        for (int i = 0; i < breadPrices.size(); i++) {
+            breadPriceOccurences.put(breadPrices.get(i), Collections.frequency(breadPrices, breadPrices.get(i)));
+        }
+
+        return breadPriceOccurences;
+    }
+
+    public TreeMap<Double, Integer> countApplePrices(ArrayList<Item> groceryList) {
+        ArrayList<Double> applePrices = new ArrayList<>();
+
+        for (int i = 0; i < groceryList.size(); i++) {
+            if (isApples((groceryList.get(i).getName()))) {
+                applePrices.add(groceryList.get(i).getPrice());
+            }
+        }
+        TreeMap<Double, Integer> applePriceOccurences = new TreeMap<>();
+        for (int i = 0; i < applePrices.size(); i++) {
+            applePriceOccurences.put(applePrices.get(i), Collections.frequency(applePrices, applePrices.get(i)));
+        }
+
+        return applePriceOccurences;
+    }
+
+    public TreeMap<Double, Integer> countCookiePrices(ArrayList<Item> groceryList) {
+        ArrayList<Double> cookiePrices = new ArrayList<>();
+
+        for (int i = 0; i < groceryList.size(); i++) {
+            if (isCookies((groceryList.get(i).getName()))) {
+                cookiePrices.add(groceryList.get(i).getPrice());
+            }
+        }
+        TreeMap<Double, Integer> cookiePriceOccurences = new TreeMap<>();
+        for (int i = 0; i < cookiePrices.size(); i++) {
+            cookiePriceOccurences.put(cookiePrices.get(i), Collections.frequency(cookiePrices, cookiePrices.get(i)));
+        }
+
+        return cookiePriceOccurences;
+    }
+
 
     public boolean isMilk(String str) {
         Pattern pattern = Pattern.compile("(?i)milk");
