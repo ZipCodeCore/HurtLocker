@@ -1,3 +1,5 @@
+package io.HandroHoxtah;
+
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -11,7 +13,7 @@ public class Main {
         return new String(readAllBytes(get(path.toUri())));
     }
 
-    public static void main(String[] args) throws Exception{
-
-    }
+//    public static void main(String[] args) throws Exception{
+//
+//    }
 }
