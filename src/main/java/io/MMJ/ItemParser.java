@@ -209,6 +209,27 @@ public class ItemParser {
         System.out.println("milk: " + numMilk);
 */
     }
+    public void runItemParser(String input){
+        //System.out.println(currenttext);
+        //currenttext=itemParser.regexTest(currenttext);
+        //currenttext=itemParser.correctSpelling(currenttext);
+
+        input=correctName(input);
+        input=correctExpiration(input);
+        input=correctType(input);
+        input=correctPrice(input);
+
+        input=correctMilk(input);
+        input=correctBread(input);
+        input=correctCookies(input);
+        input=correctApples(input);
+        input=correctFood(input);
+        //System.out.println(currenttext);
+        ArrayList<Item> allItems = deserializeItem(input);
+        printResults(allItems);
+        System.out.println(formatResults());
+
+    }
 
     public String formatResults(){
         allPrices.add(milkPrices);
