@@ -23,10 +23,11 @@
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
         <module name="hurtlocker" />
+        <module name="Hurtlocker" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="1.8">
-      <module name="hurtlocker" target="1.8" />
+      <module name="Hurtlocker" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

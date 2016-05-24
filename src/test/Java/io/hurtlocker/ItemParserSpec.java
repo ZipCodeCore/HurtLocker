@@ -187,7 +187,15 @@ public class ItemParserSpec {
         assertEquals(expectedPrice, actualPrice);
     }
 
-
+    @Test
+    public void testInstancecounter(){
+        ItemParser testItemParser = new ItemParser();
+        testItemParser.JerkSON(fileData);
+        testItemParser.instanceCounter(testItemParser.getItemList());
+        int expectedItems = 0;
+        int actualItems = testItemParser.getAppleCount();
+        assertEquals(expectedItems,actualItems);
+    }
 
 
 

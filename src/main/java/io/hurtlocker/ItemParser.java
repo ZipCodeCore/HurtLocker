@@ -83,7 +83,7 @@ public class ItemParser {
 
     }
 
-    public void milkCHecker(String name, String cost){
+    public void milkCHecker(String name, String cost) {
         String milkRegex = "[Mm][Ii][lL][kK]";
 
         if (name == null || cost == null) {
