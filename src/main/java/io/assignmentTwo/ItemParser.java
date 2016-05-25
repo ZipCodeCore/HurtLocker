@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 
 public class ItemParser {
 
+
     public void runParser(String rawData) {
         ArrayList<Item> parsedItems = parseRawData(rawData);
         printParsedData(formatArrayListIntoString(parsedItems));
@@ -21,8 +22,9 @@ public class ItemParser {
         for (ArrayList<String> row : separatedValues) {
             Item item = new Item();
             for (int i = 0; i < row.size(); ++i) {
+                System.out.println(row.get(i) + "\n\n-----\n\n");
                 if (i == 0) {
-                    Pattern pattern = Pattern.compile("(?i)name:[A-za-z]+");
+                    Pattern pattern = Pattern.compile("(?i)name:\\S*");
                     Matcher matcher = pattern.matcher(row.get(i));
 
                     while (matcher.find()) {
@@ -30,7 +32,7 @@ public class ItemParser {
                     }
                 }
                 if (i == 1) {
-                    Pattern pattern = Pattern.compile("(?i)price:\\w+([.]?\\d?)*");
+                    Pattern pattern = Pattern.compile("(?i)price:\\d+[.]\\d+");
                     Matcher matcher = pattern.matcher(row.get(i));
 
                     while (matcher.find()) {
@@ -39,9 +41,14 @@ public class ItemParser {
                 }
             }
             if (name != null && price != null) {
-
-                item.setName(name.replaceAll("(?i)name:", ""));
-                item.setPrice(Double.parseDouble(price.replaceAll("(?i)price:", "")));
+                try {
+                    item.setName(name.replaceAll("(?i)name:", ""));
+                } catch (Exception e) {
+                }
+                try {
+                    item.setPrice(Double.parseDouble(price.replaceAll("(?i)price:", "")));
+                } catch (Exception e) {
+                }
                 groceryList.add(item);
             }
         }

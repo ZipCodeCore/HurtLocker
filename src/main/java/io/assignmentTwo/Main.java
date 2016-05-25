@@ -15,6 +15,6 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
         ItemParser itemParser = new ItemParser();
-        itemParser.runParser(readRawDataToString());
+       itemParser.runParser(readRawDataToString());
     }
 }
