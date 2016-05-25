@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 
 public class ItemParser {
 
-
+int errorCount = 0;
     public void runParser(String rawData) {
         ArrayList<Item> parsedItems = parseRawData(rawData);
         printParsedData(formatArrayListIntoString(parsedItems));
@@ -49,10 +49,12 @@ public class ItemParser {
                     item.setPrice(Double.parseDouble(price.replaceAll("(?i)price:", "")));
                 } catch (Exception e) {
                 }
-
                 groceryList.add(item);
+            }else{
+                errorCount++;
             }
         }
+
         return groceryList;
     }
 
@@ -101,6 +103,7 @@ public class ItemParser {
                 }
             }
         }
+        formattedString += String.format("Errors\t\t\t    seen: %d times", errorCount);
         return formattedString;
     }
 
