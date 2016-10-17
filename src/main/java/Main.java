@@ -25,29 +25,17 @@ public class Main {
     }
 
     public static void main(String[] args) {
+
         String toTest = "";
         try{
             toTest = Main.readRawDataToString();
         } catch(JerkSONException e){
 
         }
-        toTest = JerkSONParser.replaceZeroesWithOs(toTest);
-        toTest = JerkSONParser.capitalizeFirstLetter(toTest);
-        System.out.println(toTest);
-        toTest = JerkSONParser.lowercaseNonFirstLetters(toTest);
-        System.out.println(toTest);
-        String [] items = JerkSONParser.splitJerkSONByItem(toTest);
-        Arrays.sort(items);
+        JerkSONParser jerkSONParser = new JerkSONParser(toTest);
+        System.out.println(jerkSONParser);
 
 
-        String[][] fields = JerkSONParser.splitJerkSONByField(items);
-        for(String[] item : fields){
-            for(String field : item){
-                System.out.print(field);
-            }
-            System.out.println();
-
-        }
 
 
     }
