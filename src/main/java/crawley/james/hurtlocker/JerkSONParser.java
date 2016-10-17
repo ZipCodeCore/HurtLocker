@@ -49,32 +49,21 @@ public class JerkSONParser {
     public String getItemName () {
 
         String parsedName = parsedItem.get(1);
-        StringBuilder name = new StringBuilder();
-        int length;
-        Pattern pattern = Pattern.compile("0");
-        Matcher matcher;
 
-        for (int i = 0; i < parsedName.length(); i++) {
-           matcher = pattern.matcher(parsedName.substring(i, i+1));
-            if (matcher.find()) {
-                name.append("o");
-            } else {
-                name.append(parsedName.charAt(i));
-            }
+        if (findMatch("c[o0]{1,2}[ck]ie[sz]", parsedName)) {
+            parsedName = "Cookies";
+
+        } else if (findMatch("br[3e][4a]d", parsedName)) {
+            parsedName = "Bread";
+
+        } else if (findMatch("m[1i]l{1,2}[ck]", parsedName)) {
+            parsedName = "Milk";
+
+        } else if (findMatch("[a4]p{1,2}l{1,2}e{1,2}[sz]", parsedName)) {
+            parsedName = "Apples";
         }
 
-        length = name.length();
-
-        String first = name.substring(0, 1).toUpperCase();
-        String remaining = name.substring(1).toLowerCase();
-
-        name.delete(0, length);
-        name.append(first);
-        name.append(remaining);
-
-        name.delete(length - 1, length);
-
-        return name.toString();
+        return parsedName;
     }
 
     public String getItemPrice () {
@@ -94,7 +83,7 @@ public class JerkSONParser {
 
     public void putItem () {
 
-        int occurance;
+        int occurrence;
         String name = getItemName();
         String price = getItemPrice();
         Map<String, Integer> prices = inventory.get(name);
@@ -105,8 +94,8 @@ public class JerkSONParser {
         } else if (prices.get(price) == null) {
             prices.put(price, 1);
         } else {
-            occurance = prices.get(price);
-            prices.put(price, occurance + 1);
+            occurrence = prices.get(price);
+            prices.put(price, occurrence + 1);
         }
 
         inventory.put(name, prices);
@@ -170,13 +159,10 @@ public class JerkSONParser {
             seenItem = getMapSize(inventory.get(food));
             Set<String> prices = inventory.get(food).keySet();
 
-            formattedList.append("name:");
-            formattedList.append(String.format("%8s", food));
-            formattedList.append(" \t\t ");
-            formattedList.append("seen: ");
+            formattedList.append(String.format("name:%8s", food));
+            formattedList.append(" \t\t seen: ");
             formattedList.append(seenItem);
-            formattedList.append(" times");
-            formattedList.append("\n");
+            formattedList.append(" times\n");
             formattedList.append(separator0);
             formattedList.append(" \t\t ");
             formattedList.append(separator0);
@@ -191,14 +177,14 @@ public class JerkSONParser {
     private StringBuilder printPrices (String food, Set<String> prices) {
 
         StringBuilder formattedList = new StringBuilder();
+        int priceCount;
 
         for (String price : prices) {
-            formattedList.append("Price:");
-            formattedList.append(String.format("%7s", price));
-            formattedList.append(" \t\t ");
-            formattedList.append("seen: ");
-            formattedList.append(inventory.get(food).get(price));
-            if (inventory.get(food).get(price) == 1) {
+            priceCount = inventory.get(food).get(price);
+            formattedList.append(String.format("Price:%7s", price));
+            formattedList.append(" \t\t seen: ");
+            formattedList.append(priceCount);
+            if (priceCount == 1) {
                 formattedList.append("  time");
             } else {
                 formattedList.append(" times");
@@ -217,12 +203,18 @@ public class JerkSONParser {
 
         StringBuilder formattedList = new StringBuilder();
 
-        formattedList.append(String.format("%-13s","Errors"));
-        formattedList.append("\t\tseen: ");
+        formattedList.append(String.format("%-13s\t\tseen: ","Errors"));
         formattedList.append(errors);
         formattedList.append(" times");
 
         return formattedList;
+    }
+
+    private boolean findMatch (String regex, String parsedName) {
+        Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(parsedName);
+
+        return matcher.find();
     }
 
     private boolean verifyErrors (List items) {
@@ -236,7 +228,5 @@ public class JerkSONParser {
         return true;
 
     }
-
-
-
+    
 }
