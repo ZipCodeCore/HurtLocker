@@ -54,13 +54,26 @@ public class JerkSONParser {
         String parsedName = parsedItem.get(1);
         StringBuilder name = new StringBuilder();
         int length;
+        Pattern pattern = Pattern.compile("0");
+        Matcher matcher;
 
-        String first = parsedName.substring(0, 1).toUpperCase();
-        String remaining = parsedName.substring(1).toLowerCase();
+        for (int i = 0; i < parsedName.length(); i++) {
+           matcher = pattern.matcher(parsedName.substring(i, i+1));
+            if (matcher.find()) {
+                name.append("o");
+            } else {
+                name.append(parsedName.charAt(i));
+            }
+        }
 
+        length = name.length();
+
+        String first = name.substring(0, 1).toUpperCase();
+        String remaining = name.substring(1).toLowerCase();
+
+        name.delete(0, length);
         name.append(first);
         name.append(remaining);
-        length = name.length();
 
         name.delete(length - 1, length);
 
