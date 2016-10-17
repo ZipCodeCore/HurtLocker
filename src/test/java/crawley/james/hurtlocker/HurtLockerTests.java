@@ -100,6 +100,14 @@ public class HurtLockerTests {
     }
 
     @Test
+    public void getErrorsTest () {
+        
+        parseAllItems();
+
+        assertEquals("There should be 4 errors", 4, parser.getErrors());
+    }
+
+    @Test
     public void formatGroceryListTest () {
 
         String expected = "name:  Apples \t\t seen: 4 times\n" +

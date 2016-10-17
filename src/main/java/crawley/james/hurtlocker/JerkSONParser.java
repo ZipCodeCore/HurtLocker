@@ -159,8 +159,7 @@ public class JerkSONParser {
             seenItem = getMapSize(inventory.get(food));
             Set<String> prices = inventory.get(food).keySet();
 
-            formattedList.append(String.format("name:%8s", food));
-            formattedList.append(" \t\t seen: ");
+            formattedList.append(String.format("name:%8s \t\t seen: ", food));
             formattedList.append(seenItem);
             formattedList.append(" times\n");
             formattedList.append(separator0);
@@ -183,8 +182,7 @@ public class JerkSONParser {
 
             priceCount = inventory.get(food).get(price);
 
-            formattedList.append(String.format("Price:%7s", price));
-            formattedList.append(" \t\t seen: ");
+            formattedList.append(String.format("Price:%7s \t\t seen: ", price));
             formattedList.append(priceCount);
             formattedList.append((priceCount == 1) ? "  time" : " times");
             formattedList.append("\n");
