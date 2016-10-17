@@ -180,21 +180,20 @@ public class JerkSONParser {
         int priceCount;
 
         for (String price : prices) {
+
             priceCount = inventory.get(food).get(price);
+
             formattedList.append(String.format("Price:%7s", price));
             formattedList.append(" \t\t seen: ");
             formattedList.append(priceCount);
-            if (priceCount == 1) {
-                formattedList.append("  time");
-            } else {
-                formattedList.append(" times");
-            }
+            formattedList.append((priceCount == 1) ? "  time" : " times");
             formattedList.append("\n");
             formattedList.append(separator1);
             formattedList.append(" \t\t ");
             formattedList.append(separator1);
             formattedList.append("\n");
         }
+
         formattedList.append("\n");
         return formattedList;
     }
@@ -228,5 +227,5 @@ public class JerkSONParser {
         return true;
 
     }
-    
+
 }
