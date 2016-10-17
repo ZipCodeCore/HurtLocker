@@ -27,12 +27,5 @@ public class Main {
         Main mainString = new Main();
 
 
-        try{
-            System.out.println(JerkSONParser.parse(Main.readRawDataToString()));
-        } catch(JerkSONException e){
-
-
-        }
-
     }
 }
