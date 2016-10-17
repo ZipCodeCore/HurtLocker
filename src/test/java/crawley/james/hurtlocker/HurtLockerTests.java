@@ -69,24 +69,68 @@ public class HurtLockerTests {
 
         String expected = "{Apples=[0.25, 0.23, 0.25, 0.23], " +
                 "Cookies=[2.25, 2.25, 2.25, 2.25, 2.25, 2.25, 2.25, 2.25], " +
-                "Milk=[3.23, 3.23, 3.23, 1.23, 3.23, 3.23, 3.23], " +
-                "Bread=[1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23]}";
+                "Milk=[3.23, 3.23, 3.23, 1.23, 3.23, 3.23], " +
+                "Bread=[1.23, 1.23, 1.23, 1.23, 1.23, 1.23]}";
 
         while (parser.hasNext()) {
             try {
                 parser.parseItem();
+                parser.putItem();
             } catch (DataMissingException e) {
                 parser.next();
             }
-            parser.putItem();
+
         }
 
         String actual = parser.getInventory().toString();
 
         assertEquals("The Map should be printed out as {Apples=[0.25, 0.23, 0.25, 0.23], " +
                 "Cookies=[2.25, 2.25, 2.25, 2.25, 2.25, 2.25, 2.25, 2.25], " +
-                "Milk=[3.23, 3.23, 3.23, 1.23, 3.23, 3.23, 3.23], " +
-                "Bread=[1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23]}", expected, actual);
+                "Milk=[3.23, 3.23, 3.23, 1.23, 3.23, 3.23], " +
+                "Bread=[1.23, 1.23, 1.23, 1.23, 1.23, 1.23]}", expected, actual);
+
+    }
+
+    @Test
+    public void formatGroceryListTest () {
+
+        String expected = "name:  Apples \t\t seen: 4 times\n" +
+                "============= \t \t =============\n" +
+                "Price: \t 3.23\t\t seen: 5 times\n" +
+                "-------------\t\t -------------\n" +
+                "Price:   1.23\t\t seen: 1 time\n" +
+                "\n" +
+                "name:  Cookies\t\t seen: 8 times\n" +
+                "=============\t\t =============\n" +
+                "Price:   1.23\t\t seen: 6 times\n" +
+                "-------------\t\t -------------\n" +
+                "\n" +
+                "name:    Milk     \t seen: 6 times\n" +
+                "=============     \t =============\n" +
+                "Price:   2.25        seen: 8 times\n" +
+                "-------------        -------------\n" +
+                "\n" +
+                "name:   Bread     \t seen: 6 times\n" +
+                "=============     \t =============\n" +
+                "Price:   0.25     \t seen: 2 times\n" +
+                "-------------     \t -------------\n" +
+                "Price:   0.23  \t \t seen: 2 times\n" +
+                "\n" +
+                "Errors         \t \t seen: 4 times";
+
+        while (parser.hasNext()) {
+            try {
+                parser.parseItem();
+                parser.putItem();
+            } catch (DataMissingException e) {
+                parser.next();
+            }
+
+        }
+
+        System.out.println(parser.getErrors());
+
+        assertEquals("Grocery ,ist should be formatted as it is in output.txt", expected, parser.printGroceryList());
 
     }
 }

@@ -1,9 +1,6 @@
 package crawley.james.hurtlocker;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -12,8 +9,8 @@ import java.util.regex.Pattern;
  */
 public class JerkSONParser {
 
-    private String separator0 = "=============\n";
-    private String separator1 = "-------------\n";
+    private String separator0 = "=============";
+    private String separator1 = "-------------";
     private String[] groceryList;
     private int errors = 0;
     private int current = 0;
@@ -107,6 +104,47 @@ public class JerkSONParser {
         inventory.put(name, prices);
     }
 
+    public String printGroceryList () {
+
+        Set<String> foods = inventory.keySet();
+        StringBuilder formattedList = new StringBuilder();
+        int seenItem;
+
+        for (String food : foods) {
+            seenItem = inventory.get(food).size();
+            formattedList.append("name:");
+            formattedList.append(String.format("%8s", food));
+            formattedList.append("\t\t");
+            formattedList.append("seen: ");
+            formattedList.append(seenItem);
+            formattedList.append(" times");
+            formattedList.append("\n");
+            formattedList.append(separator0);
+            formattedList.append("\t\t");
+            formattedList.append(separator0);
+            formattedList.append("\n");
+
+            for (int i = 0; i < seenItem; i++) {
+                formattedList.append("price:");
+                formattedList.append(String.format("%7s", inventory.get(food).get(i)));
+                formattedList.append("\t\t");
+                formattedList.append("seen: ");
+                formattedList.append(i);
+                formattedList.append(" times");
+                formattedList.append("\n");
+                formattedList.append(separator1);
+                formattedList.append("\t\t");
+                formattedList.append(separator1);
+                formattedList.append("\n");
+            }
+            formattedList.append("\n");
+
+
+        }
+
+        return formattedList.toString();
+    }
+
     public boolean hasNext () {
 
         return current < max;
@@ -124,6 +162,11 @@ public class JerkSONParser {
     public List<String> getParsedItem () {
 
         return parsedItem;
+    }
+
+    public int getErrors () {
+
+        return errors;
     }
 
     private boolean verifyErrors (List items) {

@@ -19,5 +19,17 @@ public class Main {
         Main main = new Main();
         String raw = main.readRawDataToString();
         JerkSONParser parser = new JerkSONParser(raw);
+
+        while (parser.hasNext()) {
+            try {
+                parser.parseItem();
+                parser.putItem();
+            } catch (DataMissingException e) {
+                parser.next();
+            }
+
+        }
+
+        System.out.println(parser.printGroceryList());
     }
 }
