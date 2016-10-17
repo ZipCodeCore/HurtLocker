@@ -31,10 +31,21 @@ public class HurtLockerTests {
     @Test
     public void parseItemTest () {
 
-        String actual = parser.parseItem(groceryList[0]);
+        parser.parseItem(groceryList[0]);
+        String actual =  parser.getParsedItem().toString();
         String expected =  "[naMe:, Milk;, price:, 3.23;, type:, Food;, expiration:, 1/25/2016]";
 
         assertEquals("", expected, actual);
+
+    }
+
+    @Test
+    public void getItemNameTest () {
+
+    }
+
+    @Test
+    public void getItemPriceTest () {
 
     }
 }
