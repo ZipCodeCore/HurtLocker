@@ -9,10 +9,9 @@ import static org.junit.Assert.*;
  */
 public class HurtLockerTests {
 
-    private JerkSONParser parser = new JerkSONParser();
     private Main main = new Main ();
     private String raw;
-    private String[] groceryList;
+    private JerkSONParser parser;
     private String separator0 = "=============\n";
     private String separator1 = "-------------\n";
 
@@ -24,9 +23,15 @@ public class HurtLockerTests {
         } catch (Exception e) {
             raw = "";
         }
+        parser = new JerkSONParser(raw);
+        try {
+            parser.parseItem();
 
-        groceryList = raw.split("##");
-        parser.parseItem(groceryList[0]);
+        } catch (DataMissingException e) {
+            parser.next();
+
+        }
+        parser.putItem();
     }
 
     @Test
@@ -35,7 +40,8 @@ public class HurtLockerTests {
         String actual =  parser.getParsedItem().toString();
         String expected =  "[naMe:, Milk;, price:, 3.23;, type:, Food;, expiration:, 1/25/2016]";
 
-        assertEquals("", expected, actual);
+        assertEquals("The array should be printed out as " +
+                "[naMe:, Milk;, price:, 3.23;, type:, Food;, expiration:, 1/25/2016]", expected, actual);
 
     }
 
@@ -44,7 +50,7 @@ public class HurtLockerTests {
 
         String actual = parser.getItemName();
 
-        assertEquals("", "Milk", actual);
+        assertEquals("The name should be Milk", "Milk", actual);
 
     }
 
@@ -53,7 +59,34 @@ public class HurtLockerTests {
 
         String actual = parser.getItemPrice();
 
-        assertEquals("", "3.23", actual);
+        assertEquals("The price should be 3.23", "3.23", actual);
+
+    }
+
+    @Test
+    public void putItemTest () {
+
+
+        String expected = "{Apples=[0.25, 0.23, 0.25, 0.23], " +
+                "Cookies=[2.25, 2.25, 2.25, 2.25, 2.25, 2.25, 2.25, 2.25], " +
+                "Milk=[3.23, 3.23, 3.23, 1.23, 3.23, 3.23, 3.23], " +
+                "Bread=[1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23]}";
+
+        while (parser.hasNext()) {
+            try {
+                parser.parseItem();
+            } catch (DataMissingException e) {
+                parser.next();
+            }
+            parser.putItem();
+        }
+
+        String actual = parser.getInventory().toString();
+
+        assertEquals("The Map should be printed out as {Apples=[0.25, 0.23, 0.25, 0.23], " +
+                "Cookies=[2.25, 2.25, 2.25, 2.25, 2.25, 2.25, 2.25, 2.25], " +
+                "Milk=[3.23, 3.23, 3.23, 1.23, 3.23, 3.23, 3.23], " +
+                "Bread=[1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23]}", expected, actual);
 
     }
 }

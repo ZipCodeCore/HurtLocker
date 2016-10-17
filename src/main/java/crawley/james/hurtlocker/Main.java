@@ -18,8 +18,6 @@ public class Main {
 
         Main main = new Main();
         String raw = main.readRawDataToString();
-        String[] groceryList = raw.split("##");
-        System.out.println(groceryList[groceryList.length - 1]);
-
+        JerkSONParser parser = new JerkSONParser(raw);
     }
 }
