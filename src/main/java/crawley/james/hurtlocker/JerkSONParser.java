@@ -26,7 +26,7 @@ public class JerkSONParser {
     public void parseItem () throws DataMissingException{
 
         List<String> formatter = new ArrayList<String>();
-        Pattern pattern = Pattern.compile("[^:@^*%;!$]+([:@^*%;!]|$)");
+        Pattern pattern = Pattern.compile("[^:@^*%;!$]+[:@^*%;!$]?");
         Matcher matcher = pattern.matcher(groceryList[current]);
 
         while (matcher.find()) {
