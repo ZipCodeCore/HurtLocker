@@ -26,7 +26,7 @@ public class JerkSONParser {
     public void parseItem () throws DataMissingException{
 
         List<String> formatter = new ArrayList<String>();
-        Pattern pattern = Pattern.compile("[\\w\\d.]+([:@^*%;!]|/\\d{1,2}/\\d{4}$)");
+        Pattern pattern = Pattern.compile("[^:@^*%;!$]+([:@^*%;!]|$)");
         Matcher matcher = pattern.matcher(groceryList[current]);
 
         while (matcher.find()) {
@@ -200,7 +200,7 @@ public class JerkSONParser {
 
         StringBuilder formattedList = new StringBuilder();
 
-        formattedList.append(String.format("%-13s\t\tseen: ","Errors"));
+        formattedList.append(String.format("%-13s\t\t seen: ","Errors"));
         formattedList.append(errors);
         formattedList.append(" times");
 
