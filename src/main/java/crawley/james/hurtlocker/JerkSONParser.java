@@ -16,8 +16,7 @@ public class JerkSONParser {
     private int current = 0;
     private  int max;
     private List<String> parsedItem;
-    private Map<String, List<String>> inventory = new HashMap<String, List<String>>();
-    private Map<String, Map<String, Integer>> inventory2 = new HashMap<String, Map<String, Integer>>();
+    private Map<String, Map<String, Integer>> inventory = new HashMap<String, Map<String, Integer>>();
 
     public JerkSONParser (String raw) {
         groceryList = raw.split("##");
@@ -92,25 +91,13 @@ public class JerkSONParser {
         return price.toString();
     }
 
-//    public void putItem () {
-//        String name = getItemName();
-//        String price = getItemPrice();
-//        List<String> prices = inventory.get(name);
-//
-//        if (prices == null) {
-//            prices = new ArrayList<String>();
-//        }
-//
-//        prices.add(price);
-//        inventory.put(name, prices);
-//    }
 
     public void putItem () {
 
         int occurance;
         String name = getItemName();
         String price = getItemPrice();
-        Map<String, Integer> prices = inventory2.get(name);
+        Map<String, Integer> prices = inventory.get(name);
 
         if (prices == null) {
             prices = new TreeMap<String, Integer>();
@@ -122,99 +109,17 @@ public class JerkSONParser {
             prices.put(price, occurance + 1);
         }
 
-        inventory2.put(name, prices);
+        inventory.put(name, prices);
     }
 
-//    public String printGroceryList () {
-//
-//        Set<String> foods = inventory.keySet();
-//        StringBuilder formattedList = new StringBuilder();
-//        int seenItem;
-//
-//        for (String food : foods) {
-//            seenItem = inventory.get(food).size();
-//            formattedList.append("name:");
-//            formattedList.append(String.format("%8s", food));
-//            formattedList.append("\t\t");
-//            formattedList.append("seen: ");
-//            formattedList.append(seenItem);
-//            formattedList.append(" times");
-//            formattedList.append("\n");
-//            formattedList.append(separator0);
-//            formattedList.append("\t\t");
-//            formattedList.append(separator0);
-//            formattedList.append("\n");
-//
-//            for (int i = 0; i < seenItem; i++) {
-//                formattedList.append("price:");
-//                formattedList.append(String.format("%7s", inventory.get(food).get(i)));
-//                formattedList.append("\t\t");
-//                formattedList.append("seen: ");
-//                formattedList.append(i + 1);
-//                formattedList.append(" times");
-//                formattedList.append("\n");
-//                formattedList.append(separator1);
-//                formattedList.append("\t\t");
-//                formattedList.append(separator1);
-//                formattedList.append("\n");
-//            }
-//            formattedList.append("\n");
-//        }
-//        formattedList.append(String.format("%-13s","Errors"));
-//        formattedList.append("\t\tseen: ");
-//        formattedList.append(errors);
-//        formattedList.append(" times");
-//
-//        return formattedList.toString();
-//    }
 
     public String printGroceryList () {
 
-        Set<String> foods = inventory2.keySet();
+        Set<String> foods = inventory.keySet();
         StringBuilder formattedList = new StringBuilder();
-        int seenItem;
-        //int diffPrices;
 
-        for (String food : foods) {
-            seenItem = getMapSize(inventory2.get(food));
-            //diffPrices = inventory2.get(food).size();
-            Set<String> prices = inventory2.get(food).keySet();
-
-            formattedList.append("name:");
-            formattedList.append(String.format("%8s", food));
-            formattedList.append(" \t\t ");
-            formattedList.append("seen: ");
-            formattedList.append(seenItem);
-            formattedList.append(" times");
-            formattedList.append("\n");
-            formattedList.append(separator0);
-            formattedList.append(" \t\t ");
-            formattedList.append(separator0);
-            formattedList.append("\n");
-
-            for (String price : prices) {
-                formattedList.append("Price:");
-                formattedList.append(String.format("%7s", price));
-                formattedList.append(" \t\t ");
-                formattedList.append("seen: ");
-                formattedList.append(inventory2.get(food).get(price));
-                if (inventory2.get(food).get(price) == 1) {
-                    formattedList.append(" time");
-                } else {
-                    formattedList.append(" times");
-                }
-                formattedList.append("\n");
-                formattedList.append(separator1);
-                formattedList.append(" \t\t ");
-                formattedList.append(separator1);
-                formattedList.append("\n");
-            }
-            formattedList.append("\n");
-        }
-        formattedList.append(String.format("%-13s","Errors"));
-        formattedList.append("\t\tseen: ");
-        formattedList.append(errors);
-        formattedList.append(" times");
+        formattedList.append(printFoods(foods));
+        formattedList.append(printErrors());
 
         return formattedList.toString();
     }
@@ -243,7 +148,7 @@ public class JerkSONParser {
 
     public Map<String, Map<String, Integer>> getInventory () {
 
-        return inventory2;
+        return inventory;
     }
 
     public List<String> getParsedItem () {
@@ -254,6 +159,70 @@ public class JerkSONParser {
     public int getErrors () {
 
         return errors;
+    }
+
+    private StringBuilder printFoods (Set<String> foods) {
+
+        int seenItem;
+        StringBuilder formattedList = new StringBuilder();
+
+        for (String food : foods) {
+            seenItem = getMapSize(inventory.get(food));
+            Set<String> prices = inventory.get(food).keySet();
+
+            formattedList.append("name:");
+            formattedList.append(String.format("%8s", food));
+            formattedList.append(" \t\t ");
+            formattedList.append("seen: ");
+            formattedList.append(seenItem);
+            formattedList.append(" times");
+            formattedList.append("\n");
+            formattedList.append(separator0);
+            formattedList.append(" \t\t ");
+            formattedList.append(separator0);
+            formattedList.append("\n");
+
+            formattedList.append(printPrices(food, prices));
+        }
+
+        return formattedList;
+    }
+
+    private StringBuilder printPrices (String food, Set<String> prices) {
+
+        StringBuilder formattedList = new StringBuilder();
+
+        for (String price : prices) {
+            formattedList.append("Price:");
+            formattedList.append(String.format("%7s", price));
+            formattedList.append(" \t\t ");
+            formattedList.append("seen: ");
+            formattedList.append(inventory.get(food).get(price));
+            if (inventory.get(food).get(price) == 1) {
+                formattedList.append("  time");
+            } else {
+                formattedList.append(" times");
+            }
+            formattedList.append("\n");
+            formattedList.append(separator1);
+            formattedList.append(" \t\t ");
+            formattedList.append(separator1);
+            formattedList.append("\n");
+        }
+        formattedList.append("\n");
+        return formattedList;
+    }
+
+    private StringBuilder printErrors () {
+
+        StringBuilder formattedList = new StringBuilder();
+
+        formattedList.append(String.format("%-13s","Errors"));
+        formattedList.append("\t\tseen: ");
+        formattedList.append(errors);
+        formattedList.append(" times");
+
+        return formattedList;
     }
 
     private boolean verifyErrors (List items) {

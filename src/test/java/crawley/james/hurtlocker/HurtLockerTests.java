@@ -102,7 +102,7 @@ public class HurtLockerTests {
                 "\n" +
                 "name:    Milk \t\t seen: 6 times\n" +
                 "============= \t\t =============\n" +
-                "Price:   1.23 \t\t seen: 1 time\n" +
+                "Price:   1.23 \t\t seen: 1  time\n" +
                 "------------- \t\t -------------\n" +
                 "Price:   3.23 \t\t seen: 5 times\n" +
                 "------------- \t\t -------------\n" +
@@ -126,7 +126,7 @@ public class HurtLockerTests {
 
         System.out.println(parser.getErrors());
 
-        assertEquals("Grocery ,ist should be formatted as it is in output.txt", expected, parser.printGroceryList());
+        assertEquals("Grocery list should be formatted as it is in output.txt", expected, parser.printGroceryList());
 
     }
 }
