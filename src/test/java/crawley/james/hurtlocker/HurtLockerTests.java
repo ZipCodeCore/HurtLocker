@@ -2,6 +2,9 @@ package crawley.james.hurtlocker;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.Map;
+
 import static org.junit.Assert.*;
 
 /**
@@ -12,8 +15,6 @@ public class HurtLockerTests {
     private Main main = new Main ();
     private String raw;
     private JerkSONParser parser;
-    private String separator0 = "=============\n";
-    private String separator1 = "-------------\n";
 
     @Before
     public void initialize () {
@@ -69,19 +70,32 @@ public class HurtLockerTests {
 
         String expected = "{Apples={0.23=2, 0.25=2}, Cookies={2.25=8}, Milk={1.23=1, 3.23=5}, Bread={1.23=6}}";
 
-        while (parser.hasNext()) {
-            try {
-                parser.parseItem();
-                parser.putItem();
-            } catch (DataMissingException e) {
-                parser.next();
-            }
-
-        }
+        parseAllItems();
 
         String actual = parser.getInventory().toString();
 
         assertEquals("The Map should be printed out as {Apples={0.23=2, 0.25=2}, Cookies={2.25=8}, Milk={1.23=1, 3.23=5}, Bread={1.23=6}}", expected, actual);
+
+    }
+
+    @Test
+    public void getFoodCount () {
+
+        parseAllItems();
+        int actual = parser.getMapSize(parser.getInventory().get("Apples"));
+
+        assertEquals("There should be four apples", 4, actual);
+
+    }
+
+    @Test
+    public void getPriceCount () {
+
+        parseAllItems();
+
+        int actual = parser.getInventory().get("Apples").get("0.23");
+
+        assertEquals("There should be two apples priced at 0.23", 2, actual);
 
     }
 
@@ -114,6 +128,15 @@ public class HurtLockerTests {
                 "\n" +
                 "Errors       \t\tseen: 4 times";
 
+
+        parseAllItems();
+
+        assertEquals("Grocery list should be formatted as it is in output.txt", expected, parser.printGroceryList());
+
+    }
+
+    private void parseAllItems () {
+
         while (parser.hasNext()) {
             try {
                 parser.parseItem();
@@ -121,12 +144,6 @@ public class HurtLockerTests {
             } catch (DataMissingException e) {
                 parser.next();
             }
-
         }
-
-        System.out.println(parser.getErrors());
-
-        assertEquals("Grocery list should be formatted as it is in output.txt", expected, parser.printGroceryList());
-
     }
 }
