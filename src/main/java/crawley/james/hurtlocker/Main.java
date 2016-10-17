@@ -1,5 +1,8 @@
+package crawley.james.hurtlocker;
+
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 
 import static java.nio.file.Files.readAllBytes;
 import static java.nio.file.Paths.get;
@@ -12,6 +15,11 @@ public class Main {
     }
 
     public static void main(String[] args) throws Exception{
+
+        Main main = new Main();
+        String raw = main.readRawDataToString();
+        String[] groceryList = raw.split("##");
+        System.out.println(groceryList[groceryList.length - 1]);
 
     }
 }
