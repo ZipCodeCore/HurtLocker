@@ -30,14 +30,32 @@ public class JerkSONParser {
 
     public String getItemName () {
 
+        String parsedName = parsedItem.get(1);
+        StringBuilder name = new StringBuilder();
+        int length;
 
-        return null;
+        String first = parsedName.substring(0, 1).toUpperCase();
+        String remaining = parsedName.substring(1).toLowerCase();
+
+        name.append(first);
+        name.append(remaining);
+        length = name.length();
+
+        name.delete(length - 1, length);
+
+        return name.toString();
     }
 
     public String getItemPrice () {
 
+        int length;
+        StringBuilder price = new StringBuilder();
+        price.append(parsedItem.get(3));
+        length = price.length();
 
-        return null;
+        price.delete(length - 1, length);
+
+        return price.toString();
     }
 
     public List<String> getParsedItem () {

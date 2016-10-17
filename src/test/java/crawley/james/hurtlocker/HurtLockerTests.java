@@ -26,12 +26,12 @@ public class HurtLockerTests {
         }
 
         groceryList = raw.split("##");
+        parser.parseItem(groceryList[0]);
     }
 
     @Test
     public void parseItemTest () {
 
-        parser.parseItem(groceryList[0]);
         String actual =  parser.getParsedItem().toString();
         String expected =  "[naMe:, Milk;, price:, 3.23;, type:, Food;, expiration:, 1/25/2016]";
 
@@ -42,10 +42,18 @@ public class HurtLockerTests {
     @Test
     public void getItemNameTest () {
 
+        String actual = parser.getItemName();
+
+        assertEquals("", "Milk", actual);
+
     }
 
     @Test
     public void getItemPriceTest () {
+
+        String actual = parser.getItemPrice();
+
+        assertEquals("", "3.23", actual);
 
     }
 }
