@@ -17,6 +17,7 @@ public class JerkSONParser {
     private  int max;
     private List<String> parsedItem;
     private Map<String, List<String>> inventory = new HashMap<String, List<String>>();
+    private Map<String, Map<String, Integer>> inventory2 = new HashMap<String, Map<String, Integer>>();
 
     public JerkSONParser (String raw) {
         groceryList = raw.split("##");
@@ -91,59 +92,145 @@ public class JerkSONParser {
         return price.toString();
     }
 
+//    public void putItem () {
+//        String name = getItemName();
+//        String price = getItemPrice();
+//        List<String> prices = inventory.get(name);
+//
+//        if (prices == null) {
+//            prices = new ArrayList<String>();
+//        }
+//
+//        prices.add(price);
+//        inventory.put(name, prices);
+//    }
+
     public void putItem () {
+
+        int occurance;
         String name = getItemName();
         String price = getItemPrice();
-        List<String> prices = inventory.get(name);
+        Map<String, Integer> prices = inventory2.get(name);
 
         if (prices == null) {
-            prices = new ArrayList<String>();
+            prices = new TreeMap<String, Integer>();
+            prices.put(price, 1);
+        } else if (prices.get(price) == null) {
+            prices.put(price, 1);
+        } else {
+            occurance = prices.get(price);
+            prices.put(price, occurance + 1);
         }
 
-        prices.add(price);
-        inventory.put(name, prices);
+        inventory2.put(name, prices);
     }
+
+//    public String printGroceryList () {
+//
+//        Set<String> foods = inventory.keySet();
+//        StringBuilder formattedList = new StringBuilder();
+//        int seenItem;
+//
+//        for (String food : foods) {
+//            seenItem = inventory.get(food).size();
+//            formattedList.append("name:");
+//            formattedList.append(String.format("%8s", food));
+//            formattedList.append("\t\t");
+//            formattedList.append("seen: ");
+//            formattedList.append(seenItem);
+//            formattedList.append(" times");
+//            formattedList.append("\n");
+//            formattedList.append(separator0);
+//            formattedList.append("\t\t");
+//            formattedList.append(separator0);
+//            formattedList.append("\n");
+//
+//            for (int i = 0; i < seenItem; i++) {
+//                formattedList.append("price:");
+//                formattedList.append(String.format("%7s", inventory.get(food).get(i)));
+//                formattedList.append("\t\t");
+//                formattedList.append("seen: ");
+//                formattedList.append(i + 1);
+//                formattedList.append(" times");
+//                formattedList.append("\n");
+//                formattedList.append(separator1);
+//                formattedList.append("\t\t");
+//                formattedList.append(separator1);
+//                formattedList.append("\n");
+//            }
+//            formattedList.append("\n");
+//        }
+//        formattedList.append(String.format("%-13s","Errors"));
+//        formattedList.append("\t\tseen: ");
+//        formattedList.append(errors);
+//        formattedList.append(" times");
+//
+//        return formattedList.toString();
+//    }
 
     public String printGroceryList () {
 
-        Set<String> foods = inventory.keySet();
+        Set<String> foods = inventory2.keySet();
         StringBuilder formattedList = new StringBuilder();
         int seenItem;
+        //int diffPrices;
 
         for (String food : foods) {
-            seenItem = inventory.get(food).size();
+            seenItem = getMapSize(inventory2.get(food));
+            //diffPrices = inventory2.get(food).size();
+            Set<String> prices = inventory2.get(food).keySet();
+
             formattedList.append("name:");
             formattedList.append(String.format("%8s", food));
-            formattedList.append("\t\t");
+            formattedList.append(" \t\t ");
             formattedList.append("seen: ");
             formattedList.append(seenItem);
             formattedList.append(" times");
             formattedList.append("\n");
             formattedList.append(separator0);
-            formattedList.append("\t\t");
+            formattedList.append(" \t\t ");
             formattedList.append(separator0);
             formattedList.append("\n");
 
-            for (int i = 0; i < seenItem; i++) {
-                formattedList.append("price:");
-                formattedList.append(String.format("%7s", inventory.get(food).get(i)));
-                formattedList.append("\t\t");
+            for (String price : prices) {
+                formattedList.append("Price:");
+                formattedList.append(String.format("%7s", price));
+                formattedList.append(" \t\t ");
                 formattedList.append("seen: ");
-                formattedList.append(i);
-                formattedList.append(" times");
+                formattedList.append(inventory2.get(food).get(price));
+                if (inventory2.get(food).get(price) == 1) {
+                    formattedList.append(" time");
+                } else {
+                    formattedList.append(" times");
+                }
                 formattedList.append("\n");
                 formattedList.append(separator1);
-                formattedList.append("\t\t");
+                formattedList.append(" \t\t ");
                 formattedList.append(separator1);
                 formattedList.append("\n");
             }
             formattedList.append("\n");
-
-
         }
+        formattedList.append(String.format("%-13s","Errors"));
+        formattedList.append("\t\tseen: ");
+        formattedList.append(errors);
+        formattedList.append(" times");
 
         return formattedList.toString();
     }
+
+    public int getMapSize (Map<String, Integer> map) {
+
+        int size = 0;
+        Set<String> foods = map.keySet();
+
+        for (String food: foods) {
+            size += map.get(food);
+        }
+
+        return size;
+    }
+
 
     public boolean hasNext () {
 
@@ -154,9 +241,9 @@ public class JerkSONParser {
         current++;
     }
 
-    public Map<String, List<String>> getInventory () {
+    public Map<String, Map<String, Integer>> getInventory () {
 
-        return inventory;
+        return inventory2;
     }
 
     public List<String> getParsedItem () {

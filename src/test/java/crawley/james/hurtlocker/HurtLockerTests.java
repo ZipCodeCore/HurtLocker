@@ -67,10 +67,7 @@ public class HurtLockerTests {
     public void putItemTest () {
 
 
-        String expected = "{Apples=[0.25, 0.23, 0.25, 0.23], " +
-                "Cookies=[2.25, 2.25, 2.25, 2.25, 2.25, 2.25, 2.25, 2.25], " +
-                "Milk=[3.23, 3.23, 3.23, 1.23, 3.23, 3.23], " +
-                "Bread=[1.23, 1.23, 1.23, 1.23, 1.23, 1.23]}";
+        String expected = "{Apples={0.23=2, 0.25=2}, Cookies={2.25=8}, Milk={1.23=1, 3.23=5}, Bread={1.23=6}}";
 
         while (parser.hasNext()) {
             try {
@@ -84,10 +81,7 @@ public class HurtLockerTests {
 
         String actual = parser.getInventory().toString();
 
-        assertEquals("The Map should be printed out as {Apples=[0.25, 0.23, 0.25, 0.23], " +
-                "Cookies=[2.25, 2.25, 2.25, 2.25, 2.25, 2.25, 2.25, 2.25], " +
-                "Milk=[3.23, 3.23, 3.23, 1.23, 3.23, 3.23], " +
-                "Bread=[1.23, 1.23, 1.23, 1.23, 1.23, 1.23]}", expected, actual);
+        assertEquals("The Map should be printed out as {Apples={0.23=2, 0.25=2}, Cookies={2.25=8}, Milk={1.23=1, 3.23=5}, Bread={1.23=6}}", expected, actual);
 
     }
 
@@ -95,28 +89,30 @@ public class HurtLockerTests {
     public void formatGroceryListTest () {
 
         String expected = "name:  Apples \t\t seen: 4 times\n" +
-                "============= \t \t =============\n" +
-                "Price: \t 3.23\t\t seen: 5 times\n" +
-                "-------------\t\t -------------\n" +
-                "Price:   1.23\t\t seen: 1 time\n" +
+                "============= \t\t =============\n" +
+                "Price:   0.23 \t\t seen: 2 times\n" +
+                "------------- \t\t -------------\n" +
+                "Price:   0.25 \t\t seen: 2 times\n" +
+                "------------- \t\t -------------\n" +
                 "\n" +
-                "name:  Cookies\t\t seen: 8 times\n" +
-                "=============\t\t =============\n" +
-                "Price:   1.23\t\t seen: 6 times\n" +
-                "-------------\t\t -------------\n" +
+                "name: Cookies \t\t seen: 8 times\n" +
+                "============= \t\t =============\n" +
+                "Price:   2.25 \t\t seen: 8 times\n" +
+                "------------- \t\t -------------\n" +
                 "\n" +
-                "name:    Milk     \t seen: 6 times\n" +
-                "=============     \t =============\n" +
-                "Price:   2.25        seen: 8 times\n" +
-                "-------------        -------------\n" +
+                "name:    Milk \t\t seen: 6 times\n" +
+                "============= \t\t =============\n" +
+                "Price:   1.23 \t\t seen: 1 time\n" +
+                "------------- \t\t -------------\n" +
+                "Price:   3.23 \t\t seen: 5 times\n" +
+                "------------- \t\t -------------\n" +
                 "\n" +
-                "name:   Bread     \t seen: 6 times\n" +
-                "=============     \t =============\n" +
-                "Price:   0.25     \t seen: 2 times\n" +
-                "-------------     \t -------------\n" +
-                "Price:   0.23  \t \t seen: 2 times\n" +
+                "name:   Bread \t\t seen: 6 times\n" +
+                "============= \t\t =============\n" +
+                "Price:   1.23 \t\t seen: 6 times\n" +
+                "------------- \t\t -------------\n" +
                 "\n" +
-                "Errors         \t \t seen: 4 times";
+                "Errors       \t\tseen: 4 times";
 
         while (parser.hasNext()) {
             try {
