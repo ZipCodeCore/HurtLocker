@@ -25,15 +25,22 @@ public class JerkSONParser {
 
     public void parseItem () throws DataMissingException{
 
-        List<String> formatter = new ArrayList<String>();
+        boolean shouldAdd = false;
+        List<String> parsedObject = new ArrayList<String>();
         Pattern pattern = Pattern.compile("[^:@^*%;!$]+[:@^*%;!$]?");
         Matcher matcher = pattern.matcher(groceryList[current]);
 
         while (matcher.find()) {
-            formatter.add(matcher.group());
+            if (shouldAdd) {
+                parsedObject.add(matcher.group());
+                shouldAdd = false;
+            } else {
+                shouldAdd = true;
+            }
+
         }
 
-        if (verifyErrors(formatter)) {
+        if (verifyErrors(parsedObject)) {
 
             groceryItems.add(new GroceryItem("", "", "", ""));
             throw new DataMissingException();
@@ -41,7 +48,7 @@ public class JerkSONParser {
 
         } else {
 
-            groceryItems.add(new GroceryItem(getItemName(formatter.get(1)), getItemPrice(formatter.get(3)), "Food", formatter.get(7)));
+            groceryItems.add(new GroceryItem(getItemName(parsedObject.get(0)), getItemPrice(parsedObject.get(1)), "Food", parsedObject.get(3)));
         }
 
     }
@@ -207,7 +214,7 @@ public class JerkSONParser {
 
     private boolean verifyErrors (List items) {
 
-        if (items.size() == 8) {
+        if (items.size() == 4) {
             return false;
         }
 
