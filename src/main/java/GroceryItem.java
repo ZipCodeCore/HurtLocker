@@ -15,7 +15,7 @@ public class GroceryItem {
         this.date = date;
     }
 
-    public GroceryItem groceryItemFactory(String[] fields){
+    public GroceryItem groceryItemFactory(String[] fields) throws JerkSONException{
         return null;
     }
 }

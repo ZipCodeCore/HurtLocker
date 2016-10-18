@@ -90,26 +90,38 @@ public class JerkSONParser {
              return toReturn;
          }
 
-         protected String[][] removeNamesAfterErrorChecking(String[][] string){
-             Pattern pattern = Pattern.compile("(Name:)");
-             for(String [] items : string){
-                 for(int i = 0; i < 1; i++){
-                     Matcher matcher = pattern.matcher(items[i]);
-                     items[0] = matcher.replaceAll("");
-                 }
-             }
-             return string;
-         }
+//         protected String[][] removeNamesAfterErrorChecking(String[][] string){
+//             Pattern pattern = Pattern.compile("(Name:)");
+//             for(String [] items : string){
+//                 for(int i = 0; i < 1; i++){
+//                     Matcher matcher = pattern.matcher(items[i]);
+//                     items[0] = matcher.replaceAll("");
+//                 }
+//             }
+//             return string;
+//         }
+//
+//         protected String[][] removePricesAfterErrorChecking(String[][] string){
+//             Pattern pattern = Pattern.compile("(Price:)");
+//             for(String [] items : string){
+//                 for(int i = 0; i < 4; i++){
+//                     Matcher matcher = pattern.matcher(items[i]);
+//                     items[i] = matcher.replaceAll("");
+//                 }
+//             }
+//             return string;
+//         }
 
-         protected String[][] removePricesAfterErrorChecking(String[][] string){
-             Pattern pattern = Pattern.compile("(Price:)");
-             for(String [] items : string){
+         protected String[][] removeFieldName(String[][] jerkson, String toRemove){
+
+             Pattern pattern = Pattern.compile("("+ toRemove+")");
+             for(String [] items : jerkson){
                  for(int i = 0; i < 4; i++){
                      Matcher matcher = pattern.matcher(items[i]);
                      items[i] = matcher.replaceAll("");
                  }
              }
-             return string;
+             return jerkson;
          }
 
 
@@ -190,11 +202,11 @@ public class JerkSONParser {
              String[] byItem = splitJerkSONByItem(noUpperCaseInMiddleOfWords);
              String[][] byField = splitJerkSONByField(byItem);
              this.errors = errors(byField);
-             String[][] noPrices = removePricesAfterErrorChecking(byField);
-             String[][] noNames = removeNamesAfterErrorChecking(noPrices);
+//             String[][] noPrices = removePricesAfterErrorChecking(byField);
+//             String[][] noNames = removeNamesAfterErrorChecking(noPrices);
 
-             this.fillMapWithKeys(noNames);
-             this.fillmapwithValues(noNames);
+//             this.fillMapWithKeys(noNames);
+//             this.fillmapwithValues(noNames);
          }
 
 

@@ -32,7 +32,7 @@ public class ParserTest {
 
     @Test
     public void splitByItemTest() {
-        try {
+
 
             String[] splitByItem = jerkSONParser.splitJerkSONByItem(Main.readRawDataToString());
             Assert.assertEquals("Parser did not actually split items", "naMe:Milk;price:3.23;type:Food;expiration:1/25/2016", splitByItem[0]);
@@ -40,10 +40,7 @@ public class ParserTest {
                 System.out.println(item);
             }
 
-        } catch (JerkSONException e) {
-            System.err.println(e.getMessage());
-            System.err.println(e.getStackTrace());
-        }
+
 
 
     }
@@ -52,7 +49,7 @@ public class ParserTest {
     //But...I did help me quickly identify several characters I needed to add to my regex in the method.
     @Test
     public void splitByFieldTest() {
-        try {
+
             String[] splitByItem = jerkSONParser.splitJerkSONByItem(Main.readRawDataToString());
             String[][] splitByField = jerkSONParser.splitJerkSONByField(splitByItem);
             int count = 0;
@@ -65,52 +62,35 @@ public class ParserTest {
                 count++;
             }
 
-        } catch (JerkSONException e) {
-            System.err.println(e.getMessage());
-            System.err.println(e.getStackTrace());
-        }
-
     }
 
     @Test
     public void replaceZeroesWithOsTestWrongZeroesRemoved() {
-        try {
-            String toReplace = Main.readRawDataToString();
-            String actual = jerkSONParser.replaceZeroesWithOs(toReplace);
-            Assert.assertFalse("Did not replace Zeros with 0s where appropriate", actual.contains("o0"));
 
-        } catch (JerkSONException e) {
-            System.err.println(e.getMessage());
-            System.err.println(e.getStackTrace());
-        }
+        String toReplace = Main.readRawDataToString();
+        String actual = jerkSONParser.replaceZeroesWithOs(toReplace);
+        Assert.assertFalse("Did not replace Zeros with 0s where appropriate", actual.contains("o0"));
+
     }
 
     @Test
     public void capitalizeFirstLetterTest() {
-        try {
-            String toReplace = Main.readRawDataToString();
-            String actual = jerkSONParser.capitalizeFirstLetter(toReplace);
-            Assert.assertEquals("Did not capitalize first letter of each word", "NaMe", actual.substring(0, 4));
-            System.out.println(actual);
 
-        } catch (JerkSONException e) {
-            System.err.println(e.getMessage());
-            System.err.println(e.getStackTrace());
-        }
+        String toReplace = Main.readRawDataToString();
+        String actual = jerkSONParser.capitalizeFirstLetter(toReplace);
+        Assert.assertEquals("Did not capitalize first letter of each word", "NaMe", actual.substring(0, 4));
+        System.out.println(actual);
+
     }
 
     @Test
     public void lowercaseNonFirstLettersTest() {
-        try {
-            String toReplace = Main.readRawDataToString();
-            String actual = jerkSONParser.lowercaseNonFirstLetters(toReplace);
-            Assert.assertEquals("Did not lowercase capital letters in the middle of words", "name", actual.substring(0, 4));
-            System.out.println(actual);
 
-        } catch (JerkSONException e) {
-            System.err.println(e.getMessage());
-            System.err.println(e.getStackTrace());
-        }
+        String toReplace = Main.readRawDataToString();
+        String actual = jerkSONParser.lowercaseNonFirstLetters(toReplace);
+        Assert.assertEquals("Did not lowercase capital letters in the middle of words", "name", actual.substring(0, 4));
+        System.out.println(actual);
+
     }
 
     @Test
@@ -120,35 +100,39 @@ public class ParserTest {
 
     @Test
     public void errorCountTest(){
-        try{
-
-            String[] byItems = jerkSONParser.splitJerkSONByItem(Main.readRawDataToString());
-            String[][] byFields = jerkSONParser.splitJerkSONByField(byItems);
-            Assert.assertEquals("Did not find correct number of errors", 4, jerkSONParser.errors(byFields));
-        } catch(JerkSONException e){
-            System.err.println(e.getMessage());
-        }
-    }
-
-    @Test
-    public void removeNameTest(){
-
-        String[] byItems = jerkSONParser.splitJerkSONByItem(formatted);
+        String[] byItems = jerkSONParser.splitJerkSONByItem(Main.readRawDataToString());
         String[][] byFields = jerkSONParser.splitJerkSONByField(byItems);
-        jerkSONParser.removeNamesAfterErrorChecking(byFields);
-        Assert.assertEquals("Did not remove Name:", "Milk", byFields[0][0] );
+        Assert.assertEquals("Did not find correct number of errors", 4, jerkSONParser.errors(byFields));
 
     }
 
+//    @Test
+//    public void removeNameTest(){
+//
+//        String[] byItems = jerkSONParser.splitJerkSONByItem(formatted);
+//        String[][] byFields = jerkSONParser.splitJerkSONByField(byItems);
+//        jerkSONParser.removeNamesAfterErrorChecking(byFields);
+//        Assert.assertEquals("Did not remove Name:", "Milk", byFields[0][0] );
+//
+//    }
+//
+//    @Test
+//    public void fillMapWithValuesTest(){
+//        String[] byItems = jerkSONParser.splitJerkSONByItem(formatted);
+//        String[][] byFields = jerkSONParser.splitJerkSONByField(byItems);
+//        jerkSONParser.removeNamesAfterErrorChecking(byFields);
+//        jerkSONParser.fillMapWithKeys(byFields);
+//        Assert.assertEquals("Map did not fill with keys", 4, jerkSONParser.getObjectMap().size());
+//        System.out.println(jerkSONParser.getObjectMap().keySet());
+//
+//    }
+
     @Test
-    public void fillMapWithValuesTest(){
+    public void removeFieldNameTest(){
         String[] byItems = jerkSONParser.splitJerkSONByItem(formatted);
         String[][] byFields = jerkSONParser.splitJerkSONByField(byItems);
-        jerkSONParser.removeNamesAfterErrorChecking(byFields);
-        jerkSONParser.fillMapWithKeys(byFields);
-        Assert.assertEquals("Map did not fill with keys", 4, jerkSONParser.getObjectMap().size());
-        System.out.println(jerkSONParser.getObjectMap().keySet());
-
+        String[][] noNames = jerkSONParser.removeFieldName(byFields, "Name:");
+        Assert.assertEquals("Field was not removed", "Milk", noNames[0][0]);
     }
 
 }

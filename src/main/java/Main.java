@@ -9,7 +9,7 @@ import static java.nio.file.Paths.get;
 
 public class Main {
 
-    public static String readRawDataToString() throws JerkSONException{
+    public static String readRawDataToString(){
         Path path = null;
         try {
             path = Paths.get(ClassLoader.getSystemResource("RawData.txt").toURI());
@@ -27,15 +27,10 @@ public class Main {
     public static void main(String[] args) {
 
         String toTest = "";
-        try{
-            toTest = Main.readRawDataToString();
-        } catch(JerkSONException e){
 
-        }
+        toTest = Main.readRawDataToString();
         JerkSONParser jerkSONParser = new JerkSONParser(toTest);
         System.out.println(jerkSONParser);
-
-
 
 
     }
