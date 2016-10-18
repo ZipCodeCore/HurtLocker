@@ -27,7 +27,7 @@ public class JerkSONParser {
 
         boolean shouldAdd = false;
         List<String> parsedObject = new ArrayList<String>();
-        Pattern pattern = Pattern.compile("[^:@^*%;!$]+[:@^*%;!$]?");
+        Pattern pattern = Pattern.compile("[^:@^*%;!$]+[:@^*%;!$]?", Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(groceryList[current]);
 
         while (matcher.find()) {
@@ -73,9 +73,15 @@ public class JerkSONParser {
 
     public String getItemPrice (String price) {
 
-        return price.substring(0, price.length() - 1);
-    }
+        StringBuilder fixedPrice = new StringBuilder();
+        int length = price.length();
 
+        for (int i = 0; i < length - 1; i++) {
+            fixedPrice.append(price.charAt(i));
+        }
+
+        return fixedPrice.toString();
+    }
 
     public void putItem () {
 
