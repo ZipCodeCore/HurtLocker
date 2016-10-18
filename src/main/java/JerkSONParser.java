@@ -129,10 +129,11 @@ public class JerkSONParser {
                  removeFieldName(toRemove, i);
              }
          }
-         protected void fillMapWithKeys(String[][] values){
-             for(String[] field: values ){
-                 if(field[0].length() > 0){
-                     objectMap.put(field[0], new HashMap<String, Integer>());
+         protected void fillMapWithKeys(){
+             for(GroceryItem groceryItem : this.objectsCreated){
+                 if(!(objectMap.keySet().contains(groceryItem.getName()))){
+                     objectMap.put(groceryItem.getName(), new HashMap<String, Integer>());
+                     objectMap.get(groceryItem.getName()).put(groceryItem.getName(), 0);
                  }
              }
          }
@@ -174,24 +175,22 @@ public class JerkSONParser {
 
          }
 
-         protected void fillmapwithValues(String[][] string){
+         protected void fillmapwithValues(){
              for(String key : this.objectMap.keySet()){
                  HashMap<String, Integer> toFill = this.objectMap.get(key);
-                 for(String[] items : string){
-                     if(!(items[0].equalsIgnoreCase(key))){
-                         continue;
-                     }
-                     for(int i = 0; i < 2; i++){
-                         if(toFill.containsKey(items[i])){
-                             Integer toPlus = toFill.get(items[i]) + 1;
-                             toFill.put(items[i], toPlus);
+                 for(GroceryItem groceryItem : this.objectsCreated){
+                     if(groceryItem.getName().equalsIgnoreCase(key)){
+                         int increaseNames = this.objectMap.get(key).get(key) + 1;
+                         this.objectMap.get(key).put(key, increaseNames);
+                         if(this.objectMap.get(key).containsKey(groceryItem.getPrice())){
+                             int increasePrice = this.objectMap.get(key).get(groceryItem.getPrice()) + 1;
+                             this.objectMap.get(key).put(groceryItem.getPrice(), increasePrice);
                          } else {
-                             toFill.put(items[i], 1);
+                             this.objectMap.get(key).put(groceryItem.getPrice(), 1);
                          }
                      }
-
-                     }
                  }
+             }
          }
 
          public void runAll(){
@@ -203,6 +202,9 @@ public class JerkSONParser {
              splitJerkSONByField(splitByItem);
              removeAllFieldNames();
              createObjects();
+             fillMapWithKeys();
+             fillmapwithValues();
+
          }
 
          public void createObjects(){

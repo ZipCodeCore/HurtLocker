@@ -24,4 +24,20 @@ public class GroceryItem {
 
         return new GroceryItem(fields);
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getPrice() {
+        return price;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public String getDate() {
+        return date;
+    }
 }
