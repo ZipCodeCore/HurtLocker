@@ -3,7 +3,7 @@ package crawley.james.hurtlocker;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Map;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -27,29 +27,39 @@ public class HurtLockerTests {
         parser = new JerkSONParser(raw);
         try {
             parser.parseItem();
+            parser.putItem();
 
         } catch (DataMissingException e) {
-            parser.next();
 
         }
-        parser.putItem();
+        parser.next();
+
+
     }
 
     @Test
     public void parseItemTest () {
 
-        String actual =  parser.getParsedItem().toString();
-        String expected =  "[naMe:, Milk;, price:, 3.23;, type:, Food;, expiration:, 1/25/2016]";
+        StringBuilder actual = new StringBuilder();
+                for (GroceryItem item : parser.getGroceryItems()) {
+                    actual.append("Name: ");
+                    actual.append(item.getName());
+                    actual.append(", Price: ");
+                    actual.append(item.getPrice());
+                }
+        String expected =  "Name: Milk, Price: 3.23";
 
         assertEquals("The array should be printed out as " +
-                "[naMe:, Milk;, price:, 3.23;, type:, Food;, expiration:, 1/25/2016]", expected, actual);
+                "[naMe:, Milk;, price:, 3.23;, type:, Food;, expiration:, 1/25/2016]", expected, actual.toString());
 
     }
 
     @Test
     public void getItemNameTest () {
 
-        String actual = parser.getItemName();
+        List<GroceryItem> items = parser.getGroceryItems();
+
+        String actual = items.get(0).getName();
 
         assertEquals("The name should be Milk", "Milk", actual);
 
@@ -58,7 +68,9 @@ public class HurtLockerTests {
     @Test
     public void getItemPriceTest () {
 
-        String actual = parser.getItemPrice();
+        List<GroceryItem> items = parser.getGroceryItems();
+
+        String actual = items.get(0).getPrice();
 
         assertEquals("The price should be 3.23", "3.23", actual);
 
@@ -134,7 +146,7 @@ public class HurtLockerTests {
                 "Price:   1.23 \t\t seen: 6 times\n" +
                 "------------- \t\t -------------\n" +
                 "\n" +
-                "Errors       \t\tseen: 4 times";
+                "Errors       \t\t seen: 4 times";
 
 
         parseAllItems();
@@ -150,8 +162,11 @@ public class HurtLockerTests {
                 parser.parseItem();
                 parser.putItem();
             } catch (DataMissingException e) {
-                parser.next();
+
             }
+            parser.next();
+
         }
+
     }
 }

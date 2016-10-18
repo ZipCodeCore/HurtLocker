@@ -9,13 +9,13 @@ import java.util.regex.Pattern;
  */
 public class JerkSONParser {
 
-    private String separator0 = "=============";
-    private String separator1 = "-------------";
+    static final String EQUAL_SEPARATOR = "=============";
+    static final String MINUS_SEPARATOR = "-------------";
     private String[] groceryList;
     private int errors = 0;
     private int current = 0;
     private  int max;
-    private List<String> parsedItem;
+    private List<GroceryItem> groceryItems = new ArrayList<GroceryItem>();
     private Map<String, Map<String, Integer>> inventory = new HashMap<String, Map<String, Integer>>();
 
     public JerkSONParser (String raw) {
@@ -35,57 +35,51 @@ public class JerkSONParser {
 
         if (verifyErrors(formatter)) {
 
+            groceryItems.add(new GroceryItem("", "", "", ""));
             throw new DataMissingException();
+
 
         } else {
 
-            parsedItem = formatter;
+            groceryItems.add(new GroceryItem(getItemName(formatter.get(1)), getItemPrice(formatter.get(3)), "Food", formatter.get(7)));
         }
-
-        current++;
 
     }
 
-    public String getItemName () {
+    public String getItemName (String name) {
 
-        String parsedName = parsedItem.get(1);
+        if (findMatch("c[o0]{1,2}[ck]ie[sz]", name)) {
+            name = "Cookies";
 
-        if (findMatch("c[o0]{1,2}[ck]ie[sz]", parsedName)) {
-            parsedName = "Cookies";
+        } else if (findMatch("br[3e][4a]d", name)) {
+            name = "Bread";
 
-        } else if (findMatch("br[3e][4a]d", parsedName)) {
-            parsedName = "Bread";
+        } else if (findMatch("m([1i]|il{1,2})[ck]", name)) {
+            name = "Milk";
 
-        } else if (findMatch("m[1i]l{1,2}[ck]", parsedName)) {
-            parsedName = "Milk";
-
-        } else if (findMatch("[a4]p{1,2}l{1,2}e{1,2}[sz]", parsedName)) {
-            parsedName = "Apples";
+        } else if (findMatch("[a4]p{1,2}l{1,2}e{1,2}[sz]", name)) {
+            name = "Apples";
         }
 
-        return parsedName;
+        return name;
     }
 
-    public String getItemPrice () {
+    public String getItemPrice (String price) {
 
-        String parsedPrice = parsedItem.get(3);
-        StringBuilder price = new StringBuilder();
-        int length;
-
-        price.append(parsedPrice);
-        length = price.length();
-
-        price.delete(length - 1, length);
-
-        return price.toString();
+        return price.substring(0, price.length() - 1);
     }
 
 
     public void putItem () {
 
+        String name = groceryItems.get(current).getName();
+        String price = groceryItems.get(current).getPrice();
+
+        if (name.equals("") || price.equals("")) {
+            return;
+        }
+
         int occurrence;
-        String name = getItemName();
-        String price = getItemPrice();
         Map<String, Integer> prices = inventory.get(name);
 
         if (prices == null) {
@@ -140,9 +134,9 @@ public class JerkSONParser {
         return inventory;
     }
 
-    public List<String> getParsedItem () {
+    public List<GroceryItem> getGroceryItems() {
 
-        return parsedItem;
+        return groceryItems;
     }
 
     public int getErrors () {
@@ -152,19 +146,18 @@ public class JerkSONParser {
 
     private StringBuilder printFoods (Set<String> foods) {
 
-        int seenItem;
+        int seenFood;
         StringBuilder formattedList = new StringBuilder();
 
         for (String food : foods) {
-            seenItem = getMapSize(inventory.get(food));
+            seenFood = getMapSize(inventory.get(food));
             Set<String> prices = inventory.get(food).keySet();
 
-            formattedList.append(String.format("name:%8s \t\t seen: ", food));
-            formattedList.append(seenItem);
-            formattedList.append(" times\n");
-            formattedList.append(separator0);
+            formattedList.append(String.format("name:%8s \t\t seen: %d", food, seenFood));
+            formattedList.append((seenFood == 1) ? "  time\n" : " times\n");
+            formattedList.append(EQUAL_SEPARATOR);
             formattedList.append(" \t\t ");
-            formattedList.append(separator0);
+            formattedList.append(EQUAL_SEPARATOR);
             formattedList.append("\n");
 
             formattedList.append(printPrices(food, prices));
@@ -176,19 +169,17 @@ public class JerkSONParser {
     private StringBuilder printPrices (String food, Set<String> prices) {
 
         StringBuilder formattedList = new StringBuilder();
-        int priceCount;
+        int seenPrice;
 
         for (String price : prices) {
 
-            priceCount = inventory.get(food).get(price);
+            seenPrice = inventory.get(food).get(price);
 
-            formattedList.append(String.format("Price:%7s \t\t seen: ", price));
-            formattedList.append(priceCount);
-            formattedList.append((priceCount == 1) ? "  time" : " times");
-            formattedList.append("\n");
-            formattedList.append(separator1);
+            formattedList.append(String.format("Price:%7s \t\t seen: %d", price, seenPrice));
+            formattedList.append((seenPrice == 1) ? "  time\n" : " times\n");
+            formattedList.append(MINUS_SEPARATOR);
             formattedList.append(" \t\t ");
-            formattedList.append(separator1);
+            formattedList.append(MINUS_SEPARATOR);
             formattedList.append("\n");
         }
 

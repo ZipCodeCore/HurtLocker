@@ -25,8 +25,9 @@ public class Main {
                 parser.parseItem();
                 parser.putItem();
             } catch (DataMissingException e) {
-                parser.next();
+
             }
+            parser.next();
 
         }
 
