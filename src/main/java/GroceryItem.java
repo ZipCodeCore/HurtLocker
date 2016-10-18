@@ -3,19 +3,25 @@
  */
 public class GroceryItem {
     String name;
-    double price;
+    String price;
     String type;
     String date;
 
 
-    public GroceryItem(String name, double price, String type, String date) {
-        this.name = name;
-        this.price = price;
-        this.type = type;
-        this.date = date;
+    public GroceryItem(String[] fields) {
+        this.name = fields[0];
+        this.price = fields[1];
+        this.type = fields[2];
+        this.date = fields[3];
     }
 
-    public GroceryItem groceryItemFactory(String[] fields) throws JerkSONException{
-        return null;
+    public static GroceryItem groceryItemFactory(String[] fields) throws JerkSONException{
+        for(String field : fields){
+            if(field.length() < 1){
+                throw new JerkSONException("Found empty field");
+            }
+        }
+
+        return new GroceryItem(fields);
     }
 }

@@ -1,4 +1,6 @@
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -8,39 +10,66 @@ import java.util.regex.Pattern;
 public class JerkSONParser {
     private HashMap<String, HashMap<String, Integer>> objectMap = new HashMap<String, HashMap<String, Integer>>();
     private int errors = 0;
+    private List<GroceryItem> objectsCreated = new ArrayList<GroceryItem>();
+    private String formattedString;
+    private String[][] splitJerkson;
 
-    public JerkSONParser(String string){
-        this.runAll(string);
+    public JerkSONParser(String string) {
+        this.formattedString = string;
+        runAll();
+
     }
-
     public JerkSONParser(){}
 
+    public String getFormattedString() {
+        return formattedString;
+    }
+
+    public void setFormattedString(String formattedString) {
+        this.formattedString = formattedString;
+    }
 
 
-    protected String[] splitJerkSONByItem(String string){
-        String[] splitByItem = string.split("(##)");
+    public List<GroceryItem> getObjectsCreated() {
+        return objectsCreated;
+    }
+
+    public void setObjectsCreated(List<GroceryItem> objectsCreated) {
+        this.objectsCreated = objectsCreated;
+    }
+
+    public String[][] getSplitJerkson() {
+        return splitJerkson;
+    }
+
+    public void setSplitJerkson(String[][] splitJerkson) {
+        this.splitJerkson = splitJerkson;
+    }
+
+    protected String[] splitJerkSONByItem(){
+        String[] splitByItem = this.formattedString.split("(##)");
         return splitByItem;
     }
 
-    protected String[][] splitJerkSONByField(String[] items){
+    protected void splitJerkSONByField(String[] items){
         int lengthOfItems = items.length;
         String[][] splitByField = new String[lengthOfItems][4];
         for(int i = 0; i < lengthOfItems; i++){
             splitByField[i] = items[i].split("(;|\\^|\\*|%|!|@)");
         }
-        return splitByField;
+        this.splitJerkson = splitByField;
     }
 
-    protected String replaceZeroesWithOs(String string){
+    protected void replaceZeroesWithOs(){
+
         Pattern pattern = Pattern.compile("[a-zA-Z]0[a-zA-Z]");
-        Matcher matcher = pattern.matcher(string);
-        String toReturn = matcher.replaceAll("ook");
-        return toReturn;
+        Matcher matcher = pattern.matcher(this.formattedString);
+        this.formattedString = matcher.replaceAll("ook");
     }
 
-    protected String capitalizeFirstLetter(String string){
+    protected void capitalizeFirstLetter(){
         Pattern pattern = Pattern.compile("(\\b[a-z]{1})");
-        Matcher matcher = pattern.matcher(string);
+        Matcher matcher = pattern.matcher(this.formattedString);
         StringBuffer stringBuffer = new StringBuffer();
         while(matcher.find()) {
             String toConvert = matcher.group();
@@ -49,12 +78,12 @@ public class JerkSONParser {
             matcher.appendReplacement(stringBuffer, replacement + "");
         }
             matcher.appendTail(stringBuffer);
-            return stringBuffer.toString();
+            this.formattedString = stringBuffer.toString();
     }
 
-    protected String lowercaseNonFirstLetters(String string){
+    protected void lowercaseNonFirstLetters(){
         Pattern pattern = Pattern.compile("(\\B[A-Z]{1})");
-        Matcher matcher = pattern.matcher(string);
+        Matcher matcher = pattern.matcher(this.formattedString);
         StringBuffer stringBuffer = new StringBuffer();
         while(matcher.find()) {
             String toConvert = matcher.group();
@@ -63,14 +92,15 @@ public class JerkSONParser {
             matcher.appendReplacement(stringBuffer, replacement + "");
         }
         matcher.appendTail(stringBuffer);
-        return stringBuffer.toString();
+        this.formattedString = stringBuffer.toString();
     }
 
 
 
-         protected int matchesOfType(String string, String patternToMatch){
+         protected int matchesOfType(String patternToMatch){
+
              Pattern pattern = Pattern.compile("("+patternToMatch+")");
-             Matcher matcher = pattern.matcher(string);
+             Matcher matcher = pattern.matcher(this.formattedString);
              int count = 0;
              while(matcher.find()){
                  count++;
@@ -78,58 +108,28 @@ public class JerkSONParser {
              return count;
          }
 
-         protected int errors(String[][] string){
-             int toReturn = 0;
-             for(String[] items : string){
-                 for(String fields : items){
-                     toReturn += this.matchesOfType(fields, ":$");
-                 }
+         protected void removeFieldName(String toRemove, int indexOfField){
+             Pattern pattern = Pattern.compile("("+toRemove+")");
+             for(String[] items : this.splitJerkson){
+                 Matcher matcher = pattern.matcher(items[indexOfField]);
+                 items[indexOfField] = matcher.replaceAll("");
+
              }
-
-
-             return toReturn;
+             return;
          }
 
-//         protected String[][] removeNamesAfterErrorChecking(String[][] string){
-//             Pattern pattern = Pattern.compile("(Name:)");
-//             for(String [] items : string){
-//                 for(int i = 0; i < 1; i++){
-//                     Matcher matcher = pattern.matcher(items[i]);
-//                     items[0] = matcher.replaceAll("");
-//                 }
-//             }
-//             return string;
-//         }
-//
-//         protected String[][] removePricesAfterErrorChecking(String[][] string){
-//             Pattern pattern = Pattern.compile("(Price:)");
-//             for(String [] items : string){
-//                 for(int i = 0; i < 4; i++){
-//                     Matcher matcher = pattern.matcher(items[i]);
-//                     items[i] = matcher.replaceAll("");
-//                 }
-//             }
-//             return string;
-//         }
+         protected void removeAllFieldNames(){
+             int numOfFields = this.splitJerkson[0].length;
+             for(int i = 0; i < numOfFields; i++){
+                 Pattern pattern = Pattern.compile("[a-zA-Z]+?:");
+                 Matcher matcher = pattern.matcher(this.splitJerkson[0][i]);
+                 matcher.find();
+                 String toRemove = matcher.group();
 
-         protected String[][] removeFieldName(String[][] jerkson, String toRemove){
-
-             Pattern pattern = Pattern.compile("("+ toRemove+")");
-             for(String [] items : jerkson){
-                 for(int i = 0; i < 4; i++){
-                     Matcher matcher = pattern.matcher(items[i]);
-                     items[i] = matcher.replaceAll("");
-                 }
+                 removeFieldName(toRemove, i);
              }
-             return jerkson;
          }
-
-
-
-
-
          protected void fillMapWithKeys(String[][] values){
-             //HashMap<String, HashMap<String, String>> toReturn = new HashMap<String, HashMap<String, String>>();
              for(String[] field: values ){
                  if(field[0].length() > 0){
                      objectMap.put(field[0], new HashMap<String, Integer>());
@@ -194,25 +194,29 @@ public class JerkSONParser {
                  }
          }
 
-         protected void runAll(String jerkString){
+         public void runAll(){
 
-             String noZeroes = replaceZeroesWithOs(jerkString);
-             String firstCapital = capitalizeFirstLetter(noZeroes);
-             String noUpperCaseInMiddleOfWords = lowercaseNonFirstLetters(firstCapital);
-             String[] byItem = splitJerkSONByItem(noUpperCaseInMiddleOfWords);
-             String[][] byField = splitJerkSONByField(byItem);
-             this.errors = errors(byField);
-//             String[][] noPrices = removePricesAfterErrorChecking(byField);
-//             String[][] noNames = removeNamesAfterErrorChecking(noPrices);
-
-//             this.fillMapWithKeys(noNames);
-//             this.fillmapwithValues(noNames);
+             replaceZeroesWithOs();
+             capitalizeFirstLetter();
+             lowercaseNonFirstLetters();
+             String[] splitByItem = splitJerkSONByItem();
+             splitJerkSONByField(splitByItem);
+             removeAllFieldNames();
+             createObjects();
          }
 
+         public void createObjects(){
 
-    public HashMap<String, HashMap<String, Integer>> getObjectMap() {
-        return objectMap;
-    }
+             for(String[] items : this.splitJerkson){
+                 try{
+                     this.objectsCreated.add(GroceryItem.groceryItemFactory(items));
+                 } catch(JerkSONException e){
+                     this.errors += 1;
+                     continue;
+                 }
+             }
+         }
+
 
     public int getErrors() {
         return errors;
