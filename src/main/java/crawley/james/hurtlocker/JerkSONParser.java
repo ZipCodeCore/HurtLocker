@@ -48,7 +48,8 @@ public class JerkSONParser {
 
         } else {
 
-            groceryItems.add(new GroceryItem(getItemName(parsedObject.get(0)), getItemPrice(parsedObject.get(1)), "Food", parsedObject.get(3)));
+            groceryItems.add(new GroceryItem(getItemName(parsedObject.get(0)),
+                    getItemPrice(parsedObject.get(1)), parsedObject.get(2), parsedObject.get(3)));
         }
 
     }
@@ -76,9 +77,8 @@ public class JerkSONParser {
         StringBuilder fixedPrice = new StringBuilder();
         int length = price.length();
 
-        for (int i = 0; i < length - 1; i++) {
-            fixedPrice.append(price.charAt(i));
-        }
+        fixedPrice.append(price);
+        fixedPrice.delete(length - 1,length);
 
         return fixedPrice.toString();
     }
