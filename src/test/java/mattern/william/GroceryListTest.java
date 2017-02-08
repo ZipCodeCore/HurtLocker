@@ -38,6 +38,4 @@ public class GroceryListTest {
         System.out.println(gl.getAllGroceryListItems().toString());
         assertTrue(gl.list.contains(bread));
     }
-
-
 }
