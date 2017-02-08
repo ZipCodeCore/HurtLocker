@@ -11,7 +11,12 @@ public class Main {
 
     public static void main(String[] args) throws Exception{
         String output = (new Main()).readRawDataToString();
-        System.out.println(output);
+        ItemParser parser = new ItemParser();
+        parser.createItemFromFields(output);
+        parser.makeListIntoSet();
+        parser.makeListIntoString();
+        parser.listAsMap();
+        System.out.println(parser.outputCreator());
 
     }
 }
