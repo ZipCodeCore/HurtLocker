@@ -20,6 +20,16 @@ public class GroceryListItem {
 
     public GroceryListItem(){}
 
+    @Override
+    public String toString(){
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(name).append(",")
+                .append(price).append(",")
+                .append(type).append(",")
+                .append(expirationDate);
+        return stringBuilder.toString();
+    }
+
     public String getName() {
         return name;
     }

@@ -5,9 +5,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-/**
- * Created by williammattern on 2/8/17.
- */
+
 public class GroceryListItemBuilderTest {
     GroceryListItem gli;
     GroceryListItem gliWithBuilder;
