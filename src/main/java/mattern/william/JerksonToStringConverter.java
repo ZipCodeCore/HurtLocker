@@ -8,8 +8,6 @@ import java.util.regex.Pattern;
  */
 public class JerksonToStringConverter {
     String doubleHashPattern = "#{2}";
-    Pattern pattern = Pattern.compile(doubleHashPattern);
-    Matcher matcher;
 
     public String getMeThatFirstDamnItem(String jerkson){
         String[] arrayOfJerkson = jerkson.split(doubleHashPattern);
@@ -20,6 +18,11 @@ public class JerksonToStringConverter {
     }
 
     public String[] getMeAllTheItems(String jerkson){
-        return new String[] {" ", " "};
+        String[] arrayOfJerkson = jerkson.split(doubleHashPattern);
+        return arrayOfJerkson;
+    }
+
+    public GroceryListItem littleJerksonStringToGLIConverter(String littleJerksonString){
+        return null;
     }
 }

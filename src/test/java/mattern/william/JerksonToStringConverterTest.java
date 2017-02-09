@@ -28,7 +28,7 @@ public class JerksonToStringConverterTest {
         "NAME:MilK;price:3.23;type:Food;expiration:1/17/2016",
         "naMe:MilK;price:1.23;type:Food!expiration:4/25/2016",
         "naMe:apPles;price:0.25;type:Food;expiration:1/23/2016",
-        "aMe:apPles;price:0.23;type:Food;expiration:5/02/2016",
+        "naMe:apPles;price:0.23;type:Food;expiration:5/02/2016",
         "NAMe:BrEAD;price:1.23;type:Food;expiration:1/25/2016",
         "naMe:;price:3.23;type:Food;expiration:1/04/2016",
         "naMe:Milk;price:3.23;type:Food;expiration:1/25/2016",
@@ -59,6 +59,11 @@ public class JerksonToStringConverterTest {
         String[] expected = jerksonArray;
         String[] actual = jerksonToStringConverter.getMeAllTheItems(jerkson);
         assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void singleStringParserTest1(){
+
     }
 
 }
