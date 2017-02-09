@@ -7,21 +7,23 @@ import org.junit.Test;
  */
 public class GroceryListTest {
     GroceryList gList;
-    Milk milk;
-    Milk milk2;
+    GroceryItem milk, milk2, milk3;
+
 
     @Before
     public void setUp(){
         gList = new GroceryList();
-        milk = new Milk("3.23", "Food", "01/11/1111" );
-        milk2 = new Milk("3.25", "Food", "01/11/1111" );
+        milk = new GroceryItem("Milk","3.23", "Food", "01/11/1111" );
+        milk2 = new GroceryItem("Milk","3.25", "Food", "01/11/1111" );
+        milk3 = new GroceryItem("Milk","", "Food", "01/11/1111" );
+
     }
 
     @Test
     public void addTest(){
         gList.add(milk);
-        String expected = "[3.23]";
-        String actual   =  gList.groceryList.get("Milk").toString();
+        String expected = "3.23";
+        String actual   =  gList.groceryList.get("Milk").get(0).getPrice();
         Assert.assertEquals("Expected value 3.23 to be returned", expected, actual);
     }
 
@@ -34,12 +36,20 @@ public class GroceryListTest {
         Assert.assertEquals("Expected value 2 to be returned", expected, actual);
     }
     @Test
-    public void add3Test(){
+    public void addNullTest(){
         gList.add(milk);
+        gList.add(null);
+        int expected = 1;
+        int actual = gList.groceryList.get("Milk").size();
+        Assert.assertEquals("Expected value 2 to be returned", expected, actual);
+    }
+
+    @Test
+    public void addNullErrorCountTest(){
         gList.add(milk);
-        gList.add(milk2);
-        String expected = "[3.23, 3.23, 3.25]";
-        String actual = gList.groceryList.get("Milk").toString();
+        gList.add( milk3);
+        int expected = 1;
+        int actual = gList.groceryList.get("Milk").size();
         Assert.assertEquals("Expected value 2 to be returned", expected, actual);
     }
 

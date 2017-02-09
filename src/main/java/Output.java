@@ -35,7 +35,7 @@ public class Output {
     }
 
     public void outputFormattedItemList(ArrayList<GroceryItem> list){
-        System.out.println(outputName(list.get(0).getClass().getSimpleName())+outputSeen(list.size()));
+        System.out.println(outputName(list.get(0).getName())+outputSeen(list.size()));
         System.out.println(itemUnderLines());
         list.sort(GroceryItem.priceComparator);
         int occurrence = 0;
@@ -54,6 +54,9 @@ public class Output {
         System.out.println();
     }
 
+    public void outputFormattedError(int errors){
+        System.out.print(outputErrors()+outputSeen(errors));
+    }
     public void outputFullList(TreeMap list){
         Set keys = list.keySet();
         for(Iterator i = keys.iterator();i.hasNext();){
@@ -61,7 +64,5 @@ public class Output {
             ArrayList<GroceryItem> values = (ArrayList<GroceryItem>) list.get(key);
             outputFormattedItemList(values);
         }
-
-
     }
 }

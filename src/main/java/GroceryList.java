@@ -8,36 +8,25 @@ import java.util.ArrayList;
 public class GroceryList {
     TreeMap<String, ArrayList<GroceryItem>> groceryList = new TreeMap<>();
 
-    public String lookUp(String K){
-        if (groceryList.isEmpty())
-            return "List Empty";
-        else if (groceryList.containsKey(K)){
-            String list = "";
-            for (GroceryItem value : groceryList.get(K))
-                list += value +"\n";
-            return list;
-        }
-        return "Name not listed";
-    }
-    private String getKeyClassToString(GroceryItem name){
-        return name.getClass().getSimpleName().toString();
-    }
-
-    public void add(GroceryItem K){
-        String name = getKeyClassToString(K);
-        ArrayList<GroceryItem> holder = groceryList.get(name);
-        if (holder == null){
-            holder= new ArrayList<GroceryItem>();
+    public void add(GroceryItem item) {
+            String name = item.getName();
+            String price = item.getPrice();
+            ArrayList<GroceryItem> holder = groceryList.get(name);
+            if (holder == null) {
+                holder = new ArrayList<>();
+                groceryList.put(name, holder);
+            }
+            holder.add(item);
             groceryList.put(name, holder);
+    }
+
+    public void addToGroceryList(ArrayList<GroceryItem> list){
+        for (GroceryItem item : list) {
+            this.add(item);
         }
-        holder.add(K);
-        groceryList.put(name, holder);
     }
 
-    public String printList(){
-
-            return null;
-
+    public TreeMap<String, ArrayList<GroceryItem>> getGroceryList() {
+        return groceryList;
     }
-
 }

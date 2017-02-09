@@ -4,16 +4,19 @@ import java.util.Comparator;
  * Created by randallcrame on 2/8/17.
  */
 public class GroceryItem implements  Comparator<GroceryItem>{
-
+    private String name;
     private String price;
     private String type;
     private String expiration;
 
-    GroceryItem(String price, String type, String expiration){
+    GroceryItem(String name, String price, String type, String expiration){
+        this.name = name;
         this.price = price;
         this.type = type;
         this.expiration = expiration;
     }
+
+    public String getName() { return name; }
 
     public String getPrice() {
         return price;

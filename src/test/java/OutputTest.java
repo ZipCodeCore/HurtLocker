@@ -8,17 +8,17 @@ import org.junit.Test;
 public class OutputTest {
     GroceryList gList;
     Output output;
-    Milk milk;
-    Milk milk2;
-    Bread bread;
+    GroceryItem milk;
+    GroceryItem milk2;
+    GroceryItem bread;
 
     @Before
     public void setUp(){
         gList = new GroceryList();
         output = new Output();
-        milk = new Milk("3.23", "Food", "01/11/1111" );
-        milk2 = new Milk("3.25", "Food", "01/11/1111" );
-        bread = new Bread("0.99", "Food","1/11/1111");
+        milk = new GroceryItem("Milk","3.23", "Food", "01/11/1111" );
+        milk2 = new GroceryItem("Milk","3.25", "Food", "01/11/1111" );
+        bread = new GroceryItem("Bread","0.99", "Food","1/11/1111");
         gList.add(milk);
         gList.add(milk);
         gList.add(milk2);
@@ -31,7 +31,7 @@ public class OutputTest {
     }
     @Test
     public void outputNameTest(){
-        String expected ="name:    Milk";
+        String expected ="Name:    Milk";
         String actual = output.outputName("Milk");
         Assert.assertEquals("Expect proper formatting with left justify 13 width of Class name", expected, actual);
     }

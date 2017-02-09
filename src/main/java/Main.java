@@ -10,7 +10,15 @@ public class Main {
 
     public static void main(String[] args) throws Exception{
         String output = (new Main()).readRawDataToString();
+        JerkSonReader reader = new JerkSonReader(output);
+        GroceryList groceryList = new GroceryList();
+        Output outputList = new Output();
+
+
         System.out.println(output);
 
+        groceryList.addToGroceryList(reader.convertDataToGroceries());
+        outputList.outputFullList(groceryList.getGroceryList());
+        outputList.outputFormattedError(reader.getErrors());
     }
 }
