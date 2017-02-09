@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 import static org.junit.Assert.*;
 
@@ -18,7 +19,10 @@ public class GroceryReportFormatterTest {
     GroceryListItem cookies;
     GroceryListItem bread;
     GroceryListItem bread2;
-    GroceryListItem bread3;
+    GroceryListItem bread3, milk1, milk2, milk3, milk4, milk5;
+    TreeMap<String, Integer> singleItemData;
+
+
 
     @Before
     public void setUp(){
@@ -34,7 +38,17 @@ public class GroceryReportFormatterTest {
         groceryList.addGroceryListItemToList(bread);
         groceryList.addGroceryListItemToList(bread2);
         groceryList.addGroceryListItemToList(bread3);
-
+        milk1 = new GroceryListItemBuilder().setName("Milk").setPrice("3.23").createGroceryListItem();
+        milk2 = new GroceryListItemBuilder().setName("Milk").setPrice("3.23").createGroceryListItem();
+        milk3 = new GroceryListItemBuilder().setName("Milk").setPrice("3.23").createGroceryListItem();
+        milk4 = new GroceryListItemBuilder().setName("Milk").setPrice("3.23").createGroceryListItem();
+        milk5 = new GroceryListItemBuilder().setName("Milk").setPrice("3.23").createGroceryListItem();
+        groceryList.addGroceryListItemToList(milk1);
+        groceryList.addGroceryListItemToList(milk2);
+        groceryList.addGroceryListItemToList(milk3);
+        groceryList.addGroceryListItemToList(milk4);
+        groceryList.addGroceryListItemToList(milk5);
+        singleItemData = grf.nameAndPriceCountMapper(groceryList,"Milk");
     }
 
     @Test
@@ -53,7 +67,7 @@ public class GroceryReportFormatterTest {
 
     @Test
     public void nameAndPriceCountMapperTest(){
-        String expected = "{1.23=1, Milk=1}";
+        String expected = "{1.23=1, 3.23=5, Milk=6}";
         Map<String, Integer> singleItemData = grf.nameAndPriceCountMapper(groceryList,"Milk");
         String actual = singleItemData.toString();
         assertEquals(expected,actual);
@@ -72,6 +86,29 @@ public class GroceryReportFormatterTest {
         String expected = "{1.00=2, 1.11=1, Bread=3}";
         Map<String, Integer> singleItemData = grf.nameAndPriceCountMapper(groceryList,"Bread");
         String actual = singleItemData.toString();
+        assertEquals(expected,actual);
+    }
+
+    @Test
+    public void singleItemPriceMapperFudgedTest(){
+        String expected = "name:    Milk          seen: 6 times\n" +
+                "=============          =============\n" +
+                "Price:   1.23          seen: 1 time \n" +
+                "-------------          -------------\n" +
+                "Price:   3.23          seen: 5 times\n" +
+                "-------------          -------------\n";
+        String actual = grf.formatSingleItemGroceryReport(singleItemData);
+        assertEquals(expected,actual);
+    }
+
+    @Test
+    public void singleItemPriceMapperRealTest(){
+        String expected = "name:    Milk          seen: 6 times\n" +
+                "=============          =============\n" +
+                "Price:   3.23          seen: 5 times\n" +
+                "-------------          -------------\n" +
+                "Price:   1.23          seen: 1 time \n";
+        String actual = grf.formatSingleItemGroceryReport(singleItemData);
         assertEquals(expected,actual);
     }
 }

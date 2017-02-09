@@ -2,19 +2,44 @@ package mattern.william;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.TreeMap;
 
-/**
- * Created by williammattern on 2/8/17.
- */
+
 public class GroceryReportFormatter {
     String drillDownBreak = "=============";
     String basicBreak = "-------------";
     String airGap = "          ";
     GroceryList gl;
+    String drillDownLine = drillDownBreak + airGap + drillDownBreak;
+    String basicBreakLine = basicBreak + airGap + basicBreak;
 
-    public String formatSingleItemGroceryReport(Collection<GroceryListItem> singleItemGroceryList){
-        return null;
+    public String formatSingleItemGroceryReport(TreeMap<String, Integer> singleItemData){
+        StringBuilder singleItemString = new StringBuilder();
+        int nameCount;
+        String name;
+        int priceCount;
+        String price;
+
+        for (Map.Entry<String,Integer> entry: singleItemData.entrySet()) {
+            if (entry.getKey().equals("Milk") | entry.getKey().equals("Cookies") | entry.getKey().equals("Bread") | entry.getKey().equals("Apples")) {
+                name = entry.getKey();
+                nameCount = entry.getValue();
+                String nameLine = formatNameLine(name, nameCount) + "\n";
+                singleItemString.append(nameLine).append(drillDownLine).append("\n");
+            }
+        }
+
+        for (Map.Entry<String, Integer> entry: singleItemData.entrySet()){
+            if(entry.getKey().equals("Milk")| entry.getKey().equals("Cookies")| entry.getKey().equals("Bread")| entry.getKey().equals("Apples")) {
+            }else{
+                price = entry.getKey();
+                priceCount = entry.getValue();
+                String priceLine = formatPriceLine(price,priceCount) + "\n";
+                singleItemString.append(priceLine).append(basicBreakLine).append("\n");
+            }
+        }
+        return singleItemString.toString();
     }
 
     public String formatNameLine(String name, int count){
