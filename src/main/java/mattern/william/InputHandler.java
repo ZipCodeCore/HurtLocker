@@ -20,6 +20,7 @@ public class InputHandler {
             }
         }
         return groceryList;
+
     }
 
     String[] inputToStringCollection(String jerksonInput){
