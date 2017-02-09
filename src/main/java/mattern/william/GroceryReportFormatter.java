@@ -1,7 +1,7 @@
 package mattern.william;
 
-import java.util.Collection;
-import java.util.HashMap;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -10,7 +10,6 @@ public class GroceryReportFormatter {
     String drillDownBreak = "=============";
     String basicBreak = "-------------";
     String airGap = "          ";
-    GroceryList gl;
     String drillDownLine = drillDownBreak + airGap + drillDownBreak;
     String basicBreakLine = basicBreak + airGap + basicBreak;
 
@@ -20,13 +19,13 @@ public class GroceryReportFormatter {
                 .append(" times").toString();
     }
 
-    public String formatFinalReport(GroceryList groceryList){
+    public String formatFinalReport(ArrayList<GroceryListItem> groceryList){
         String finalReport = formatGroceryListReportWithoutErrorHandling(groceryList);
         finalReport += formatErrorHandling();
         return finalReport;
     }
 
-    public String formatGroceryListReportWithoutErrorHandling(GroceryList groceryList){
+    public String formatGroceryListReportWithoutErrorHandling(ArrayList<GroceryListItem>  groceryList){
         String[] groceryListItems = new String[]{"Milk","Bread","Cookies","Apples"};
         StringBuilder groceryListReport = new StringBuilder();
         String singleItemString;
@@ -107,10 +106,10 @@ public class GroceryReportFormatter {
                 .append(timeOrTimes).toString();
     }
 
-    public TreeMap<String, Integer> nameAndPriceCountMapper(GroceryList groceryList, String name){
+    public TreeMap<String, Integer> nameAndPriceCountMapper(ArrayList<GroceryListItem> groceryList, String name){
        TreeMap<String, Integer> dataMap = new TreeMap<String, Integer>();
        Integer countOfNameOccurences = 0;
-       for (GroceryListItem gli: groceryList.list){
+       for (GroceryListItem gli: groceryList){
            if(gli.getName().equals(name)){
                countOfNameOccurences++;
                if(dataMap.keySet().contains(gli.getPrice())){

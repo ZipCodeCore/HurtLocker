@@ -3,6 +3,7 @@ package mattern.william;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
@@ -14,7 +15,7 @@ import static org.junit.Assert.*;
  */
 public class GroceryReportFormatterTest {
     GroceryReportFormatter grf;
-    GroceryList groceryList;
+    ArrayList<GroceryListItem> groceryList;
     GroceryListItem gli;
     GroceryListItem cookies;
     GroceryListItem bread;
@@ -25,29 +26,29 @@ public class GroceryReportFormatterTest {
     @Before
     public void setUp(){
         grf = new GroceryReportFormatter();
-        groceryList = new GroceryList();
+        groceryList = new ArrayList<GroceryListItem>();
         gli = new GroceryListItemBuilder().setName("Milk").setPrice("1.23").createGroceryListItem();
         cookies = new GroceryListItemBuilder().setName("Cookies").setPrice("3.00").setType("Food").setExpirationDate("1/1/2016").createGroceryListItem();
         bread = new GroceryListItemBuilder().setName("Bread").setPrice("1.00").setType("Food").setExpirationDate("2/14/2017").createGroceryListItem();
         bread2 = new GroceryListItemBuilder().setName("Bread").setPrice("1.00").setType("Food").setExpirationDate("2/14/2017").createGroceryListItem();
         bread3 = new GroceryListItemBuilder().setName("Bread").setPrice("1.11").setType("Food").setExpirationDate("2/14/2017").createGroceryListItem();
-        groceryList.addGroceryListItemToList(gli);
-        groceryList.addGroceryListItemToList(cookies);
-        groceryList.addGroceryListItemToList(bread);
-        groceryList.addGroceryListItemToList(bread2);
-        groceryList.addGroceryListItemToList(bread3);
+        groceryList.add(gli);
+        groceryList.add(cookies);
+        groceryList.add(bread);
+        groceryList.add(bread2);
+        groceryList.add(bread3);
         milk1 = new GroceryListItemBuilder().setName("Milk").setPrice("3.23").createGroceryListItem();
         milk2 = new GroceryListItemBuilder().setName("Milk").setPrice("3.23").createGroceryListItem();
         milk3 = new GroceryListItemBuilder().setName("Milk").setPrice("3.23").createGroceryListItem();
         milk4 = new GroceryListItemBuilder().setName("Milk").setPrice("3.23").createGroceryListItem();
         milk5 = new GroceryListItemBuilder().setName("Milk").setPrice("3.23").createGroceryListItem();
         apples = new GroceryListItemBuilder().setName("Apples").setPrice("0.23").createGroceryListItem();
-        groceryList.addGroceryListItemToList(milk1);
-        groceryList.addGroceryListItemToList(milk2);
-        groceryList.addGroceryListItemToList(milk3);
-        groceryList.addGroceryListItemToList(milk4);
-        groceryList.addGroceryListItemToList(milk5);
-        groceryList.addGroceryListItemToList(apples);
+        groceryList.add(milk1);
+        groceryList.add(milk2);
+        groceryList.add(milk3);
+        groceryList.add(milk4);
+        groceryList.add(milk5);
+        groceryList.add(apples);
         singleItemData = grf.nameAndPriceCountMapper(groceryList,"Milk");
     }
 

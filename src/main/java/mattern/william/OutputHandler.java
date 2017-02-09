@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.util.ArrayList;
 
 /**
  * Created by williammattern on 2/8/17.
@@ -12,12 +13,12 @@ public class OutputHandler {
     GroceryReportFormatter groceryReportFormatter;
     String finalReport;
 
-    public void printGroceryReport(GroceryList gl){
+    public void printGroceryReport(ArrayList<GroceryListItem> groceryList){
         groceryReportFormatter = new GroceryReportFormatter();
-        finalReport = groceryReportFormatter.formatFinalReport(gl);
+        finalReport = groceryReportFormatter.formatFinalReport(groceryList);
         BufferedWriter bw = null;
         try{
-            File file = new File("/Users/williammattern/Desktop/HurtLockerOutput.txt");
+            File file = new File("./BillsOutput.txt");
             if (!file.exists()){
                 file.createNewFile();
             }

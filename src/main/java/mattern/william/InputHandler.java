@@ -1,35 +1,35 @@
 package mattern.william;
 
-import java.util.Collection;
+import java.util.ArrayList;
 
 /**
  * Created by williammattern on 2/8/17.
  */
 public class InputHandler {
     static int jerksonExceptions = 0;
-    GroceryList groceryList;
+    ArrayList<GroceryListItem> list;
+    String doubleHashPattern = "#{2}";
 
-    public GroceryList handleInput(String jerksonInput){
-        groceryList = new GroceryList();
+    public ArrayList<GroceryListItem> handleInput(String jerksonInput){
+        list = new ArrayList<GroceryListItem>();
         for (String littleJerksonString: inputToStringCollection(jerksonInput)){
             try {
                 GroceryListItem gli = inputStringToGLIConverter(littleJerksonString);
-                groceryList.addGroceryListItemToList(gli);
+                list.add(gli);
             } catch (GroceryItemNotFoundException e){
                 //e.printStackTrace(System.out);
             }
         }
-        return groceryList;
+        return list;
     }
 
     String[] inputToStringCollection(String jerksonInput){
-        JerksonToStringConverter jerksonToStringConverter = new JerksonToStringConverter();
-        return jerksonToStringConverter.getMeAllTheItems(jerksonInput);
+        return jerksonInput.split(doubleHashPattern);
     }
 
     GroceryListItem inputStringToGLIConverter(String convertedJerksonString) throws  GroceryItemNotFoundException {
         try {
-            LittleJerksonStringToGLIConverter jerksonStringToGLIConverter = new LittleJerksonStringToGLIConverter();
+            StringToItemConverter jerksonStringToGLIConverter = new StringToItemConverter();
             return jerksonStringToGLIConverter.convertLittleJerksonStringToGLI(convertedJerksonString);
         }catch (GroceryItemNotFoundException e){
             throw new GroceryItemNotFoundException();

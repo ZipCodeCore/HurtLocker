@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 /**
  * Created by williammattern on 2/8/17.
  */
-public class LittleJerksonStringToGLIConverter {
+public class StringToItemConverter {
     String name;
     String price;
     String type; //Will always be "Food"
@@ -45,12 +45,12 @@ public class LittleJerksonStringToGLIConverter {
         String parsedPrice;
         try {
             return parsedPrice = priceFinder(littleJerksonString);
-        } catch (PriceNotFoundException e) {                                            //Catches the price not found exception from the price parser
+        } catch (GroceryItemNotFoundException e) {                                            //Catches the price not found exception from the price parser
             throw new GroceryItemNotFoundException();
         }
     }
 
-    public String priceFinder(String littleJerksonString) throws PriceNotFoundException {
+    public String priceFinder(String littleJerksonString) throws GroceryItemNotFoundException {
         String priceRegex = "\\d\\.\\d\\d";
         Pattern pattern = Pattern.compile(priceRegex);
         Matcher matcher = pattern.matcher(littleJerksonString);
@@ -59,7 +59,7 @@ public class LittleJerksonStringToGLIConverter {
             return priceMatch;
         }else {
             InputHandler.jerksonExceptions++;
-            throw new PriceNotFoundException();
+            throw new GroceryItemNotFoundException();
         }
     }
 

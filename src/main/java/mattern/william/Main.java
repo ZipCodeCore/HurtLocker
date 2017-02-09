@@ -2,6 +2,9 @@ package mattern.william;
 
 import org.apache.commons.io.IOUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class Main {
 
@@ -15,10 +18,10 @@ public class Main {
     public static void main(String[] args) throws Exception{
         InputHandler inputHandler = new InputHandler();
         OutputHandler outputHandler = new OutputHandler();
-        String finalReport;
 
-        String rawData = (new Main()).readRawDataToString();
-        GroceryList groceryList = inputHandler.handleInput(rawData);
+        String output = (new Main()).readRawDataToString();
+
+        ArrayList<GroceryListItem> groceryList = inputHandler.handleInput(output);
         outputHandler.printGroceryReport(groceryList);
     }
 }
