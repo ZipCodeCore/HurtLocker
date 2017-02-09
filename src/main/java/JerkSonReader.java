@@ -43,9 +43,11 @@ public class JerkSonReader {
         String type = ValuesToKeyAndValue(holder[2])[1];
         String expiration = ValuesToKeyAndValue(holder[3])[1];
 
-        switch(name){
-            case "Milk":
-            default : return new Milk(price, type, expiration);
+        switch(name.toLowerCase()){
+            case "milk": return new Milk(price, type, expiration);
+            case "bread": return new Bread(price, type, expiration);
+            default : return null;
+
         }
     }
 }
