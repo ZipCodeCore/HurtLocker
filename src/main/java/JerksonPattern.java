@@ -7,30 +7,31 @@ public class JerksonPattern {
     private String currentType;
     private String currentExpiration;
 
-    public String[] splitRawData(String entireRawData) {
+     public String[] splitRawData(String entireRawData) {
         String patternString = "##";
         Pattern pattern = Pattern.compile(patternString, Pattern.CASE_INSENSITIVE);
-        String[] eachItemRawForm = pattern.split(entireRawData);
-        return eachItemRawForm;
+        return pattern.split(entireRawData);
+    }
+
+    public int commonMatcher (String itemInRawForm, int location) {
+        String patternString2 = "([:@^*%])+";
+        Pattern pattern2 = Pattern.compile(patternString2, Pattern.CASE_INSENSITIVE);
+        Matcher matcher2 = pattern2.matcher(itemInRawForm);
+        matcher2.find(location);
+        return matcher2.end();
     }
 
     public String convertName (String itemInRawForm) {
         String patternString = "([N][A][M][E])+";
         Pattern pattern = Pattern.compile(patternString, Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(itemInRawForm);
-        boolean doesMatchExist = matcher.find();
-        int locationOfMatch = matcher.end();
-
-        String patternString2 = "([:@^*%])+";
-        Pattern pattern2 = Pattern.compile(patternString2, Pattern.CASE_INSENSITIVE);
-        Matcher matcher2 = pattern2.matcher(itemInRawForm);
-        boolean doesMatchExist2 = matcher2.find();
-        int locationOfMatch2 = matcher2.end();
+        matcher.find();
+        int locationOfMatch2 = commonMatcher(itemInRawForm, matcher.end());
 
         String patternString3 = "([;])+";
         Pattern pattern3 = Pattern.compile(patternString3, Pattern.CASE_INSENSITIVE);
         Matcher matcher3 = pattern3.matcher(itemInRawForm);
-        boolean doesMatchExist3 = matcher3.find();
+        matcher3.find();
         int locationOfMatch3 = matcher3.end();
 
         String name = itemInRawForm.substring(locationOfMatch2, locationOfMatch3 - 1);
@@ -49,19 +50,13 @@ public class JerksonPattern {
         String patternString = "([P][R][I][C][E])+";
         Pattern pattern = Pattern.compile(patternString, Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(itemInRawForm);
-        boolean doesMatchExist = matcher.find();
-        int locationOfMatch = matcher.end();
-
-        String patternString2 = "([:@^*%])+";
-        Pattern pattern2 = Pattern.compile(patternString2, Pattern.CASE_INSENSITIVE);
-        Matcher matcher2 = pattern2.matcher(itemInRawForm);
-        boolean doesMatchExist2 = matcher2.find();
-        int locationOfMatch2 = matcher2.end();
+        matcher.find();
+        int locationOfMatch2 = commonMatcher(itemInRawForm, matcher.end());
 
         String patternString3 = "([;])+";
         Pattern pattern3 = Pattern.compile(patternString3, Pattern.CASE_INSENSITIVE);
         Matcher matcher3 = pattern3.matcher(itemInRawForm);
-        boolean doesMatchExist3 = matcher3.find();
+        matcher3.find();
         int locationOfMatch3 = matcher3.end();
 
         String price = itemInRawForm.substring(locationOfMatch2, locationOfMatch3 - 1);
@@ -76,19 +71,18 @@ public class JerksonPattern {
         String patternString = "([T][Y][P][E])+";
         Pattern pattern = Pattern.compile(patternString, Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(itemInRawForm);
-        boolean doesMatchExist = matcher.find();
-        int locationOfMatch = matcher.end();
+        matcher.find();
 
         String patternString2 = "([:@^*%])+";
         Pattern pattern2 = Pattern.compile(patternString2, Pattern.CASE_INSENSITIVE);
         Matcher matcher2 = pattern2.matcher(itemInRawForm);
-        boolean doesMatchExist2 = matcher2.find();
+        matcher2.find();
         int locationOfMatch2 = matcher2.end();
 
         String patternString3 = "([;])+";
         Pattern pattern3 = Pattern.compile(patternString3, Pattern.CASE_INSENSITIVE);
         Matcher matcher3 = pattern3.matcher(itemInRawForm);
-        boolean doesMatchExist3 = matcher3.find();
+        matcher3.find();
         int locationOfMatch3 = matcher3.end();
 
         String type = itemInRawForm.substring(locationOfMatch2, locationOfMatch3 - 1);
@@ -100,13 +94,12 @@ public class JerksonPattern {
         String patternString = "([E][X][P][I][R][A][T][I][O][N])+";
         Pattern pattern = Pattern.compile(patternString, Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(itemInRawForm);
-        boolean doesMatchExist = matcher.find();
-        int locationOfMatch = matcher.end();
+        matcher.find();
 
         String patternString2 = "([:@^*%])+";
         Pattern pattern2 = Pattern.compile(patternString2, Pattern.CASE_INSENSITIVE);
         Matcher matcher2 = pattern2.matcher(itemInRawForm);
-        boolean doesMatchExist2 = matcher2.find();
+        matcher2.find();
         int locationOfMatch2 = matcher2.end();
 
         String expiration = itemInRawForm.substring(locationOfMatch2);

@@ -7,12 +7,11 @@ import java.util.Collections;
  */
 public class Converter {
 
-    public ArrayList<Item> allItems  = new ArrayList<Item>();
+    private ArrayList<Item> allItems  = new ArrayList<>();
 
     public String readRawDataToString() throws Exception{
         ClassLoader classLoader = getClass().getClassLoader();
-        String result = IOUtils.toString(classLoader.getResourceAsStream("RawData.txt"));
-        return result;
+        return IOUtils.toString(classLoader.getResourceAsStream("RawData.txt"));
     }
 
     public ArrayList<Item> execute (String rawData) {
@@ -41,17 +40,9 @@ public class Converter {
         ArrayList<String> applesPrice = new ArrayList<>();
 
         for (int i = 0; i < list.size(); i++) {
-
-            if (list.get(i).getName().equals("INVALID")) {
+            if (list.get(i).getName().equals("INVALID") || list.get(i).getPrice().equals("INVALID")) {
                 errors++;
-                continue;
             }
-
-            if (list.get(i).getPrice().equals("INVALID")) {
-                errors++;
-              continue;
-            }
-
             else if(list.get(i).getName().equals("Milk")) {
                 milk++;
                 milkPrice.add(list.get(i).getPrice());
@@ -69,6 +60,7 @@ public class Converter {
                 applesPrice.add(list.get(i).getPrice());
             }
         }
+
         System.out.println("Name: Milk " + "-- Seen: " + milk );
         System.out.println("Price: 3.23 " + "-- Seen: " + Collections.frequency(milkPrice, "3.23"));
         System.out.println("Price: 1.23 " + "-- Seen: " + Collections.frequency(milkPrice, "1.23"));

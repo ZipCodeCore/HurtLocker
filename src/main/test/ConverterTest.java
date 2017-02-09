@@ -27,7 +27,7 @@ public class ConverterTest {
 
     @Test
     public void executeNameTest () {
-        String expected = "BrEAD";
+        String expected = "Bread";
         Item actualItem = converter.execute("naMe:Milk;price:3.23;type:Food;expiration:1/25/2016##naME:BreaD;price:1.23;type:Food;expiration:1/02/2016##NAMe:BrEAD;price:1.23;type:Food;expiration:2/25/2016##").get(2);
         String actual = actualItem.getName();
         assertEquals(expected, actual);
