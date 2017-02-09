@@ -103,8 +103,13 @@ public class LittleJerksonStringToGLIConverterTest {
     @Test
     public void priceFinderTest(){
         String expected = "3.23";
-        String actual = littleJerksonStringToGLIConverter.priceFinder(sampleLittleJerksonString1);
-        assertEquals(expected,actual);
+        try{
+            String actual = littleJerksonStringToGLIConverter.priceFinder(sampleLittleJerksonString1);
+            assertEquals(expected,actual);
+        } catch (PriceNotFoundException e){
+            e.printStackTrace(System.out);
+        }
+
     }
 
     @Test
@@ -117,26 +122,35 @@ public class LittleJerksonStringToGLIConverterTest {
     @Test
     public void littleJerksonStringNameParserTest1()   {
         String expected = "Milk";
-        String actual = littleJerksonStringToGLIConverter.littleJerksonStringNameParser(sampleLittleJerksonString1);
-        assertEquals(expected,actual);
+        try {
+            String actual = littleJerksonStringToGLIConverter.littleJerksonStringNameParser(sampleLittleJerksonString1);
+            assertEquals(expected,actual);
+        } catch (GroceryItemNotFoundException e){
+            e.printStackTrace(System.out);
+        }
+
     }
 
     @Test
     public void littleJerksonStringNameParserTest2()   {
         String expected = "Cookies";
-        String actual = littleJerksonStringToGLIConverter.littleJerksonStringNameParser(sampleLittleJerksonString2);
-        assertEquals(expected,actual);
+        try {
+            String actual = littleJerksonStringToGLIConverter.littleJerksonStringNameParser(sampleLittleJerksonString2);
+            assertEquals(expected, actual);
+        } catch (Exception e){
+            e.printStackTrace(System.out);
+        }
     }
 
     @Test
-    public void littleJerksonStringNameParserTest3()   {
+    public void littleJerksonStringNameParserTest3() throws Exception  {
         String expected = "Milk";
         String actual = littleJerksonStringToGLIConverter.littleJerksonStringNameParser(sampleLittleJerksonString3);
         assertEquals(expected,actual);
     }
 
     @Test
-    public void littleJerksonStringNameParserTest4()   {
+    public void littleJerksonStringNameParserTest4() throws Exception  {
         String expected = "Milk";
         String actual = littleJerksonStringToGLIConverter.littleJerksonStringNameParser(sampleLittleJerksonString4);
         assertEquals(expected,actual);

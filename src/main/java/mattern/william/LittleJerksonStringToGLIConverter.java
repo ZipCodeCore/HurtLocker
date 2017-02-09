@@ -14,14 +14,19 @@ public class LittleJerksonStringToGLIConverter {
 
 
     public GroceryListItem convertLittleJerksonStringToGLI(String littleJerksonString){
-        name = littleJerksonStringNameParser(littleJerksonString);
-        price = littleJerksonStringPriceParser(littleJerksonString);
-        type = littleJerksonStringTypeParser(littleJerksonString);
-        expDate = littleJerksonStringExpirationDateParser(littleJerksonString);
-        return new GroceryListItemBuilder().setName(name).setPrice(price).setType(type).setExpirationDate(expDate).createGroceryListItem();
+        try{
+            name = littleJerksonStringNameParser(littleJerksonString);
+        } catch (GroceryItemNotFoundException e){                                       //Catches the grocery item not found exception from the name parser
+            e.printStackTrace(System.out);
+        } finally {
+            price = littleJerksonStringPriceParser(littleJerksonString);
+            type = littleJerksonStringTypeParser(littleJerksonString);
+            expDate = littleJerksonStringExpirationDateParser(littleJerksonString);
+            return new GroceryListItemBuilder().setName(name).setPrice(price).setType(type).setExpirationDate(expDate).createGroceryListItem();
+        }
     }
 
-    public String littleJerksonStringNameParser(String littleJerksonString){
+    public String littleJerksonStringNameParser(String littleJerksonString) throws GroceryItemNotFoundException{
         String keyValuePair = nameKeyValuePairFinder(littleJerksonString);
         if(applesFinder(keyValuePair))
             return "Apples";
@@ -32,11 +37,30 @@ public class LittleJerksonStringToGLIConverter {
         else if(milkFinder(keyValuePair))
             return "Milk";
         else
-            return null;
+            throw new GroceryItemNotFoundException();
     }
 
     public String littleJerksonStringPriceParser(String littleJerksonString){
-        return priceFinder(littleJerksonString);
+        String parsedPrice = "";
+        try {
+            parsedPrice = priceFinder(littleJerksonString);
+        } catch (PriceNotFoundException e) {                                            //Catches the price not found exception from the price parser
+            e.printStackTrace(System.out);
+        } finally {
+            return parsedPrice;
+        }
+    }
+
+    public String priceFinder(String littleJerksonString) throws PriceNotFoundException {
+        String priceRegex = "\\d\\.\\d\\d";
+        Pattern pattern = Pattern.compile(priceRegex);
+        Matcher matcher = pattern.matcher(littleJerksonString);
+        if(matcher.find()) {
+            String priceMatch = matcher.group();
+            return priceMatch;
+        }else {
+            throw new PriceNotFoundException();
+        }
     }
 
     public String littleJerksonStringTypeParser(String littleJerksonString){ //Will always return "Food"
@@ -56,14 +80,7 @@ public class LittleJerksonStringToGLIConverter {
         return dateMatch;
     }
 
-    public String priceFinder(String littleJerksonString){
-        String priceRegex = "\\d\\.\\d\\d";
-        Pattern pattern = Pattern.compile(priceRegex);
-        Matcher matcher = pattern.matcher(littleJerksonString);
-        matcher.find();
-        String priceMatch = matcher.group();
-        return priceMatch;
-    }
+
 
     public String nameKeyValuePairFinder(String littleJerksonString){
         String nameKeyValuePairRegex = "[nN][aA][mM][eE]:\\w*[;:]";
