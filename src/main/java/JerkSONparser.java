@@ -13,7 +13,7 @@ public class JerkSONparser
         Pattern groups = Pattern.compile("[^#]+?(?=##)");
         Matcher groupMatch = groups.matcher(txt);
 
-        StringBuffer result = new StringBuffer();
+        //StringBuffer result = new StringBuffer();
         while (groupMatch.find())
         {
             //result.append(groupMatch.group());
@@ -25,17 +25,22 @@ public class JerkSONparser
 
     }
 
-    public ArrayList<String> extractMilk(ArrayList<String> groups)
+    public ArrayList<String> extractItems(ArrayList<String> groups)
     {
-        ArrayList<String> milksArray = new ArrayList<String>();
+        ArrayList<String> keysValuesArray = new ArrayList<String>();
 
-        for (String milk : milksArray
+        for (String group : groups
                 )
         {
-            Pattern milks = Pattern.compile("[^#]+?(?=##)");
-            Matcher milkMatch = milks.matcher(milk);
+            Pattern items = Pattern.compile("[^;|:|!|#|%|^]+?(?=([;|:|!|#|%|^]))");
+            Matcher itemMatch = items.matcher(group);
+
+            //StringBuffer result = new StringBuffer();
+            while (itemMatch.find()){
+                keysValuesArray.add(itemMatch.group());
+            }
         }
-        return null;
+        return keysValuesArray;
     }
 
 }

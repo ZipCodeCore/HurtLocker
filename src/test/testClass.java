@@ -28,4 +28,16 @@ public class testClass
         //int expected = -1;//fail test
         assertEquals("should return groups between ## without ##", expected, actual);
     }
+
+    @Test
+    public void extractItemsTest()
+    {
+        testParser.extractItems(testParser.byGroups(raw));
+        System.out.println(testParser.extractItems(testParser.byGroups(raw)));
+        int actual = testParser.extractItems(testParser.byGroups(raw)).size();
+        int expected = 8;
+        assertEquals("should return number of items...8?", expected, actual);
+
+
+    }
 }
