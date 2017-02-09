@@ -1,6 +1,7 @@
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.theories.suppliers.TestedOn;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +23,11 @@ public class JSONFixerTest {
     public void breakLinesTest() {
         Assert.assertEquals(3, aJSONFixer.breakLines(testFeed).size());
         Assert.assertEquals("naME:BreaD;price:1.23", aJSONFixer.breakLines(testLine).get(0));
+    }
+
+    @Test
+    public void wholeLineTest() {
+        Assert.assertEquals(3, aJSONFixer.wholeLength(testFeed));
     }
 
 
