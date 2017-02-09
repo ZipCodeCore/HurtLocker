@@ -11,6 +11,7 @@ public class LittleJerksonStringToGLIConverterTest {
     String sampleLittleJerksonString2;
     String sampleLittleJerksonString3;
     String sampleLittleJerksonString4;
+    String sampleLittleJerksonString5;
 
 
     @Before
@@ -20,6 +21,34 @@ public class LittleJerksonStringToGLIConverterTest {
         sampleLittleJerksonString2 = "naMe:COOkieS;price:2.25;type:Food;expiration:1/25/2016";
         sampleLittleJerksonString3 = "naMe:MiLK;priCe:;type:Food;expiration:1/11/2016";
         sampleLittleJerksonString4 = "NAME:MilK;price:3.23;type:Food;expiration:1/17/2016";
+        sampleLittleJerksonString5 = "naMe:;price:3.23;type:Food^expiration:1/04/2016";
+    }
+
+    @Test
+    public void nameKeyValuePairFinderTest3(){
+        String expected = "naMe:;";
+        String actual = littleJerksonStringToGLIConverter.nameKeyValuePairFinder(sampleLittleJerksonString5);
+        assertEquals(expected,actual);
+    }
+
+    @Test
+    public void cookieFinderTest(){
+        assertTrue(littleJerksonStringToGLIConverter.cookieFinder("naMe:COOkieS;"));
+    }
+
+    @Test
+    public void milkFinderTest(){
+        assertTrue(littleJerksonStringToGLIConverter.milkFinder("naMe:Milk;"));
+    }
+
+    @Test
+    public void breadFinderTest(){
+        assertTrue(littleJerksonStringToGLIConverter.breadFinder("NAMe:BrEAD"));
+    }
+
+    @Test
+    public void applesFinderTest(){
+        assertTrue(littleJerksonStringToGLIConverter.applesFinder("NAMe:apPles"));
     }
 
     @Test
@@ -31,7 +60,7 @@ public class LittleJerksonStringToGLIConverterTest {
 
     @Test
     public void nameKeyValuePairFinderTest2(){
-        String expected = "naMe:COOkies;";
+        String expected = "naMe:COOkieS;";
         String actual = littleJerksonStringToGLIConverter.nameKeyValuePairFinder(sampleLittleJerksonString2);
         assertEquals(expected,actual);
     }

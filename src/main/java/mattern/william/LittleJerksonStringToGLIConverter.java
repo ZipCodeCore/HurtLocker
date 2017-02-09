@@ -14,7 +14,17 @@ public class LittleJerksonStringToGLIConverter {
     String expDate;
 
     public String littleJerksonStringNameParser(String littleJerksonString){
-        return null;
+        String keyValuePair = nameKeyValuePairFinder(littleJerksonString);
+        if(applesFinder(keyValuePair))
+            return "Apples";
+        else if(breadFinder(keyValuePair))
+            return "Bread";
+        else if(cookieFinder(keyValuePair))
+            return "Cookies";
+        else if(milkFinder(keyValuePair))
+            return "Milk";
+        else
+            return null;
     }
 
     public String littleJerksonStringPriceParser(String littleJerksonString){
@@ -51,8 +61,37 @@ public class LittleJerksonStringToGLIConverter {
         String nameKeyValuePairRegex = "[nN][aA][mM][eE]:\\w*[;:]";
         Pattern pattern = Pattern.compile(nameKeyValuePairRegex);
         Matcher matcher = pattern.matcher(littleJerksonString);
+        matcher.find();
         String nameKeyValuePair = matcher.group();
         return nameKeyValuePair;
+    }
 
+    public boolean cookieFinder(String nameKeyValuePair){
+        String cookieRegex = "[cC]\\w\\w[kK][iI][eE][sS]";
+        Pattern pattern = Pattern.compile(cookieRegex);
+        Matcher matcher = pattern.matcher(nameKeyValuePair);
+        return matcher.find();
+    }
+
+    public boolean milkFinder(String nameKeyValuePair){
+        String milkRegex = "[mM][iI1][lL1][kKcC]";
+        Pattern pattern = Pattern.compile(milkRegex);
+        Matcher matcher = pattern.matcher(nameKeyValuePair);
+        return matcher.find();
+    }
+
+
+    public boolean breadFinder(String nameKeyValuePair){
+        String breadRegex = "[bBdD][rR][eE][aA4][dDbB]";
+        Pattern pattern = Pattern.compile(breadRegex);
+        Matcher matcher = pattern.matcher(nameKeyValuePair);
+        return matcher.find();
+    }
+
+    public boolean applesFinder(String nameKeyValuePair){
+        String applesRegex = "[aA][pP][pP][lL][eE][sS]";
+        Pattern pattern = Pattern.compile(applesRegex);
+        Matcher matcher = pattern.matcher(nameKeyValuePair);
+        return matcher.find();
     }
 }
