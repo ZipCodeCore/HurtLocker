@@ -1,5 +1,6 @@
+package mccann.kevin.hurtlocker;
+
 import org.apache.commons.io.IOUtils;
-import java.io.IOException;
 
 public class Main {
 
@@ -12,11 +13,6 @@ public class Main {
     public static void main(String[] args) throws Exception{
         String output = (new Main()).readRawDataToString();
         ItemParser parser = new ItemParser();
-        parser.createItemFromFields(output);
-        parser.makeListIntoSet();
-        parser.makeListIntoString();
-        parser.listAsMap();
-        System.out.println(parser.outputCreator());
-
+        parser.run(output);
     }
 }

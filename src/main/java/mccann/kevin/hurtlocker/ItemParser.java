@@ -1,6 +1,11 @@
+package mccann.kevin.hurtlocker;
+
+import com.sun.javafx.binding.StringFormatter;
+
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 
 /**
  * Created by kevinmccann on 2/8/17.
@@ -8,25 +13,21 @@ import java.util.regex.Pattern;
 public class ItemParser {
 
     private int errorCount = 0;
-    int[] counters = new int[4];
 
     private String itemSplit = "((##))";
     private String stringSplit = "([:;^@%*!])";
-    private String fieldSplit = "([A-Za-z0-9//.]+)";
+    private String fieldSplit = "([A-Za-z0-9/.]+)";
 
     Pattern field = Pattern.compile(fieldSplit);
 
     ArrayList<Item> itemList = new ArrayList<Item>();
     ArrayList<String> itemStringList = new ArrayList<String>();
+    ArrayList<String> justNamesOfItems = new ArrayList<String>();
     HashSet<String> itemSet = new HashSet<String>();
     HashMap<String, Integer> map = new HashMap<String, Integer>();
 
     void addItemToList(Item item) {
         itemList.add(item);
-    }
-
-    String[] splitItems(String list) {
-        return list.split(itemSplit);
     }
 
     String[] splitStrings(String singleItem) {
@@ -73,14 +74,6 @@ public class ItemParser {
         return itemList;
     }
 
-    int[] countCreator () {
-        int[] counts = new int[itemSet.size()];
-        for (int i = 0; i<itemSet.size();i++) {
-            counts[i] = Collections.frequency(itemStringList, itemSet.iterator().next());
-        }
-        return counts;
-    }
-
     void makeListIntoSet() {
         for(Item item: itemList)
             if(!(item.getName()==null||item.getPrice()==null))
@@ -93,11 +86,7 @@ public class ItemParser {
         }
     }
 
-    int getCount(String name) {
-        return Collections.frequency(itemStringList, "((milk))*");
-    }
-
-    Map listAsMap() {
+    Map listAsMapAsCounter() {
         HashMap<String, Integer> map = new HashMap<String, Integer>();
         for(String string : itemStringList){
             Integer count = map.get(string);
@@ -105,6 +94,14 @@ public class ItemParser {
         }
         this.map = map;
         return map;
+    }
+
+    ArrayList<String> listAsJustNames() {
+        for(Item item : itemList) {
+            if(!(justNamesOfItems.contains(item.getName())))
+                justNamesOfItems.add(item.getName());
+        }
+        return justNamesOfItems;
     }
 
     String outputCreator() {
@@ -138,9 +135,27 @@ public class ItemParser {
         s.append("Price: \t " + set[5].toString().substring(6,10));
         s.append("\t\t seen: " + map.get(set[5]) + " times\n");
         s.append("-------------\t\t -------------\n\n");
-        s.append("Errors\t\t\t\t seen: "+errorCount+" times\n");
+        s.append("Errors\t\t\t\t seen: "+getErrorCount()+" times\n");
 
         return s.toString();
     }
 
+//    String outputCreatorScalable() {
+//        StringBuilder n = new StringBuilder();
+//        Object[] set = itemSet.toArray();
+//        for(int i = 0; i<justNamesOfItems.size(); i++) {
+//            n.append("name:    " + justNamesOfItems.get(i) + " \t\t seen: ");
+//            n.append(map.get(justNamesOfItems.get(i))+ " times\n");
+//            n.append("============= 	 	 =============\n");
+//        }
+//        return n.toString();
+//    }
+
+    public void run(String s) throws NoValueFoundException{
+        createItemFromFields(s);
+        makeListIntoSet();
+        makeListIntoString();
+        listAsMapAsCounter();
+        System.out.println(outputCreator());
+    }
 }
