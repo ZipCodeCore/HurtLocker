@@ -25,6 +25,41 @@ public class LittleJerksonStringToGLIConverterTest {
     }
 
     @Test
+    public void getLittleJerksonStringToGLIConverterTest1() {
+       String expected = "Milk,3.23,Food,1/25/2016";
+       String actual = littleJerksonStringToGLIConverter.convertLittleJerksonStringToGLI(sampleLittleJerksonString1).toString();
+       assertEquals(expected,actual);
+    }
+
+    @Test
+    public void getLittleJerksonStringToGLIConverterTest2() {
+        String expected = "Cookies,2.25,Food,1/25/2016";
+        String actual = littleJerksonStringToGLIConverter.convertLittleJerksonStringToGLI(sampleLittleJerksonString2).toString();
+        assertEquals(expected,actual);
+    }
+
+    @Test
+    public void getLittleJerksonStringToGLIConverterTest3() {
+        String expected = "error";
+        String actual = littleJerksonStringToGLIConverter.convertLittleJerksonStringToGLI(sampleLittleJerksonString3).toString();
+        assertEquals(expected,actual);
+    }
+
+    @Test
+    public void getLittleJerksonStringToGLIConverterTest4() {
+        String expected = "Milk,3.23,Food,1/17/2016";
+        String actual = littleJerksonStringToGLIConverter.convertLittleJerksonStringToGLI(sampleLittleJerksonString4).toString();
+        assertEquals(expected,actual);
+    }
+
+    @Test
+    public void getLittleJerksonStringToGLIConverterTest5() {
+        String expected = "error";
+        String actual = littleJerksonStringToGLIConverter.convertLittleJerksonStringToGLI(sampleLittleJerksonString5).toString();
+        assertEquals(expected,actual);
+    }
+
+    @Test
     public void nameKeyValuePairFinderTest3(){
         String expected = "naMe:;";
         String actual = littleJerksonStringToGLIConverter.nameKeyValuePairFinder(sampleLittleJerksonString5);
