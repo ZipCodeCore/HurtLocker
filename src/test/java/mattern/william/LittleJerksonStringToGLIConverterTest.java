@@ -23,9 +23,30 @@ public class LittleJerksonStringToGLIConverterTest {
     }
 
     @Test
-    public void nameKVPairFinderTest(){
+    public void nameKeyValuePairFinderTest1(){
         String expected = "naMe:Milk;";
-        String actual = littleJerksonStringToGLIConverter.nameKVPairFinder(sampleLittleJerksonString1);
+        String actual = littleJerksonStringToGLIConverter.nameKeyValuePairFinder(sampleLittleJerksonString1);
+        assertEquals(expected,actual);
+    }
+
+    @Test
+    public void nameKeyValuePairFinderTest2(){
+        String expected = "naMe:COOkies;";
+        String actual = littleJerksonStringToGLIConverter.nameKeyValuePairFinder(sampleLittleJerksonString2);
+        assertEquals(expected,actual);
+    }
+
+    @Test
+    public void priceFinderTest(){
+        String expected = "3.23";
+        String actual = littleJerksonStringToGLIConverter.priceFinder(sampleLittleJerksonString1);
+        assertEquals(expected,actual);
+    }
+
+    @Test
+    public void dateFinderTest(){
+        String expected = "1/25/2016";
+        String actual = littleJerksonStringToGLIConverter.dateFinder(sampleLittleJerksonString1);
         assertEquals(expected,actual);
     }
 
