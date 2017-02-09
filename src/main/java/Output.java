@@ -1,6 +1,3 @@
-import com.sun.tools.doclets.formats.html.FieldWriterImpl;
-import com.sun.tools.doclets.formats.html.SourceToHTMLConverter;
-
 import java.util.*;
 
 /**
@@ -40,7 +37,7 @@ public class Output {
     public void outputFormattedItemList(ArrayList<GroceryItem> list){
         System.out.println(outputName(list.get(0).getClass().getSimpleName())+outputSeen(list.size()));
         System.out.println(itemUnderLines());
-        list.sort(GroceryItem.priceComparotor);
+        list.sort(GroceryItem.priceComparator);
         int occurrence = 0;
         String currentPrice = list.get(0).getPrice();
         for (GroceryItem item: list) {
@@ -58,9 +55,9 @@ public class Output {
     }
 
     public void outputFullList(TreeMap list){
-        Set keys = list.entrySet();
+        Set keys = list.keySet();
         for(Iterator i = keys.iterator();i.hasNext();){
-            String key = (String) i.next();
+            String key = i.next().toString();
             ArrayList<GroceryItem> values = (ArrayList<GroceryItem>) list.get(key);
             outputFormattedItemList(values);
         }

@@ -27,11 +27,11 @@ public class GroceryItem implements  Comparator<GroceryItem>{
         return expiration;
     }
 
-    public static Comparator<GroceryItem> priceComparotor = (g1, g2) -> g1.getPrice().compareTo(g2.getPrice());
+    public static Comparator<GroceryItem> priceComparator = (g1, g2) -> g1.getPrice().compareTo(g2.getPrice());
 
 
     @Override
-    public int compare(GroceryItem o1, GroceryItem o2) {
+    public int compare(GroceryItem g1, GroceryItem g2) {
         return 0;
     }
 }

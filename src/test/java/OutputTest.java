@@ -10,6 +10,7 @@ public class OutputTest {
     Output output;
     Milk milk;
     Milk milk2;
+    Bread bread;
 
     @Before
     public void setUp(){
@@ -17,9 +18,15 @@ public class OutputTest {
         output = new Output();
         milk = new Milk("3.23", "Food", "01/11/1111" );
         milk2 = new Milk("3.25", "Food", "01/11/1111" );
+        bread = new Bread("0.99", "Food","1/11/1111");
         gList.add(milk);
         gList.add(milk);
         gList.add(milk2);
+        gList.add(bread);
+        gList.add(bread);
+        gList.add(bread);
+        gList.add(bread);
+
 
     }
     @Test
@@ -45,6 +52,11 @@ public class OutputTest {
 
     @Test
     public void outputFormattedList(){
-        output.outputFormattedList(gList.groceryList.get("Milk"));
+        output.outputFormattedItemList(gList.groceryList.get("Milk"));
+    }
+
+    @Test
+    public void outputFullList(){
+        output.outputFullList(gList.groceryList);
     }
 }
