@@ -2,6 +2,7 @@ package mattern.william;
 
 import org.apache.commons.io.IOUtils;
 
+
 public class Main {
 
 
@@ -18,7 +19,6 @@ public class Main {
 
         String rawData = (new Main()).readRawDataToString();
         GroceryList groceryList = inputHandler.handleInput(rawData);
-        finalReport = outputHandler.printGroceryReport(groceryList);
-        System.out.println(finalReport);
+        outputHandler.printGroceryReport(groceryList);
     }
 }
