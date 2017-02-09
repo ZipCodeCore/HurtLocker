@@ -7,11 +7,19 @@ import java.util.regex.Pattern;
  * Created by williammattern on 2/8/17.
  */
 public class LittleJerksonStringToGLIConverter {
-    GroceryListItem groceryListItem;
     String name;
     String price;
     String type; //Will always be "Food"
     String expDate;
+
+
+    public GroceryListItem convertLittleJerksonStringToGLI(String littleJerksonString){
+        name = littleJerksonStringNameParser(littleJerksonString);
+        price = littleJerksonStringPriceParser(littleJerksonString);
+        type = littleJerksonStringTypeParser(littleJerksonString);
+        expDate = littleJerksonStringExpirationDateParser(littleJerksonString);
+        return new GroceryListItemBuilder().setName(name).setPrice(price).setType(type).setExpirationDate(expDate).createGroceryListItem();
+    }
 
     public String littleJerksonStringNameParser(String littleJerksonString){
         String keyValuePair = nameKeyValuePairFinder(littleJerksonString);
