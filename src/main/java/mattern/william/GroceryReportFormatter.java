@@ -14,6 +14,17 @@ public class GroceryReportFormatter {
     String drillDownLine = drillDownBreak + airGap + drillDownBreak;
     String basicBreakLine = basicBreak + airGap + basicBreak;
 
+    public String formatGroceryListReportWithoutErrorHandling(GroceryList groceryList){
+        String[] groceryListItems = new String[]{"Milk","Bread","Cookies","Apples"};
+        StringBuilder groceryListReport = new StringBuilder();
+        String singleItemString;
+        for (String groceryListItem: groceryListItems){
+            singleItemString = formatSingleItemGroceryReport(nameAndPriceCountMapper(groceryList,groceryListItem));
+            groceryListReport.append(singleItemString);
+        }
+        return groceryListReport.toString();
+    }
+
     public String formatSingleItemGroceryReport(TreeMap<String, Integer> singleItemData){
         StringBuilder singleItemString = new StringBuilder();
         int nameCount;
@@ -38,7 +49,9 @@ public class GroceryReportFormatter {
                 String priceLine = formatPriceLine(price,priceCount) + "\n";
                 singleItemString.append(priceLine).append(basicBreakLine).append("\n");
             }
+
         }
+        singleItemString.append("\n");
         return singleItemString.toString();
     }
 

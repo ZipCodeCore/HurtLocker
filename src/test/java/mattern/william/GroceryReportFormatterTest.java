@@ -19,10 +19,8 @@ public class GroceryReportFormatterTest {
     GroceryListItem cookies;
     GroceryListItem bread;
     GroceryListItem bread2;
-    GroceryListItem bread3, milk1, milk2, milk3, milk4, milk5;
+    GroceryListItem bread3, milk1, milk2, milk3, milk4, milk5, apples;
     TreeMap<String, Integer> singleItemData;
-
-
 
     @Before
     public void setUp(){
@@ -43,12 +41,21 @@ public class GroceryReportFormatterTest {
         milk3 = new GroceryListItemBuilder().setName("Milk").setPrice("3.23").createGroceryListItem();
         milk4 = new GroceryListItemBuilder().setName("Milk").setPrice("3.23").createGroceryListItem();
         milk5 = new GroceryListItemBuilder().setName("Milk").setPrice("3.23").createGroceryListItem();
+        apples = new GroceryListItemBuilder().setName("Apples").setPrice("0.23").createGroceryListItem();
         groceryList.addGroceryListItemToList(milk1);
         groceryList.addGroceryListItemToList(milk2);
         groceryList.addGroceryListItemToList(milk3);
         groceryList.addGroceryListItemToList(milk4);
         groceryList.addGroceryListItemToList(milk5);
+        groceryList.addGroceryListItemToList(apples);
         singleItemData = grf.nameAndPriceCountMapper(groceryList,"Milk");
+    }
+
+    @Test
+    public void formatGroceryListReportWithoutErrorHandlingTest(){
+        String expected = "";
+        String actual = grf.formatGroceryListReportWithoutErrorHandling(groceryList);
+        assertEquals(expected,actual);
     }
 
     @Test
