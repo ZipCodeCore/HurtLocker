@@ -14,6 +14,18 @@ public class GroceryReportFormatter {
     String drillDownLine = drillDownBreak + airGap + drillDownBreak;
     String basicBreakLine = basicBreak + airGap + basicBreak;
 
+    public String formatErrorHandling(){
+        StringBuilder errorLine = new StringBuilder();
+        return errorLine.append("Errors       ").append(airGap).append("seen: ").append(InputHandler.jerksonExceptions)
+                .append(" times").toString();
+    }
+
+    public String formatFinalReport(GroceryList groceryList){
+        String finalReport = formatGroceryListReportWithoutErrorHandling(groceryList);
+        finalReport += formatErrorHandling();
+        return finalReport;
+    }
+
     public String formatGroceryListReportWithoutErrorHandling(GroceryList groceryList){
         String[] groceryListItems = new String[]{"Milk","Bread","Cookies","Apples"};
         StringBuilder groceryListReport = new StringBuilder();

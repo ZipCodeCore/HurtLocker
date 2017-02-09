@@ -1,5 +1,6 @@
 package mattern.william;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -25,37 +26,39 @@ public class LittleJerksonStringToGLIConverterTest {
     }
 
     @Test
-    public void getLittleJerksonStringToGLIConverterTest1() {
+    public void getLittleJerksonStringToGLIConverterTest1() throws Exception {
        String expected = "Milk,3.23,Food,1/25/2016";
        String actual = littleJerksonStringToGLIConverter.convertLittleJerksonStringToGLI(sampleLittleJerksonString1).toString();
        assertEquals(expected,actual);
     }
 
     @Test
-    public void getLittleJerksonStringToGLIConverterTest2() {
+    public void getLittleJerksonStringToGLIConverterTest2() throws Exception {
         String expected = "Cookies,2.25,Food,1/25/2016";
         String actual = littleJerksonStringToGLIConverter.convertLittleJerksonStringToGLI(sampleLittleJerksonString2).toString();
         assertEquals(expected,actual);
     }
 
     @Test
-    public void getLittleJerksonStringToGLIConverterTest3() {
-        String expected = "error";
-        String actual = littleJerksonStringToGLIConverter.convertLittleJerksonStringToGLI(sampleLittleJerksonString3).toString();
+    public void getLittleJerksonStringToGLIConverterTest3()throws Exception {
+        int expected = 1;
+        littleJerksonStringToGLIConverter.convertLittleJerksonStringToGLI(sampleLittleJerksonString3);
+        int actual = InputHandler.jerksonExceptions;
         assertEquals(expected,actual);
     }
 
     @Test
-    public void getLittleJerksonStringToGLIConverterTest4() {
+    public void getLittleJerksonStringToGLIConverterTest4() throws Exception{
         String expected = "Milk,3.23,Food,1/17/2016";
         String actual = littleJerksonStringToGLIConverter.convertLittleJerksonStringToGLI(sampleLittleJerksonString4).toString();
         assertEquals(expected,actual);
     }
 
     @Test
-    public void getLittleJerksonStringToGLIConverterTest5() {
-        String expected = "error";
-        String actual = littleJerksonStringToGLIConverter.convertLittleJerksonStringToGLI(sampleLittleJerksonString5).toString();
+    public void getLittleJerksonStringToGLIConverterTest5() throws Exception {
+        int expected = 1;
+        littleJerksonStringToGLIConverter.convertLittleJerksonStringToGLI(sampleLittleJerksonString5);
+        int actual = InputHandler.jerksonExceptions;
         assertEquals(expected,actual);
     }
 
@@ -158,28 +161,30 @@ public class LittleJerksonStringToGLIConverterTest {
 
 
     @Test
-    public void littleJerksonStringPriceParserTest1()   {
+    public void littleJerksonStringPriceParserTest1()  throws Exception {
         String expected = "3.23";
         String actual = littleJerksonStringToGLIConverter.littleJerksonStringPriceParser(sampleLittleJerksonString1);
         assertEquals(expected,actual);
     }
 
     @Test
-    public void littleJerksonStringPriceParserTest2()   {
+    public void littleJerksonStringPriceParserTest2()  throws Exception {
         String expected = "2.25";
         String actual = littleJerksonStringToGLIConverter.littleJerksonStringPriceParser(sampleLittleJerksonString2);
         assertEquals(expected,actual);
     }
 
     @Test
-    public void littleJerksonStringPriceParserTest3()   {
-        String expected = "error";
-        String actual = littleJerksonStringToGLIConverter.littleJerksonStringPriceParser(sampleLittleJerksonString3);
+    public void littleJerksonStringPriceParserTest3()  throws Exception {
+        int expected = 2;
+        littleJerksonStringToGLIConverter.convertLittleJerksonStringToGLI(sampleLittleJerksonString3);
+        littleJerksonStringToGLIConverter.convertLittleJerksonStringToGLI(sampleLittleJerksonString5);
+        int actual = InputHandler.jerksonExceptions;
         assertEquals(expected,actual);
     }
 
     @Test
-    public void littleJerksonStringPriceParserTest4()   {
+    public void littleJerksonStringPriceParserTest4()  throws Exception {
         String expected = "3.23";
         String actual = littleJerksonStringToGLIConverter.littleJerksonStringPriceParser(sampleLittleJerksonString4);
         assertEquals(expected,actual);
@@ -239,5 +244,10 @@ public class LittleJerksonStringToGLIConverterTest {
         String expected = "1/17/2016";
         String actual = littleJerksonStringToGLIConverter.littleJerksonStringExpirationDateParser(sampleLittleJerksonString4);
         assertEquals(expected,actual);
+    }
+
+    @After
+    public void takeDown(){
+        InputHandler.jerksonExceptions = 0;
     }
 }

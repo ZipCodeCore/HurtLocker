@@ -118,4 +118,12 @@ public class GroceryReportFormatterTest {
         String actual = grf.formatSingleItemGroceryReport(singleItemData);
         assertEquals(expected,actual);
     }
+
+    @Test
+    public void formatFinalReportTest(){
+        String expected = "";
+        InputHandler.jerksonExceptions = 4;
+        String actual = grf.formatFinalReport(groceryList);
+        assertEquals(expected,actual);
+    }
 }

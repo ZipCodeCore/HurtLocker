@@ -13,16 +13,16 @@ public class LittleJerksonStringToGLIConverter {
     String expDate;
 
 
-    public GroceryListItem convertLittleJerksonStringToGLI(String littleJerksonString){
+
+    public GroceryListItem convertLittleJerksonStringToGLI(String littleJerksonString) throws GroceryItemNotFoundException {
         try{
             name = littleJerksonStringNameParser(littleJerksonString);
-        } catch (GroceryItemNotFoundException e){                                       //Catches the grocery item not found exception from the name parser
-            e.printStackTrace(System.out);
-        } finally {
             price = littleJerksonStringPriceParser(littleJerksonString);
             type = littleJerksonStringTypeParser(littleJerksonString);
             expDate = littleJerksonStringExpirationDateParser(littleJerksonString);
             return new GroceryListItemBuilder().setName(name).setPrice(price).setType(type).setExpirationDate(expDate).createGroceryListItem();
+        } catch (GroceryItemNotFoundException e){
+            throw new GroceryItemNotFoundException();
         }
     }
 
@@ -37,17 +37,16 @@ public class LittleJerksonStringToGLIConverter {
         else if(milkFinder(keyValuePair))
             return "Milk";
         else
+            InputHandler.jerksonExceptions++;
             throw new GroceryItemNotFoundException();
     }
 
-    public String littleJerksonStringPriceParser(String littleJerksonString){
-        String parsedPrice = "";
+    public String littleJerksonStringPriceParser(String littleJerksonString) throws GroceryItemNotFoundException{
+        String parsedPrice;
         try {
-            parsedPrice = priceFinder(littleJerksonString);
+            return parsedPrice = priceFinder(littleJerksonString);
         } catch (PriceNotFoundException e) {                                            //Catches the price not found exception from the price parser
-            e.printStackTrace(System.out);
-        } finally {
-            return parsedPrice;
+            throw new GroceryItemNotFoundException();
         }
     }
 
@@ -59,6 +58,7 @@ public class LittleJerksonStringToGLIConverter {
             String priceMatch = matcher.group();
             return priceMatch;
         }else {
+            InputHandler.jerksonExceptions++;
             throw new PriceNotFoundException();
         }
     }
