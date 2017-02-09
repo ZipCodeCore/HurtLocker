@@ -1,3 +1,5 @@
+package marwamilton;
+
 import java.util.regex.Pattern;
 
 /**
@@ -23,6 +25,6 @@ public class GroceryRegexEngine {
 
     Pattern[] GroceryPatterns = new Pattern[]{Milk,Bread,Cookies,Apples};
 
-    Pattern[] Prices = new Pattern[]{M123, M323, C225, A025, A023};
+    Pattern[] Prices = new Pattern[]{M323, M123, C225, A025, A023};
 
 }

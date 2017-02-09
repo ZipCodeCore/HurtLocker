@@ -1,3 +1,5 @@
+package marwamilton;
+
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -41,7 +43,7 @@ public class HurtLocker {
         return pairs;
     }
 
-    // make new list of list of pairs
+    // after splitting into name-value pairs, make new grocery list
     public List<List<String[]>> labelTheGroceries(List<String[]> baggedGroceries){
         List<List<String[]>> labelledGroceries = new ArrayList<List<String[]>>();
         for(String[] strarr : baggedGroceries){
@@ -54,20 +56,17 @@ public class HurtLocker {
     public List<List<String[]>> groupGroceries(Pattern pattern, List<List<String[]>> groceries){
         List<List<String[]>> groupedGroceries = new ArrayList<List<String[]>>();
         String oneGrocery = "";
-
         for (List<String[]> strarr : groceries){
-
             oneGrocery = handleMissing(strarr);
             Matcher m = pattern.matcher(oneGrocery);
             if (m.find()) {
                 groupedGroceries.add(strarr);
-                //System.out.println("milk!");
             }
         }
         return groupedGroceries;
     }
 
-    private String handleMissing(List<String[]> strarr){
+    String handleMissing(List<String[]> strarr){
         String toReturn = "";
         try{
             toReturn = strarr.get(0)[1];
@@ -126,10 +125,13 @@ public class HurtLocker {
 
     // prepare output for printing
     public String makePrintable( String[] ls, String[] hasBad){
+
+        ArrayList<String > sizer = new ArrayList<>();
+        Collections.addAll(sizer, hasBad);
         Arrays.sort(ls);
         String toPrint1 = String.format("name: %7s", ls[ls.length-1]);
         toPrint1 += "             ";
-        toPrint1 += String.format("seen: %d2 times", Arrays.asList(hasBad).size());
+        toPrint1 += String.format("seen: %d times", sizer.size()-1);
         toPrint1 += "\n==============            =============\n";
         for(int d=ls.length-2; d>=0; d--)
         if(!matchBad(ls[d])) {
@@ -140,29 +142,48 @@ public class HurtLocker {
                 toPrint1 += "\n______________            _____________\n";
             }
         }
+        //toPrint1 += "\n\nErrors                    seen: " + countNullElements(finalizeGroceries()) + " times";
         return toPrint1;
     }
 
-    private boolean matchBad(String x){
+    boolean matchBad(String x){
         Matcher m = groceryRegexEngine.BAD.matcher(x);
         return m.find();
     }
     /* */
 
-    private int matchPrice(Pattern[] pricePatterns, String[] groceryGroup){
+    int matchPrice(Pattern[] pricePatterns, String[] groceryGroup){
         int numMatches = 0;
-        for(Pattern p : pricePatterns){
-
+        for(int z=0; z<pricePatterns.length; z++){
+            numMatches=0;
             for(String s : groceryGroup) {
-                Matcher m = p.matcher(s);
+                Matcher m = pricePatterns[z].matcher(s);
                 if (m.find()) {
-                    numMatches = m.group().length();
-                    //System.out.println(m.group());
+                    numMatches++;
                 }
             }
-
+            if(numMatches>0) return numMatches;
         }
         return numMatches;
+    }
+
+    int countNullElements(List<String[]> finalizedGroceries){
+        String unSortedString = makeString.dumb;  // get derrty string
+        String[] unSortedStringSplit = unSortedString.split("[(##)]");  // split derrty string
+        List<String[]> baggedGroceries = bagGroceries(unSortedStringSplit);   // split each string in string into K-V pairs
+        List<List<String[]>> labelledGroceries = labelTheGroceries(baggedGroceries); // further split the actual K-V pairs
+
+        int foundNull = 0;
+        for(List<String[]> lsarr : labelledGroceries) {
+            for (String[] sarr : lsarr) {
+                if(sarr.length==1 && (sarr[0].split("[a-z]")).length > 1){
+                    //System.out.println(Arrays.toString(sarr));
+                    foundNull++;
+                }
+
+            }
+        }
+        return  foundNull;
     }
 
 

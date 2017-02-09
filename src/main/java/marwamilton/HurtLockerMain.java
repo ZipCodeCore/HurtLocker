@@ -1,4 +1,5 @@
-import java.util.Arrays;
+package marwamilton;
+
 import java.util.List;
 
 /**
@@ -67,20 +68,20 @@ public class HurtLockerMain {
         }
         /**/
 
+        /*
         for(String[] sarr : ht.finalizeGroceries())
             System.out.println(Arrays.toString(sarr));
 
         System.out.println();
         System.out.println("--------------------------------------------------------------------------");
+        /* */
+
         List<String[]> removedBadPrices = ht.removeBadPrices(ht.finalizeGroceries());
         List<String[]> withBadPrices = ht.finalizeGroceries();
-
         for(int x=0; x<removedBadPrices.size(); x++){
-            ///Arrays.sort(removedBadPrices.get);
-            //System.out.println(Arrays.asList(removedBadPrices.get(x)));
             System.out.println(ht.makePrintable(removedBadPrices.get(x), withBadPrices.get(x)));
             System.out.println();
-
         }
+        System.out.println("Errors                    seen: " + ht.countNullElements(ht.finalizeGroceries()) + " times");
     }
 }
