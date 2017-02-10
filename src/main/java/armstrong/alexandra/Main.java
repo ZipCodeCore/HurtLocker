@@ -1,5 +1,12 @@
+package armstrong.alexandra;
+
 import org.apache.commons.io.IOUtils;
-import java.io.IOException;
+
+import java.util.ArrayList;
+
+import static armstrong.alexandra.Display.displayItem;
+import static armstrong.alexandra.StringParse.cutString;
+import static armstrong.alexandra.StringParse.regEx;
 
 public class Main {
 
@@ -11,7 +18,11 @@ public class Main {
 
     public static void main(String[] args) throws Exception{
         String output = (new Main()).readRawDataToString();
-        System.out.println(output);
+        String[] trimmed = cutString(output);
+        ArrayList<GroceryItem> items = regEx(trimmed);
+        for(int i = 0; i < items.size(); i++){
+            displayItem(items.get(i));
+        }
 
     }
 }
