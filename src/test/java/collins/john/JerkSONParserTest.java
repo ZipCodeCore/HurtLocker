@@ -4,7 +4,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
@@ -47,24 +46,26 @@ public class JerkSONParserTest
     {
         ArrayList<String> tempTestArray = testParser.separateByGroups(raw);
         testParser.correctStringsFromByGroups(tempTestArray);
-        String actual = (tempTestArray.get(0)+" "+tempTestArray.get(1)).toString();
-                //System.out.println(tempTestArray);
+        String actual = (tempTestArray.get(0) + " " + tempTestArray.get(1)).toString();
+        //System.out.println(tempTestArray);
         //String expected = "fail";//fail test
         String expected = "name:Milk,Price:3.23,type:Food,expiration:1/25/2016 name:Bread,Price:1.23,type:Food,expiration:1/02/2016";
         assertEquals("should return all corrected, ready for toMap", expected, actual);
 
 
     }
+
     @Test
     public void convertGroupsToMapsTest()
     {
-        Map<String, String> testFinalMap;
+        ArrayList<Map<String, String>> testFinalArray;
         ArrayList<String> tempTestArray = testParser.separateByGroups(raw);
         testParser.correctStringsFromByGroups(tempTestArray);
-        testFinalMap = (HashMap<String, String>) testParser.convertGroupsToMaps(tempTestArray);
-        tempTestArray.toString();
-        int actual = testFinalMap.size();
-        int  expected = -1;//fail test
+        testFinalArray = testParser.convertGroupsToMaps(tempTestArray);
+        //System.out.println(tempTestArray.toString());
+        int actual = testFinalArray.size();
+        //int expected = -1;//fail test
+        int expected = 28;
         assertEquals("should return 28", expected, actual);
     }
 

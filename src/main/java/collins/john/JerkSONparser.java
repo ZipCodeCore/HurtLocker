@@ -230,7 +230,7 @@ public class JerkSONparser
 
     }
 
-    public void convertGroupsToMaps(ArrayList<String> groupsArray)
+    public ArrayList<Map<String, String>> convertGroupsToMaps(ArrayList<String> groupsArray)
     {
         String temp1;
         String temp2 = "";
@@ -268,7 +268,7 @@ public class JerkSONparser
             itemMap = tempMap;
             groupsMapsArray.add(itemMap);
         }
-        //return itemMap;
+        return groupsMapsArray;
     }
 
     public ArrayList<String> itemXgroupParser(String completeJerkSON)//does not work as needed
