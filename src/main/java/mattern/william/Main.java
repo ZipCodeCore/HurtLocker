@@ -1,7 +1,13 @@
+package mattern.william;
+
 import org.apache.commons.io.IOUtils;
-import java.io.IOException;
+
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class Main {
+
 
     public String readRawDataToString() throws Exception{
         ClassLoader classLoader = getClass().getClassLoader();
@@ -10,8 +16,12 @@ public class Main {
     }
 
     public static void main(String[] args) throws Exception{
-        String output = (new Main()).readRawDataToString();
-        System.out.println(output);
+        InputHandler inputHandler = new InputHandler();
+        OutputHandler outputHandler = new OutputHandler();
 
+        String output = (new Main()).readRawDataToString();
+
+        ArrayList<GroceryListItem> groceryList = inputHandler.handleInput(output);
+        outputHandler.printGroceryReport(groceryList);
     }
 }
