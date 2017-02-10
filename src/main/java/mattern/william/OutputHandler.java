@@ -22,7 +22,6 @@ public class OutputHandler {
             if (!file.exists()){
                 file.createNewFile();
             }
-
             FileWriter fw = new FileWriter(file);
             bw = new BufferedWriter(fw);
             bw.write(finalReport);
