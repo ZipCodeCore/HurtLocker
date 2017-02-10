@@ -1,4 +1,6 @@
-import java.util.ArrayList;
+package collins.john;
+
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -7,10 +9,10 @@ import java.util.regex.Pattern;
  */
 public class JerkSONparser
 {
-    public ArrayList<ArrayList> byGroups(String txt)
+    public ArrayList<String> separateByGroups(String txt)
     {
-        ArrayList<String> groupArray;// = new ArrayList<String>();
-        ArrayList<ArrayList> keysXvaluesArray = new ArrayList<ArrayList>();
+        ArrayList<String> groupArray = new ArrayList<String>();
+        //ArrayList<ArrayList> keysXvaluesArray = new ArrayList<ArrayList>();
 
         Pattern groups = Pattern.compile("[^#]+");
         Matcher groupMatch = groups.matcher(txt);
@@ -18,45 +20,59 @@ public class JerkSONparser
         //StringBuffer result = new StringBuffer();
         while (groupMatch.find())
         {
-            groupArray = new ArrayList<String>();
+            //groupArray = new ArrayList<String>();
             //result.append(groupMatch.group());
             groupArray.add(groupMatch.group());
-            keysXvaluesArray.add(groupArray);
+            //keysXvaluesArray.add(groupArray);
         }
         //return result.toString();
         //return groupMatch.group();
-        return keysXvaluesArray;
+        return groupArray;
 
     }
 
-    public String formatItemsPunctuation(ArrayList<String> groupArray)
+    public void formatItemsPunctuation(ArrayList<String> groupArray)
     {
         String fixedString = "";
-        for (String txt : groupArray
+        for (String workingString : groupArray
                 )
         {
-            Pattern pPattern = Pattern.compile("[;|!|#|%|^|@]");
-            Matcher mMatcher = pPattern.matcher(txt);
+            Pattern puncPattern = Pattern.compile("[;|!|%|^|@]");
+            Matcher puncMatcher = puncPattern.matcher(workingString);
 
-            StringBuffer result = new StringBuffer();
-            while (mMatcher.find())
+            StringBuffer puncBuffer = new StringBuffer();
+            while (puncMatcher.find())
             {
-                mMatcher.appendReplacement(result, ",");
+                puncMatcher.appendReplacement(puncBuffer, ",");
             }
-            mMatcher.appendTail(result);
-            fixedString = result.toString();
+            puncMatcher.appendTail(puncBuffer);
+            workingString = puncBuffer.toString();
         }
-        return fixedString;
+        //return fixedString;
     }
 
-    public String correctKeysSpelling(ArrayList<String> groupArray)
+    public String correctStringsFromByGroups(ArrayList<String> groupArray)
     {
         String workingString = "";
-        for (String txt : groupArray
-                )
-        {   //name
+        for (int i = 0; i < groupArray.size(); i++)
+        {
+            workingString = groupArray.get(i);
+            //punctuation
+            Pattern puncPattern = Pattern.compile("[;|!|%|^|@]");
+            Matcher puncMatcher = puncPattern.matcher(workingString);
+
+            StringBuffer puncBuffer = new StringBuffer();
+            while (puncMatcher.find())
+            {
+                puncMatcher.appendReplacement(puncBuffer, ",");
+            }
+            puncMatcher.appendTail(puncBuffer);
+            workingString = puncBuffer.toString();
+
+
+            //name
             Pattern namePattern = Pattern.compile("((?i)(n.{2}e))");
-            Matcher nameMatcher = namePattern.matcher(txt);
+            Matcher nameMatcher = namePattern.matcher(workingString);
 
             StringBuffer nameBuffer = new StringBuffer();
             while (nameMatcher.find())
@@ -101,9 +117,59 @@ public class JerkSONparser
             expMatcher.appendTail(expBuffer);
             workingString = expBuffer.toString();
 
+//add values spelling here
+            //Milk
+            Pattern milkPattern = Pattern.compile("((?i)(m.{2}k))");
+            Matcher milkMatcher = milkPattern.matcher(workingString);
+
+            StringBuffer milkBuffer = new StringBuffer();
+            while (milkMatcher.find())
+            {
+                milkMatcher.appendReplacement(milkBuffer, "Milk");
+            }
+            milkMatcher.appendTail(milkBuffer);
+            workingString = milkBuffer.toString();
+
+            //Bread
+            Pattern breadPattern = Pattern.compile("(?i)(b.{3}d)");
+            Matcher breadMatcher = breadPattern.matcher(workingString);
+
+            StringBuffer breadBuffer = new StringBuffer();
+            while (breadMatcher.find())
+            {
+                breadMatcher.appendReplacement(breadBuffer, "Bread");
+            }
+            breadMatcher.appendTail(breadBuffer);
+            workingString = breadBuffer.toString();
+
+            //Cookies
+            Pattern cookiesPattern = Pattern.compile("(?i)(c.{5}s)");
+            Matcher cookiesMatcher = cookiesPattern.matcher(workingString);
+
+            StringBuffer cookiesBuffer = new StringBuffer();
+            while (cookiesMatcher.find())
+            {
+                cookiesMatcher.appendReplacement(cookiesBuffer, "Cookies");
+            }
+            cookiesMatcher.appendTail(cookiesBuffer);
+            workingString = cookiesBuffer.toString();
+
+            //Food
+            Pattern foodPattern = Pattern.compile("(?i)(f.{2}d)");
+            Matcher foodMatcher = foodPattern.matcher(workingString);
+            StringBuffer foodBuffer = new StringBuffer();
+            while (foodMatcher.find())
+            {
+                foodMatcher.appendReplacement(foodBuffer, "Food");
+            }
+            foodMatcher.appendTail(foodBuffer);
+            workingString = foodBuffer.toString();
+
+            groupArray.set(i , workingString);
 
         }
-        return workingString;
+        return groupArray.toString();
+
     }
 
     public String correctValuesSpelling(ArrayList<String> groupArray)
@@ -164,6 +230,47 @@ public class JerkSONparser
 
     }
 
+    public void convertGroupsToMaps(ArrayList<String> groupsArray)
+    {
+        String temp1;
+        String temp2 = "";
+        ArrayList<Map<String, String>> groupsMapsArray = new ArrayList<Map<String, String>>();
+        Map<String, String> itemMap;
+        String workingString;
+        String itemString;
+        for (int i = 0; i < groupsArray.size(); i++)
+
+        {
+            workingString = groupsArray.get(i);
+            HashMap<String, String> tempMap = new HashMap<String, String>();
+            Pattern pairPattern = Pattern.compile("[^,]+");
+            Matcher pairMatcher = pairPattern.matcher(workingString);
+            while (pairMatcher.find())
+            {
+                workingString = pairMatcher.group();
+                Pattern kXvPattern = Pattern.compile("[^:]+");
+                Matcher kXvMatcher = kXvPattern.matcher(workingString);
+                while (kXvMatcher.find())
+                {
+                    temp1 = kXvMatcher.group();
+                    if (tempMap.containsKey(temp2))
+                    {
+                        tempMap.put(temp2, temp1);
+                        temp1 = "";
+                        temp2 = temp1;
+                    } else
+                    {
+                        tempMap.put(temp1, temp1);
+                        temp2 = temp1;
+                    }
+                }
+            }
+            itemMap = tempMap;
+            groupsMapsArray.add(itemMap);
+        }
+        //return itemMap;
+    }
+
     public ArrayList<String> itemXgroupParser(String completeJerkSON)//does not work as needed
     {
 
@@ -183,7 +290,7 @@ public class JerkSONparser
         }
         return keysValuesArray;
     }
-/*
+/*  //not allowed to use .replaceAll() in this project
     public String errorCorrector(String errorString)
     {
         //keys grammar corrections
