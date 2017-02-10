@@ -24,6 +24,5 @@ public class Regex {
     static Pattern price123 = Pattern.compile("[1][.][2][3]");
     static Pattern price225 = Pattern.compile("[2][.][2][5]");
     static Pattern price25 = Pattern.compile("[.][2][5]");
-    static Pattern price23 = Pattern.compile("[.][2][3]");
 
 }
