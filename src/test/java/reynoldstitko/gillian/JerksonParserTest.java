@@ -47,8 +47,8 @@ public class JerksonParserTest {
     public void createIndividualGroceryItemsTest(){
         String[] incomingArray = {"name:Milk;price:1.23;type:Food;expiration:2/25/2016",
                 "name:Cookies;price:2.25;type:Food;expiration:1/11/2016"};
-        GroceryItem g1 = new GroceryItem("Milk", 1.23);
-        GroceryItem g2 = new GroceryItem("Cookies", 2.25);
+        GroceryItem g1 = new GroceryItem("Milk", "1.23");
+        GroceryItem g2 = new GroceryItem("Cookies", "2.25");
         GroceryItem[] expected = {g1, g2};
         GroceryItem[] actual = jerksonParser.createGroceryItemsArray(incomingArray, "##");
         assertSame(expected, actual);

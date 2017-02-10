@@ -1,8 +1,6 @@
 package reynoldstitko.gillian;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.*;
 
 /**
@@ -24,7 +22,9 @@ public class JerksonParser extends Exception {
 
     //Matcher: An engine that performs match operations on a character sequence by interpreting a Pattern.
     //A matcher is created from a pattern by invoking the pattern's matcher method.
-    //2. Get the various grocery item names; take a string array and go through each one (fix and prepare syntax for output)
+    //You have to create a matcher (RegEx) that captures ALL of the input string of interest. You also signify the
+    // parts of interest (that you wnat to keep) by enclosing those sections fo the RegEx in (). These will be placed
+    // in groups that you can assign to your output file.
 
     public ArrayList<String> findGroceryItems(String[] inputStringArray) {
         ArrayList<String> itemStrings = new ArrayList<>();
@@ -48,10 +48,40 @@ public class JerksonParser extends Exception {
         for (String item : inputStringArray) {
             Matcher m = p.matcher(item); //attempt to match the entire input sequence against the pattern
             if(m.find()){
-                priceStrings.add(m.group(2)); //Group 2 returns the item price.
+                priceStrings.add(m.group(2)); //Group 2 returns the item price; add that info to the array
             }
         }
         return priceStrings;
+    }
+
+    public Map<String, String> findItemPricesMap(String[] inputStringArray) {
+        Map<String, String> groceryItems = new HashMap<>();
+        String matcherText = "(?i)name:([a-z])?\\w*;price:(\\d\\.\\d\\d)?;[a-z]?\\w*:[a-z]?\\w*[\\;|\\^|\\%|\\*|\\!|\\@]\\w*:\\d?\\/\\d?\\d\\/\\d*";
+        Pattern p = Pattern.compile(matcherText);
+        //do first w/o a try/catch block
+       for(int i =0; i < inputStringArray.length; i++){
+           Matcher m = p.matcher(inputStringArray[i]); //attempt to match the entire input sequence against the pattern
+           if(m.find()){
+               groceryItems.put(m.group(1), m.group(2)); //Group 2 returns the item price; add that info to the array
+           }
+       }
+        return groceryItems;
+    }
+
+    public ArrayList<GroceryItem> combineItemsAndPrices(ArrayList<String> item, ArrayList<String> price) throws StringMismatchException {
+        ArrayList<GroceryItem> groceryItemList = new ArrayList<>();
+        for (int i = 0; i < item.size(); i++) {
+            try {
+
+                if (item.get(i) == null || price.get(i) == null)
+                    throw new StringMismatchException();
+                groceryItemList.add(new GroceryItem(refactorNames(item.get(i)), price.get(i)));
+
+            } catch (StringMismatchException e) {
+                count = count + 1;
+            }
+            System.out.println(groceryItemList.size());
+        } return groceryItemList;
     }
 
     //2. apply regex to each row of data - split into component (GroceryItem) objects;
@@ -61,19 +91,26 @@ public class JerksonParser extends Exception {
         return null;
     }
 
-    public int missingItemsErrorCount(String[] input, String matcherText){
-        Pattern p = Pattern.compile(matcherText);
-        //do first w/o a try/catch block
-        int length = input.length;
-        System.out.println(length);
-        for (String item : input) {
-            Matcher m = p.matcher(item); //attempt to match the entire input sequence against the pattern
-            if(!m.find()){
 
-            } else {
-                count += count;
-            }
+//    public int countRepeatItems(){
+//        return Collections.frequency(groceryItems, "Milk");
+//    }
+
+    public String refactorNames(String letter){
+        String refactoredNames = "";
+        switch (letter.toLowerCase()){
+            case "b":
+                return "Bread";
+            case "a":
+                return "Apples";
+            case "m":
+                return "Milk";
+            case "c":
+                return "Cookies";
+            default:
+                return letter;
         }
-        return length-count;
     }
+
+
 }

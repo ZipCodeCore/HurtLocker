@@ -2,7 +2,7 @@ package reynoldstitko.gillian;
 
 import org.apache.commons.io.IOUtils;
 
-import java.util.ArrayList;
+import java.util.*;
 
 public class Main {
 
@@ -17,47 +17,56 @@ public class Main {
     public static void main(String[] args) throws StringMismatchException, Exception{
 
         JerksonParser jerksonParser = new JerksonParser();
+        GroceryItem groceryItem;
 
         String output = (new Main()).readRawDataToString();
 
         String[] result = jerksonParser.splitIncomingStringFile(output, "##");
 
-        //print out the string file after the split
-//        for(String value: result){
-//            System.out.println("Initial" + value);
-//        }
 
         ArrayList<String> output2 = jerksonParser.findItemPrices(result);
         ArrayList<String> output3 = jerksonParser.findGroceryItems(result);
+        ArrayList output4 = jerksonParser.combineItemsAndPrices(output3, output2);
 
-//        int missingPricesError = jerksonParser.missingItemsErrorCount(result, "[pP][rR][iI][cC][eE]:\\d");
-//        System.out.println(missingPricesError);
-        //ArrayList<String> sepsRemoved = jerksonParser.findGroceryItems(result, "[\\;|\\^|\\%|\\*|\\:]");
+        Set<GroceryItem> set = new HashSet<GroceryItem>(output4); //Create a new set
 
-        // /name:([a-z])?\w*;price:(\d\.\d\d)?;[a-z]?\w*:[a-z]?\w*[\;|\^|\%|\*|\!|\@]\w*:\d?\/\d?\d\/\d.*
+        Iterator<GroceryItem> it = set.iterator();
+        while(it.hasNext()){
+            System.out.println(it.next());
+        }
+        //System.out.println(set.size());
 
-//        ArrayList<String> apples = jerksonParser.findGroceryItems(appleSearcher, "([pP][pP][lL][eE][sS])");
-//        System.out.println(apples);
-
-        //ArrayList<String> test = jerksonParser.findGroceryItems(result, "([^@\\|^\\!|^\\^|^\\%])");
-        for(String value: output2){
-            System.out.println(value);
+        //http://learnfromexamples.com/how-to-find-the-occurrences-of-a-particular-element-in-an-arraylist-in-java/
+        //Overwrite equals method in the GroceryItem class
+        for (GroceryItem item: set){
+            System.out.println(Collections.frequency(output4, item));
         }
 
-        for(String value: output3){
-            System.out.println(value);
-        }
+        int result2 = Collections.frequency(output4, new GroceryItem("Milk", "3.23"));
+
+        int result3 = Collections.frequency(output4, new GroceryItem("Milk", "1.23"));
+//        System.out.println(result2);
+//        System.out.println(result3);
+//        System.out.println(output3);
+//        System.out.println(output2);
 
 
-//         ArrayList<String> cookies = jerksonParser.findGroceryItems(result, "([cC][oO][oO][kK][iI][eE][sS]|[cC][oO][0][kK][iI][eE][sS])");
-//         System.out.println(cookies);
+        //Map<String, String> output4 = jerksonParser.findItemPricesMap(result);
+
+//        for(String value: output2){
+//            System.out.println(value);
+//        }
 //
-//        ArrayList<String> apples = jerksonParser.findGroceryItems(result, "([pP][pP][lL][eE][sS])");
-//        System.out.println(apples);
-//
-//        ArrayList<String> milk = jerksonParser.findGroceryItems(result,"([mM][iI][lL][kK])" );
-//        System.out.println(milk);
+//        for(String value: output3){
+//            System.out.println(value);
+//        }
 
+//        for (Map.Entry<String, String> entry: output4.entrySet())  {
+//            String key = entry.getKey();
+//            String value = entry.getValue();
+//            System.out.println(key + " " + value);
+//        }
+        //output the hash map
 
     }
 
