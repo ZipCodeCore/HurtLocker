@@ -51,8 +51,6 @@ public class JerkSONParserTest
         //String expected = "fail";//fail test
         String expected = "name:Milk,Price:3.23,type:Food,expiration:1/25/2016 name:Bread,Price:1.23,type:Food,expiration:1/02/2016";
         assertEquals("should return all corrected, ready for toMap", expected, actual);
-
-
     }
 
     @Test
@@ -62,7 +60,7 @@ public class JerkSONParserTest
         ArrayList<String> tempTestArray = testParser.separateByGroups(raw);
         testParser.correctStringsFromByGroups(tempTestArray);
         testFinalArray = testParser.convertGroupsToMaps(tempTestArray);
-        //System.out.println(tempTestArray.toString());
+        System.out.println(tempTestArray.toString());
         int actual = testFinalArray.size();
         //int expected = -1;//fail test
         int expected = 28;

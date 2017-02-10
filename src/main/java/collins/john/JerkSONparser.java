@@ -58,7 +58,7 @@ public class JerkSONparser
         {
             workingString = groupArray.get(i);
             //punctuation
-            Pattern puncPattern = Pattern.compile("[;|!|%|^|@]");
+            Pattern puncPattern = Pattern.compile("[;|!|%|^|@|*]");
             Matcher puncMatcher = puncPattern.matcher(workingString);
 
             StringBuffer puncBuffer = new StringBuffer();
@@ -118,6 +118,18 @@ public class JerkSONparser
             workingString = expBuffer.toString();
 
 //add values spelling here
+            //Apples
+            Pattern applesPattern = Pattern.compile("((?i)(a.{4}s))");
+            Matcher applesMatcher = applesPattern.matcher(workingString);
+
+            StringBuffer applesBuffer = new StringBuffer();
+            while (applesMatcher.find())
+            {
+                applesMatcher.appendReplacement(applesBuffer, "Apples");
+            }
+            applesMatcher.appendTail(applesBuffer);
+            workingString = applesBuffer.toString();
+
             //Milk
             Pattern milkPattern = Pattern.compile("((?i)(m.{2}k))");
             Matcher milkMatcher = milkPattern.matcher(workingString);
@@ -171,7 +183,7 @@ public class JerkSONparser
         return groupArray.toString();
 
     }
-
+/*
     public String correctValuesSpelling(ArrayList<String> groupArray)
     {
         String workingString = "";
@@ -229,6 +241,7 @@ public class JerkSONparser
         return workingString;
 
     }
+    */
 
     public ArrayList<Map<String, String>> convertGroupsToMaps(ArrayList<String> groupsArray)
     {
