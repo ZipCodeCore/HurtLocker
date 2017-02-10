@@ -39,7 +39,7 @@ public class JerksonParserTest {
         expected.add("NAMe:BrEAD;price:1.23;type:Food;expiration:2/25/2016");
         //expected.add("naMe:MiLK;price:3.23;type:Food expiration:1/11/2016");
 
-        ArrayList<String> actual = jerksonParser.findGroceryItem(input, "EA");
+        ArrayList<String> actual = jerksonParser.findGroceryItems(input);
         assertEquals("Expect arrays to be equal", expected, actual);
     }
 
