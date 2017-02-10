@@ -4,6 +4,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 
 /**
  * Created by johncollins on 2/8/17.
@@ -45,12 +46,22 @@ public class testClass
         String expected = "naME:BreaD,price:1.23,type:Food,expiration:1/02/2016";
         assertEquals("should return number of items...8?", expected, actual);
     }
+
     @Test
-    public void correctKeysSpellingTest(){
+    public void correctKeysSpellingTest()
+    {
         String actual = testParser.correctKeysSpelling(groupArray);
         String expected = "fail";//fail test
         //String expected = "name:BreaD;price:1.23;type:Food@expiration:1/02/2016";
         assertEquals("should return 'name' correct spelling & lower case", expected, actual);
+    }
+
+    @Test
+    public void correctValuesSpellingTest()
+    {
+        String actual = testParser.correctValuesSpelling(groupArray);
+        String expected = "fail";//fail test
+        assertSame("should return with 'Bread' correct", expected, actual);
     }
 
 

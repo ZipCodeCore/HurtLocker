@@ -52,7 +52,6 @@ public class JerkSONparser
     public String correctKeysSpelling(ArrayList<String> groupArray)
     {
         String workingString = "";
-        String fixedString = "";
         for (String txt : groupArray
                 )
         {   //name
@@ -95,7 +94,7 @@ public class JerkSONparser
             Pattern expPattern = Pattern.compile("(?i)(e.{8}n)");
             Matcher expMatcher = expPattern.matcher(workingString);
             StringBuffer expBuffer = new StringBuffer();
-            while(expMatcher.find())
+            while (expMatcher.find())
             {
                 expMatcher.appendReplacement(expBuffer, "expiration");
             }
@@ -105,6 +104,64 @@ public class JerkSONparser
 
         }
         return workingString;
+    }
+
+    public String correctValuesSpelling(ArrayList<String> groupArray)
+    {
+        String workingString = "";
+        for (String txt : groupArray
+                )
+        {   //Milk
+            Pattern milkPattern = Pattern.compile("((?i)(m.{2}k))");
+            Matcher milkMatcher = milkPattern.matcher(txt);
+
+            StringBuffer milkBuffer = new StringBuffer();
+            while (milkMatcher.find())
+            {
+                milkMatcher.appendReplacement(milkBuffer, "Milk");
+            }
+            milkMatcher.appendTail(milkBuffer);
+            workingString = milkBuffer.toString();
+
+            //Bread
+            Pattern breadPattern = Pattern.compile("(?i)(b.{3}d)");
+            Matcher breadMatcher = breadPattern.matcher(workingString);
+
+            StringBuffer breadBuffer = new StringBuffer();
+            while (breadMatcher.find())
+            {
+                breadMatcher.appendReplacement(breadBuffer, "Bread");
+            }
+            breadMatcher.appendTail(breadBuffer);
+            workingString = breadBuffer.toString();
+
+            //Cookies
+            Pattern cookiesPattern = Pattern.compile("(?i)(c.{5}s)");
+            Matcher cookiesMatcher = cookiesPattern.matcher(workingString);
+
+            StringBuffer cookiesBuffer = new StringBuffer();
+            while (cookiesMatcher.find())
+            {
+                cookiesMatcher.appendReplacement(cookiesBuffer, "Cookies");
+            }
+            cookiesMatcher.appendTail(cookiesBuffer);
+            workingString = cookiesBuffer.toString();
+
+            //Food
+            Pattern foodPattern = Pattern.compile("(?i)(f.{2}d)");
+            Matcher foodMatcher = foodPattern.matcher(workingString);
+            StringBuffer foodBuffer = new StringBuffer();
+            while (foodMatcher.find())
+            {
+                foodMatcher.appendReplacement(foodBuffer, "Food");
+            }
+            foodMatcher.appendTail(foodBuffer);
+            workingString = foodBuffer.toString();
+
+
+        }
+        return workingString;
+
     }
 
     public ArrayList<String> itemXgroupParser(String completeJerkSON)//does not work as needed
