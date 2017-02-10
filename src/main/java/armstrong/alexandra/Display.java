@@ -24,16 +24,17 @@ public class Display {
     }
 
     public static void displayPrice(GroceryItem item){
-        String[] price = item.getPrice();
-        System.out.printf("Price:%7s", price[0]);
+        System.out.printf("Price:%7s", item.getPrice(0));
         displaySpaces();
-        displaySeenPrice(item);
+        displaySeen1Price(item);
         singleLine();
         displaySpaces();
         singleLine();
         System.out.println();
-        if(price[1] != null){
-            System.out.printf("Price:%7s", price[1]);
+        if(item.getPrice(1) != null){
+            System.out.printf("Price:%7s", item.getPrice(1));
+            displaySpaces();
+            displaySeen2Price(item);
         }
     }
 
@@ -45,12 +46,16 @@ public class Display {
         System.out.printf("seen: %d times\n", item.getNameCounter());
     }
 
-    public static void displaySeenPrice(GroceryItem item){
-        System.out.printf("seen: %d times\n", item.getNumberCounter());
+    public static void displaySeen1Price(GroceryItem item){
+        System.out.printf("seen: %d times\n", item.getPrice1Counter());
+    }
+
+    public static void displaySeen2Price(GroceryItem item){
+        System.out.printf("seen: %d times\n", item.getPrice2Counter());
     }
 
     public static void displayErrors(int errorCount){
-        System.out.printf("%13s", "Errors");
+        System.out.printf("%-13s", "Errors");
         displaySpaces();
         System.out.printf("seen: %d times", errorCount);
     }

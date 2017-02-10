@@ -4,6 +4,7 @@ import org.apache.commons.io.IOUtils;
 
 import java.util.ArrayList;
 
+import static armstrong.alexandra.Display.displayErrors;
 import static armstrong.alexandra.Display.displayItem;
 import static armstrong.alexandra.StringParse.cutString;
 import static armstrong.alexandra.StringParse.regEx;
@@ -23,6 +24,7 @@ public class Main {
         for(int i = 0; i < items.size(); i++){
             displayItem(items.get(i));
         }
+        displayErrors(StringParse.errorCounter);
 
     }
 }
