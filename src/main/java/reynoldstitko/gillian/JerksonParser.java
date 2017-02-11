@@ -10,6 +10,11 @@ public class JerksonParser extends Exception {
 
     //private ArrayList<String> cleanedStrings = new ArrayList<>();
     private Map<String, String> groceryItems = new HashMap<>();
+
+    public int getCount() {
+        return count;
+    }
+
     int count=0;
 
     //1. split incoming file into individual rows of data

@@ -18,6 +18,7 @@ public class Main {
 
         JerksonParser jerksonParser = new JerksonParser();
         GroceryItem groceryItem;
+        DataPrintout dataPrintout = new DataPrintout();
 
         String output = (new Main()).readRawDataToString();
 
@@ -30,21 +31,22 @@ public class Main {
 
         Set<GroceryItem> set = new HashSet<GroceryItem>(output4); //Create a new set
 
-        Iterator<GroceryItem> it = set.iterator();
-        while(it.hasNext()){
-            System.out.println(it.next());
-        }
+        System.out.print(dataPrintout.printSummaryTable(set, output4, jerksonParser.getCount()));
+
+
+//        Iterator<GroceryItem> it = set.iterator();
+//        while(it.hasNext()){
+//            System.out.println(it.next());
+//        }
         //System.out.println(set.size());
 
         //http://learnfromexamples.com/how-to-find-the-occurrences-of-a-particular-element-in-an-arraylist-in-java/
         //Overwrite equals method in the GroceryItem class
-        for (GroceryItem item: set){
-            System.out.println(Collections.frequency(output4, item));
-        }
 
-        int result2 = Collections.frequency(output4, new GroceryItem("Milk", "3.23"));
 
-        int result3 = Collections.frequency(output4, new GroceryItem("Milk", "1.23"));
+//        int result2 = Collections.frequency(output4, new GroceryItem("Milk", "3.23"));
+//
+//        int result3 = Collections.frequency(output4, new GroceryItem("Milk", "1.23"));
 //        System.out.println(result2);
 //        System.out.println(result3);
 //        System.out.println(output3);
