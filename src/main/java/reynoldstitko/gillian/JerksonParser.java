@@ -85,7 +85,6 @@ public class JerksonParser extends Exception {
             } catch (StringMismatchException e) {
                 count = count + 1;
             }
-            System.out.println(groceryItemList.size());
         } return groceryItemList;
     }
 

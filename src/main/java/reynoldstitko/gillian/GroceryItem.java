@@ -13,18 +13,22 @@ public class GroceryItem {
     private String expiration;
 
     public String getName() {
+
         return name;
     }
 
     public String getPrice() {
+
         return price;
     }
 
     public String getType() {
+
         return type;
     }
 
     public String getExpiration() {
+
         return expiration;
     }
 
@@ -48,6 +52,7 @@ public class GroceryItem {
 
     @Override
     public String toString(){
+
         return (name + " " + price);
     }
 
@@ -64,6 +69,7 @@ public class GroceryItem {
 
     @Override
     public int hashCode(){
+
         return Objects.hash(name, price);
     }
 

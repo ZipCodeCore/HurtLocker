@@ -54,6 +54,16 @@ public class DataPrintout {
         return sb.toString();
     }
 
+    public String groceryItemName(ArrayList<GroceryCartCreator> groceryItems, ){
+        StringBuilder sb = new StringBuilder();
+
+        for(int i=0; i< groceryItems.size(); i++){
+            sb.append(printNameAndTotalQuantity(groceryItems.get(i).);
+        }
+
+        return null;
+    }
+
     public String printPriceAndQuantity(String price, int quantity){
         if(quantity > 1){
             return(String.format("Price: %s\t\t seen: %d times", price, quantity));
@@ -66,10 +76,12 @@ public class DataPrintout {
     }
 
     public String printErrors(int error){
+
         return(String.format("Errors: \t\t\t\t seen: %d times", error));
     }
 
     public String printItemDivider(){
+
         return (String.format("=============\t\t============="));
     }
 

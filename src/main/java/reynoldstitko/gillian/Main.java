@@ -19,6 +19,7 @@ public class Main {
         JerksonParser jerksonParser = new JerksonParser();
         GroceryItem groceryItem;
         DataPrintout dataPrintout = new DataPrintout();
+        GroceryCartCreator groceryCartCreator = new GroceryCartCreator();
 
         String output = (new Main()).readRawDataToString();
 
@@ -27,9 +28,14 @@ public class Main {
 
         ArrayList<String> output2 = jerksonParser.findItemPrices(result);
         ArrayList<String> output3 = jerksonParser.findGroceryItems(result);
-        ArrayList output4 = jerksonParser.combineItemsAndPrices(output3, output2);
+        ArrayList output4 = jerksonParser.combineItemsAndPrices(output3, output2); //arraylist of items and prices
+        System.out.println(output4);
+
+        groceryCartCreator.createGroceryCart(output4);
+
 
         Set<GroceryItem> set = new HashSet<GroceryItem>(output4); //Create a new set
+        System.out.println(set);
 
         System.out.print(dataPrintout.printSummaryTable(set, output4, jerksonParser.getCount()));
 

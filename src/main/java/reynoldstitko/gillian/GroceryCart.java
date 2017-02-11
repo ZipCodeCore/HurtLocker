@@ -11,6 +11,7 @@ public class GroceryCart {
     ArrayList<ItemPriceAndQuantity> items;
 
     public GroceryCart(ArrayList<ItemPriceAndQuantity> items) {
+
         this.items = items;
     }
 
@@ -19,6 +20,7 @@ public class GroceryCart {
     }
 
     public void setItems(ArrayList<ItemPriceAndQuantity> items) {
+
         this.items = items;
     }
 }
