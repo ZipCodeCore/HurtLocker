@@ -35,6 +35,7 @@ public class DisplayFormatterTest
     public void aggragateDataTest()
     {
         testFormatter.aggregateData(testFinalArray);
+
         for (Map<String, String> item : testFinalArray
                 )
         {
@@ -44,7 +45,7 @@ public class DisplayFormatterTest
         System.out.println(testFormatter.breadCounter);
         System.out.println(testFormatter.cookiesCounter);
         System.out.println(testFormatter.milkCounter);
-        System.out.println(testFormatter.errorCounter);
+        System.out.println(testFormatter.fakeErrorCounter);
 
         System.out.println(testFormatter.applePrice);
         System.out.println(testFormatter.breadPrice);
@@ -52,9 +53,23 @@ public class DisplayFormatterTest
         System.out.println(testFormatter.milkPrice);
 
 
-        int actual = testFormatter.errorCounter;
+        int actual = testFormatter.fakeErrorCounter;
         //int expected = -1;//fail test
         int expected = 4;
         assertEquals("should return...", expected, actual);
+    }
+    @Test
+    public void countPricesTest(){
+        testFormatter.countPrices(testFinalArray);
+
+        System.out.println(testFormatter.applePrice);
+        System.out.println(testFormatter.breadPrice);
+        System.out.println(testFormatter.cookiesPrice);
+        System.out.println(testFormatter.milkPrice);
+
+    }
+    @Test
+    public void formatForScreenTest(){
+        System.out.println(testFormatter.formatForScreen());
     }
 }
