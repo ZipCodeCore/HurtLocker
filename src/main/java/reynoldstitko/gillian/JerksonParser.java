@@ -85,7 +85,6 @@ public class JerksonParser extends Exception {
             } catch (StringMismatchException e) {
                 count = count + 1;
             }
-            System.out.println(groceryItemList.size());
         } return groceryItemList;
     }
 
@@ -95,11 +94,6 @@ public class JerksonParser extends Exception {
 
         return null;
     }
-
-
-//    public int countRepeatItems(){
-//        return Collections.frequency(groceryItems, "Milk");
-//    }
 
     public String refactorNames(String letter){
         String refactoredNames = "";

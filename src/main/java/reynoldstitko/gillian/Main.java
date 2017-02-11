@@ -33,43 +33,6 @@ public class Main {
 
         System.out.print(dataPrintout.printSummaryTable(set, output4, jerksonParser.getCount()));
 
-
-//        Iterator<GroceryItem> it = set.iterator();
-//        while(it.hasNext()){
-//            System.out.println(it.next());
-//        }
-        //System.out.println(set.size());
-
-        //http://learnfromexamples.com/how-to-find-the-occurrences-of-a-particular-element-in-an-arraylist-in-java/
-        //Overwrite equals method in the GroceryItem class
-
-
-//        int result2 = Collections.frequency(output4, new GroceryItem("Milk", "3.23"));
-//
-//        int result3 = Collections.frequency(output4, new GroceryItem("Milk", "1.23"));
-//        System.out.println(result2);
-//        System.out.println(result3);
-//        System.out.println(output3);
-//        System.out.println(output2);
-
-
-        //Map<String, String> output4 = jerksonParser.findItemPricesMap(result);
-
-//        for(String value: output2){
-//            System.out.println(value);
-//        }
-//
-//        for(String value: output3){
-//            System.out.println(value);
-//        }
-
-//        for (Map.Entry<String, String> entry: output4.entrySet())  {
-//            String key = entry.getKey();
-//            String value = entry.getValue();
-//            System.out.println(key + " " + value);
-//        }
-        //output the hash map
-
     }
 
 }
