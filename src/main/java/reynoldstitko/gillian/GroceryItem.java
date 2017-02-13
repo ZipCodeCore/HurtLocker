@@ -51,15 +51,15 @@ public class GroceryItem extends TreeMap<String, ArrayList> {
 //    }
 
     //4. Calculate numeric data
-    public Double[] calculatePriceSummaryData(Double priceData){ //get sum of prices
+//    public Double[] calculatePriceSummaryData(Double priceData){ //get sum of prices
+//
+//        return null;
+//    }
 
-        return null;
-    }
-
-    public int calculateGroceryItemCount(GroceryItem groceryItem){ //get count of a grocery item
-
-        return -1;
-    }
+//    public int calculateGroceryItemCount(GroceryItem groceryItem){ //get count of a grocery item
+//
+//        return -1;
+//    }
 
     @Override
     public String toString(){

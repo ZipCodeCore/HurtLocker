@@ -59,19 +59,19 @@ public class JerksonParser extends Exception {
         return priceStrings;
     }
 
-    public Map<String, String> findItemPricesMap(String[] inputStringArray) {
-        Map<String, String> groceryItems = new HashMap<>();
-        String matcherText = "(?i)name:([a-z])?\\w*;price:(\\d\\.\\d\\d)?;[a-z]?\\w*:[a-z]?\\w*[\\;|\\^|\\%|\\*|\\!|\\@]\\w*:\\d?\\/\\d?\\d\\/\\d*";
-        Pattern p = Pattern.compile(matcherText);
-        //do first w/o a try/catch block
-       for(int i =0; i < inputStringArray.length; i++){
-           Matcher m = p.matcher(inputStringArray[i]); //attempt to match the entire input sequence against the pattern
-           if(m.find()){
-               groceryItems.put(m.group(1), m.group(2)); //Group 2 returns the item price; add that info to the array
-           }
-       }
-        return groceryItems;
-    }
+//    public Map<String, String> findItemPricesMap(String[] inputStringArray) {
+//        Map<String, String> groceryItems = new HashMap<>();
+//        String matcherText = "(?i)name:([a-z])?\\w*;price:(\\d\\.\\d\\d)?;[a-z]?\\w*:[a-z]?\\w*[\\;|\\^|\\%|\\*|\\!|\\@]\\w*:\\d?\\/\\d?\\d\\/\\d*";
+//        Pattern p = Pattern.compile(matcherText);
+//        //do first w/o a try/catch block
+//       for(int i =0; i < inputStringArray.length; i++){
+//           Matcher m = p.matcher(inputStringArray[i]); //attempt to match the entire input sequence against the pattern
+//           if(m.find()){
+//               groceryItems.put(m.group(1), m.group(2)); //Group 2 returns the item price; add that info to the array
+//           }
+//       }
+//        return groceryItems;
+//    }
 
     public ArrayList<GroceryItem> combineItemsAndPrices(ArrayList<String> item, ArrayList<String> price) throws StringMismatchException {
         ArrayList<GroceryItem> groceryItemList = new ArrayList<>();
@@ -89,15 +89,12 @@ public class JerksonParser extends Exception {
         } return groceryItemList;
     }
 
-<<<<<<< HEAD
-=======
     //2. apply regex to each row of data - split into component (GroceryItem) objects;
     // catch errors (missing price, missing name)
     public GroceryItem[] createGroceryItemsArray(String[] string, String matcher){ //throw errors; get array of [food, price]
 
         return null;
     }
->>>>>>> 8b7ae0061139b406bf6c019583a8aefbf3d32cdd
 
     public String refactorNames(String letter){
         switch (letter.toLowerCase()){

@@ -53,10 +53,10 @@ import static junit.framework.TestCase.assertEquals;
 //}
 
 
-    @Test
-    public void calculateGroceryItemCountTest(){
-        int expected = 3;
-        int actual = groceryItem.calculateGroceryItemCount(groceryItem);
-        assertEquals("Expected to get 3 items", expected, actual);
-    }
+//    @Test
+//    public void calculateGroceryItemCountTest(){
+//        int expected = 3;
+//        int actual = groceryItem.calculateGroceryItemCount(groceryItem);
+//        assertEquals("Expected to get 3 items", expected, actual);
+//    }
 }
