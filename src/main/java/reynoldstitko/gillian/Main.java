@@ -33,6 +33,7 @@ public class Main {
 
         System.out.print(dataPrintout.printSummaryTable(set, output4, jerksonParser.getCount()));
 
+<<<<<<< HEAD
         //http://learnfromexamples.com/how-to-find-the-occurrences-of-a-particular-element-in-an-arraylist-in-java/
         //Overwrite equals method in the GroceryItem class
 
@@ -40,6 +41,8 @@ public class Main {
 
 
 
+=======
+>>>>>>> 8b7ae0061139b406bf6c019583a8aefbf3d32cdd
     }
 
 }

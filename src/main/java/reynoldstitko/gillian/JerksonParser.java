@@ -89,6 +89,15 @@ public class JerksonParser extends Exception {
         } return groceryItemList;
     }
 
+<<<<<<< HEAD
+=======
+    //2. apply regex to each row of data - split into component (GroceryItem) objects;
+    // catch errors (missing price, missing name)
+    public GroceryItem[] createGroceryItemsArray(String[] string, String matcher){ //throw errors; get array of [food, price]
+
+        return null;
+    }
+>>>>>>> 8b7ae0061139b406bf6c019583a8aefbf3d32cdd
 
     public String refactorNames(String letter){
         switch (letter.toLowerCase()){
