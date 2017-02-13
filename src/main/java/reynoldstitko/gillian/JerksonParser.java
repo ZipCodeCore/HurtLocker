@@ -83,25 +83,14 @@ public class JerksonParser extends Exception {
                 groceryItemList.add(new GroceryItem(refactorNames(item.get(i)), price.get(i)));
 
             } catch (StringMismatchException e) {
+                System.out.println("An error was found during data intake");
                 count = count + 1;
             }
         } return groceryItemList;
     }
 
-    //2. apply regex to each row of data - split into component (GroceryItem) objects;
-    // catch errors (missing price, missing name)
-    public GroceryItem[] createGroceryItemsArray(String[] string, String matcher){ //throw errors; get array of [food, price]
-
-        return null;
-    }
-
-
-//    public int countRepeatItems(){
-//        return Collections.frequency(groceryItems, "Milk");
-//    }
 
     public String refactorNames(String letter){
-        String refactoredNames = "";
         switch (letter.toLowerCase()){
             case "b":
                 return "Bread";

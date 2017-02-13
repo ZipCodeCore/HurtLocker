@@ -1,11 +1,13 @@
 package reynoldstitko.gillian;
 
+import java.util.ArrayList;
 import java.util.Objects;
+import java.util.TreeMap;
 
 /**
  * Created by gillianreynolds-titko on 2/9/17.
  */
-public class GroceryItem {
+public class GroceryItem extends TreeMap<String, ArrayList> {
 
     private String name;
     private String price;
@@ -39,6 +41,15 @@ public class GroceryItem {
         this.type = "Food";
     }
 
+
+//    public GroceryItem addItemPriceAndQuantity(String item, ArrayList<String> price){
+//        ArrayList<String> prices = new ArrayList<String>();
+//        prices.add(price); //add the number to the array of phone numbers (for the given name)
+//        this.put(item, prices);
+//        GroceryItem output = new GroceryItem("Milk", price);
+//        return output;
+//    }
+
     //4. Calculate numeric data
     public Double[] calculatePriceSummaryData(Double priceData){ //get sum of prices
 
@@ -69,7 +80,6 @@ public class GroceryItem {
 
     @Override
     public int hashCode(){
-
         return Objects.hash(name, price);
     }
 

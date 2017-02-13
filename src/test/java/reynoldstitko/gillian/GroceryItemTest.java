@@ -2,6 +2,8 @@ package reynoldstitko.gillian;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
+
 import static junit.framework.TestCase.assertEquals;
 
 /**
@@ -39,18 +41,22 @@ import static junit.framework.TestCase.assertEquals;
     assertEquals("Expected 1/02/2016", expected, actual);
     }
 
-//    @Test
-//    public void calculatePriceSummaryDataTest(){
-//        String expected = "2";
-//        //String actual = groceryItem.calculatePriceSummaryData(groceryItem.getPrice()).length;
-//        assertEquals("Expected a size of 2", expected, actual);
-//    }
+//@Test
+//public void addItemPriceAndQuantityTest(){
+//    GroceryItem expected = new GroceryItem("Milk", "3.23");
+//    expected.addItemPriceAndQuantity("Milk", "3.23", "4");
+//    expected.addItemPriceAndQuantity("Bread", "1.23", "1");
+//    expected.addItemPriceAndQuantity("Cookies", "2.25", "2");
+//    GroceryItem actual = groceryItem.addItemPriceAndQuantity("Bread", "1.23", "1");
+//    assertEquals("Expected equal values", expected, actual);
+//
+//}
+
 
     @Test
     public void calculateGroceryItemCountTest(){
         int expected = 3;
         int actual = groceryItem.calculateGroceryItemCount(groceryItem);
         assertEquals("Expected to get 3 items", expected, actual);
-
     }
 }
