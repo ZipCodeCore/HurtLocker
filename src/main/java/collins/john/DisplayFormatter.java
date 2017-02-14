@@ -139,7 +139,7 @@ public class DisplayFormatter
     }
 
 
-    public String formatForScreen(String keyString, String itemName, int itemCount)
+    public String formatForScreen(String keyString, String itemName, int itemCount, String signLine)
     {
         //String keyString = "label";
         String label = keyString + ":";
@@ -161,9 +161,9 @@ public class DisplayFormatter
 
 
         return label + spaceCount + itemName + emptySpaceLine + seenTimes + "\n"
-                + equalSignLine + emptySpaceLine + equalSignLine + "\n"
-                + label + spaceCount + itemName + emptySpaceLine + seenTimes + "\n"
-                + minusSignLine + emptySpaceLine + minusSignLine;
+                + signLine + emptySpaceLine + signLine;
+        //+ label + spaceCount + itemName + emptySpaceLine + seenTimes + "\n"
+        //+ minusSignLine + emptySpaceLine + minusSignLine;
     }
 
     private String whiteSpaceGenerator(String label, String data)
@@ -177,12 +177,15 @@ public class DisplayFormatter
     }
 
     public void printItAllOut(HashMap<String, Integer> pricesMap, String itemName, int itemCount)
+
     {
-        System.out.println(formatForScreen("name", itemName, itemCount));
+        String el = "=============";
+        String ml = "-------------";
+        System.out.println(formatForScreen("name", itemName, itemCount, el));
 
         for (Map.Entry<String, Integer> entry : pricesMap.entrySet())
         {
-            System.out.println(formatForScreen("Price", entry.getKey(), entry.getValue()));
+            System.out.println(formatForScreen("Price", entry.getKey(), entry.getValue(), ml));
 
         }
     }
