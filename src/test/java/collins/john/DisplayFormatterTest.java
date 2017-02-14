@@ -70,6 +70,18 @@ public class DisplayFormatterTest
     }
     @Test
     public void formatForScreenTest(){
-        System.out.println(testFormatter.formatForScreen());
+        System.out.println(testFormatter.formatForScreen("Poop", "cheese", 52));
+    }
+    @Test
+    public void printItAllOutTest(){
+        testFormatter.aggregateData(testFinalArray);
+        testFormatter.countPrices(testFinalArray);
+
+        System.out.println(testFormatter.applePrice);
+        System.out.println(testFormatter.breadPrice);
+        System.out.println(testFormatter.cookiesPrice);
+        System.out.println(testFormatter.milkPrice);
+
+        testFormatter.printItAllOut(testFormatter.milkPrice, "Milk", testFormatter.milkCounter);
     }
 }

@@ -283,7 +283,7 @@ public class JerkSONparser
         }
         return groupsMapsArray;
     }
-
+/*
     public ArrayList<String> itemXgroupParser(String completeJerkSON)//does not work as needed
     {
 
@@ -303,6 +303,7 @@ public class JerkSONparser
         }
         return keysValuesArray;
     }
+    */
 /*  //not allowed to use .replaceAll() in this project
     public String errorCorrector(String errorString)
     {

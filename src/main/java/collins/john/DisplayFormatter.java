@@ -139,13 +139,13 @@ public class DisplayFormatter
     }
 
 
-    public String formatForScreen()
+    public String formatForScreen(String keyString, String itemName, int itemCount)
     {
-        String keyString = "label";
+        //String keyString = "label";
         String label = keyString + ":";
         String spaceCount = "";
-        String itemName = "data";
-        String itemCount = "X";
+        //String itemName = "data";
+        //int itemCount;
         //String key;
         //String value;
         //key +":"+13-(key.length()+1)+value.length())+
@@ -159,6 +159,7 @@ public class DisplayFormatter
 
         spaceCount = this.whiteSpaceGenerator(label, itemName);
 
+
         return label + spaceCount + itemName + emptySpaceLine + seenTimes + "\n"
                 + equalSignLine + emptySpaceLine + equalSignLine + "\n"
                 + label + spaceCount + itemName + emptySpaceLine + seenTimes + "\n"
@@ -168,12 +169,21 @@ public class DisplayFormatter
     private String whiteSpaceGenerator(String label, String data)
     {
         String spaces = "";
-        while (spaces.length() < ((13-label.length()) - data.length()))
+        while (spaces.length() < ((13 - label.length()) - data.length()))
         {
             spaces += " ";
         }
         return spaces;
     }
 
+    public void printItAllOut(HashMap<String, Integer> pricesMap, String itemName, int itemCount)
+    {
+        System.out.println(formatForScreen("name", itemName, itemCount));
 
+        for (Map.Entry<String, Integer> entry : pricesMap.entrySet())
+        {
+            System.out.println(formatForScreen("Price", entry.getKey(), entry.getValue()));
+
+        }
+    }
 }
