@@ -1,6 +1,7 @@
-import java.util.regex.Matcher;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 
@@ -8,7 +9,7 @@ import java.util.regex.Pattern;
  * Created by randallcrame on 2/8/17.
  */
 public class JerkSonReader {
-    HashMap<String, String> regexCodes = new HashMap<>();
+    Map<String, String> regexCodes = new HashMap<>();
     String data;
     int errors = 0;
 
@@ -16,7 +17,7 @@ public class JerkSonReader {
         this.data = data;
     }
     {
-        regexCodes.put("Object" , "([# #]+)");
+        regexCodes.put("Object" , "([##]+)");
         regexCodes.put("Values", "([;^%*!@]+)");
         regexCodes.put("KeyAndValue", "([:]+)");
         regexCodes.put("Cookies", "c..kies");

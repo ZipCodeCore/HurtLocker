@@ -9,7 +9,7 @@ import java.util.Arrays;
  */
 public class JerkSonReaderTest {
 
-    JerkSonReader reader, reader2;
+    JerkSonReader reader, reader2, reader3;
     String text, text2, text3;
 
     @Before
@@ -37,6 +37,7 @@ public class JerkSonReaderTest {
                 "naMe:Co0kieS;pRice:2.25;type:Food;expiration:1/25/2016##";
         text3 = "naMe:Co0kieS;pRice:2.25;type:Food;expiration:1/25/2016##";
 
+        reader3 = new JerkSonReader(text);
         reader = new JerkSonReader(text2);
         reader2 = new JerkSonReader(text3);
     }
@@ -44,7 +45,7 @@ public class JerkSonReaderTest {
     @Test
     public void ObjectValuesToArrayTest(){
         String expected ="[naMe:Milk;price:3.23;type:Food;expiration:1/25/2016, naME:BreaD;price:1.23;type:Food;expiration:1/02/2016]";
-        String actual = Arrays.toString(reader.ObjectValuesToArray());
+        String actual = Arrays.toString(reader3.ObjectValuesToArray());
         Assert.assertEquals("Expected string prior to ## to return", expected, actual);
     }
 
@@ -82,9 +83,9 @@ public class JerkSonReaderTest {
 
     @Test
     public void convertDataToGroceriesTest(){
-        int expected = 4;
+        int expected = 18;
         int actual = reader.convertDataToGroceries().size();
-        Assert.assertEquals("Expect a ArrayList size of 4", expected, actual);
+        Assert.assertEquals("Expect a ArrayList size of 18", expected, actual);
     }
 
     @Test
@@ -137,7 +138,7 @@ public class JerkSonReaderTest {
 
     @Test
     public void convertDataToGroceriesContentEmptyNotAddedTest(){
-        int expected = 16;
+        int expected = 18;
         int actual = reader.convertDataToGroceries().size();
         Assert.assertEquals("Expect size of array generated to be 16, 2 errors", expected, actual);
     }

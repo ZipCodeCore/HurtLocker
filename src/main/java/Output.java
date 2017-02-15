@@ -58,7 +58,7 @@ public class Output {
         System.out.print(outputErrors()+outputSeen(errors));
     }
     public void outputFullList(TreeMap list){
-        Set keys = list.keySet();
+        Set keys = list. keySet();
         for(Iterator i = keys.iterator();i.hasNext();){
             String key = i.next().toString();
             ArrayList<GroceryItem> values = (ArrayList<GroceryItem>) list.get(key);

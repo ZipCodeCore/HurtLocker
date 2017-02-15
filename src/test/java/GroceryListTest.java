@@ -28,30 +28,12 @@ public class GroceryListTest {
     }
 
     @Test
-    public void add2Test(){
+    public void add2Test() {
         gList.add(milk);
         gList.add(milk);
         int expected = 2;
         int actual = gList.groceryList.get("Milk").size();
         Assert.assertEquals("Expected value 2 to be returned", expected, actual);
     }
-    @Test
-    public void addNullTest(){
-        gList.add(milk);
-        gList.add(null);
-        int expected = 1;
-        int actual = gList.groceryList.get("Milk").size();
-        Assert.assertEquals("Expected value 2 to be returned", expected, actual);
-    }
-
-    @Test
-    public void addNullErrorCountTest(){
-        gList.add(milk);
-        gList.add( milk3);
-        int expected = 1;
-        int actual = gList.groceryList.get("Milk").size();
-        Assert.assertEquals("Expected value 2 to be returned", expected, actual);
-    }
-
 
 }
