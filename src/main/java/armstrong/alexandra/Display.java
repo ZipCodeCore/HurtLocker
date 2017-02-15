@@ -5,7 +5,7 @@ public class Display {
     public static void displayItem(GroceryItem item){
         displayName(item);
         displaySpaces();
-        displaySeenName(item);
+        displaySeen(item.getNameCounter());
         doubleLine();
         displaySpaces();
         doubleLine();
@@ -26,7 +26,7 @@ public class Display {
     public static void displayPrice(GroceryItem item){
         System.out.printf("Price:%7s", item.getPrice(0));
         displaySpaces();
-        displaySeen1Price(item);
+        displaySeen(item.getPrice1Counter());
         singleLine();
         displaySpaces();
         singleLine();
@@ -34,7 +34,7 @@ public class Display {
         if(item.getPrice(1) != null){
             System.out.printf("Price:%7s", item.getPrice(1));
             displaySpaces();
-            displaySeen2Price(item);
+            displaySeen(item.getPrice2Counter());
         }
     }
 
@@ -42,16 +42,9 @@ public class Display {
         System.out.printf("name:%8s", item.getName());
     }
 
-    public static void displaySeenName(GroceryItem item){
-        System.out.printf("seen: %d times\n", item.getNameCounter());
-    }
-
-    public static void displaySeen1Price(GroceryItem item){
-        System.out.printf("seen: %d times\n", item.getPrice1Counter());
-    }
-
-    public static void displaySeen2Price(GroceryItem item){
-        System.out.printf("seen: %d times\n", item.getPrice2Counter());
+    public static void displaySeen(int counter){
+        System.out.printf("seen: %d ", counter);
+        System.out.println(timeVTimes(counter));
     }
 
     public static void displayErrors(int errorCount){
@@ -61,7 +54,15 @@ public class Display {
     }
 
     public static void displaySpaces(){
-        System.out.printf("        ");
+        System.out.printf("\t\t");
+    }
+
+    public static String timeVTimes(int counter){
+        if (counter == 1){
+            return "time";
+        } else {
+            return "times";
+        }
     }
 
 }

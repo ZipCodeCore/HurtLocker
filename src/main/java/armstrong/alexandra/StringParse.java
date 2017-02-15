@@ -4,74 +4,91 @@ import java.util.ArrayList;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
-class InvalidEntryException extends Exception{};
+class InvalidEntryException extends Exception{}
 
 public class StringParse {
     public static int errorCounter = 0;
+    public static ArrayList<GroceryItem> items = new ArrayList<>();
 
     public static String[] cutString(String raw){
         return raw.split("##");
     }
 
-    public static ArrayList<GroceryItem> regEx(String[] info){
+    public static void regEx(String[] info){
         Pattern p = Pattern.compile("name[:;*@!]([a-z])?\\w*[:;*@!]price[:;*@!](\\d\\.\\d{2})?[:;*@!]type[:;*@!]food[:;*@!%^]expiration[:;*@!]\\d\\/\\d{2}\\/\\d{4}", Pattern.CASE_INSENSITIVE);
-        ArrayList<GroceryItem> items = new ArrayList<>();
         for(int i = 0; i < info.length; i++) {
             Matcher m = p.matcher(info[i]);
-            try {
-                boolean matched = false;
-                if (m.matches() == true) {
-                    if (m.group(1) == null || m.group(2) == null){
-                        throw new InvalidEntryException();
-                    } else{
-                        GroceryItem temp = whichItem(m.group(1), m.group(2));
-                        for(int j = 0; j < items.size(); j++){
-                            if(items.get(j).getName().equals(temp.getName())) {
-                                items.get(j).duplicateName();
-                                matched = true;
-                                if (items.get(j).getPrice(0).equals(temp.getPrice(0))) {
-                                    items.get(j).duplicate1Price();
-                                } else if (items.get(j).getPrice(1) != null && items.get(j).getPrice(1).equals(temp.getPrice(0))) {
-                                    items.get(j).duplicate2Price();
-                                }else{
-                                    items.get(j).price[1] = temp.getPrice(0);
-                                    items.get(j).duplicate2Price();
-                                }
-                            }
-                        }
-                        if(! matched) {
-                            items.add(temp);
-                        }
-                    }
+            if (m.matches() == true) {
+                String name = m.group(1);
+                String price = m.group(2);
+                if(checkForInvalidEntry(name, price)) {
+                    name = whichItem(name);
+                    addItemToList(name, price);
                 }
-        } catch (InvalidEntryException e){
-              errorCounter++;
             }
         }
-        return items;
     }
 
-    /*public static boolean duplicateCheck(ArrayList<GroceryItem> items, String name, String price){
-        for(int i = 0; i < items.size(); i++){
-            if(items.get(i).equals(name, price) == false){
-                return false;
+    public static void addItemToList(String name, String price){
+        boolean matched = false;
+        if (items.size() == 0) {
+            items.add(new GroceryItem(name, price));
+        } else {
+            for (int j = 0; j < items.size(); j++) {
+                if (checkForDuplicateName(items.get(j), name, price)) {
+                    matched = true;
+                    break;
+                }
+            }
+            if (!matched) {
+                GroceryItem temp = new GroceryItem(name, price);
+                items.add(temp);
             }
         }
-        return true;
-    }*/
+    }
 
-    public static GroceryItem whichItem(String name, String price){
-        switch(name.toUpperCase().charAt(0)){
-            //case 'm':
-            case 'M': return new GroceryItem("Milk", price);
-            //case 'c':
-            case 'C': return new GroceryItem("Cookies", price);
-            //case 'b':
-            case 'B': return new GroceryItem("Bread", price);
-            //case 'a':
-            case 'A': return new GroceryItem("Apples", price);
+    public static boolean checkForInvalidEntry(String name, String price){
+        try{
+            if(name == null || price == null){
+                throw new InvalidEntryException();
+            } else {
+                return true;
+            }
+        } catch (InvalidEntryException e){
+            errorCounter++;
+            return false;
         }
-        return null;
+    }
+
+    public static boolean checkForDuplicateName(GroceryItem itemInList, String name, String price){
+        if(itemInList.getName().equals(name)) {
+            itemInList.duplicateName();
+            checkForDuplicatePrice(itemInList, price);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static void checkForDuplicatePrice(GroceryItem itemInList, String price){
+        if (itemInList.getPrice(0).equals(price)) {
+            itemInList.duplicate1Price();
+        } else if (itemInList.getPrice(1) != null && itemInList.getPrice(1).equals(price)) {
+            itemInList.duplicate2Price();
+        }else{
+            itemInList.price[1] = price;
+            itemInList.duplicate2Price();
+        }
+    }
+
+    public static String whichItem(String name){
+        switch(name.toUpperCase().charAt(0)){
+            case 'M': return "Milk";
+            case 'C': return "Cookies";
+            case 'B': return "Bread";
+            case 'A': return "Apples";
+        }
+        return "no";
     }
 
     /*public static void main(String[] args){

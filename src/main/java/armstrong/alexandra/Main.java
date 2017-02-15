@@ -20,9 +20,9 @@ public class Main {
     public static void main(String[] args) throws Exception{
         String output = (new Main()).readRawDataToString();
         String[] trimmed = cutString(output);
-        ArrayList<GroceryItem> items = regEx(trimmed);
-        for(int i = 0; i < items.size(); i++){
-            displayItem(items.get(i));
+        regEx(trimmed);
+        for(int i = 0; i < StringParse.items.size(); i++){
+            displayItem(StringParse.items.get(i));
         }
         displayErrors(StringParse.errorCounter);
 
