@@ -29,6 +29,8 @@ public class DisplayFormatterTest
         testParser.correctStringsFromByGroups(tempTestArray);
         testFinalArray = testParser.convertGroupsToMaps(tempTestArray);
         System.out.println(tempTestArray.toString());
+        testFormatter.aggregateData(testFinalArray);
+        testFormatter.countPrices(testFinalArray);
     }
 
     @Test
@@ -58,8 +60,10 @@ public class DisplayFormatterTest
         int expected = 4;
         assertEquals("should return...", expected, actual);
     }
+
     @Test
-    public void countPricesTest(){
+    public void countPricesTest()
+    {
         testFormatter.countPrices(testFinalArray);
 
         System.out.println(testFormatter.applePrice);
@@ -68,24 +72,28 @@ public class DisplayFormatterTest
         System.out.println(testFormatter.milkPrice);
 
     }
+
     @Test
-    public void formatForScreenTest(){
-        System.out.println(testFormatter.formatForScreen("Poop", "cheese", 9, "~~~~~~~~~~~~~"));
+    public void formatForScreenTest()
+    {
+        System.out.println(testFormatter.formatForScreen("Item", "cheese", 9));
     }
+
     @Test
-    public void printItAllOutTest(){
-        testFormatter.aggregateData(testFinalArray);
-        testFormatter.countPrices(testFinalArray);
+    public void printItAllOutTest()
+    {
+
 
         //System.out.println(testFormatter.applePrice);
         //System.out.println(testFormatter.breadPrice);
         //System.out.println(testFormatter.cookiesPrice);
         //System.out.println(testFormatter.milkPrice);
 
-        testFormatter.printItAllOut(testFormatter.applePrice, "Apple", testFormatter.applesCounter);
+        testFormatter.printItAllOut(testFormatter.milkPrice, "Milk", testFormatter.milkCounter);
         testFormatter.printItAllOut(testFormatter.breadPrice, "Bread", testFormatter.breadCounter);
         testFormatter.printItAllOut(testFormatter.cookiesPrice, "Cookies", testFormatter.cookiesCounter);
-        testFormatter.printItAllOut(testFormatter.milkPrice, "Milk", testFormatter.milkCounter);
+        testFormatter.printItAllOut(testFormatter.applePrice, "Apple", testFormatter.applesCounter);
+        System.out.println(testFormatter.formatForScreen("Errors", "", testFormatter.fakeErrorCounter));
 
     }
 }

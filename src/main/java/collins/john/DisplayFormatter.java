@@ -6,6 +6,7 @@ import java.util.Map;
 
 /**
  * Created by johncollins on 2/9/17.
+ * @@@
  */
 public class DisplayFormatter
 {
@@ -23,7 +24,7 @@ public class DisplayFormatter
     HashMap<String, Integer> milkPrice = new HashMap<String, Integer>();
 
 
-    public void aggregateData(ArrayList<Map<String, String>> goodDataSet)
+    public void aggregateData (ArrayList<Map<String, String>> goodDataSet)
     {
 
 
@@ -70,6 +71,7 @@ public class DisplayFormatter
                     milkCounter++;
                     if (!milkPrice.containsKey(itemMap.get("Price")))
                     {
+                        if (!itemMap.get("Price").equals("type"))//filter out bad value
                         milkPrice.put(itemMap.get("Price"), 1);
                     } else
                     {
@@ -89,6 +91,7 @@ public class DisplayFormatter
         }
 
     }
+
 
     /////add prices counts
     public void countPrices(ArrayList<Map<String, String>> goodDataSet)
@@ -136,36 +139,38 @@ public class DisplayFormatter
             }
         }
 
-    }
+   }
 
 
-    public String formatForScreen(String keyString, String itemName, int itemCount, String signLine)
+
+
+    public String formatForScreen(String keyString, String itemName, int itemCount)
     {
         //String keyString = "label";
-        String label = keyString + ":";
+        String label = keyString;// + ":";
         String spaceCount = "";
         //String itemName = "data";
         //int itemCount;
         //String key;
         //String value;
         //key +":"+13-(key.length()+1)+value.length())+
-        String equalSignLine = "=============";
-        String minusSignLine = "-------------";
+        //String equalSignLine = "=============";
+        //String minusSignLine = "-------------";
         String emptySpaceLine = "        ";
         //String nameLine = "name:";
         //String priceLine = "Price:";
-        String seenTimes = "seen: " + itemCount + " times";
+        String seenTimes = "seen  " + itemCount + " times";
         String error = "Error";
 
         spaceCount = this.whiteSpaceGenerator(label, itemName);
 
 
-        return label + spaceCount + itemName + emptySpaceLine + seenTimes + "\n"
-                + signLine + emptySpaceLine + signLine;
+        return label + spaceCount + itemName + emptySpaceLine + seenTimes;// + "\n"
+                //+ signLine + emptySpaceLine + signLine;
         //+ label + spaceCount + itemName + emptySpaceLine + seenTimes + "\n"
         //+ minusSignLine + emptySpaceLine + minusSignLine;
     }
-
+//look at String Formatter for adding spaces
     private String whiteSpaceGenerator(String label, String data)
     {
         String spaces = "";
@@ -179,14 +184,21 @@ public class DisplayFormatter
     public void printItAllOut(HashMap<String, Integer> pricesMap, String itemName, int itemCount)
 
     {
-        String el = "=============";
-        String ml = "-------------";
-        System.out.println(formatForScreen("name", itemName, itemCount, el));
+        int mlCount = 1;//pricesMap.size();
+        String el = "=============        =============";
+        String ml = "-------------        -------------";
+        System.out.println(formatForScreen("name:", itemName, itemCount));
+        System.out.println(el);
 
         for (Map.Entry<String, Integer> entry : pricesMap.entrySet())
         {
-            System.out.println(formatForScreen("Price", entry.getKey(), entry.getValue(), ml));
-
+            System.out.println(formatForScreen("Price:", entry.getKey(), entry.getValue()));
+            if(mlCount>0)
+            {
+                System.out.println(ml);
+                mlCount--;
+            }
         }
+        System.out.println();
     }
 }

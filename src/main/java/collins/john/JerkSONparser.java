@@ -30,7 +30,7 @@ public class JerkSONparser
         return groupArray;
 
     }
-
+/*
     public void formatItemsPunctuation(ArrayList<String> groupArray)
     {
         String fixedString = "";
@@ -50,6 +50,7 @@ public class JerkSONparser
         }
         //return fixedString;
     }
+    */
 
     public String correctStringsFromByGroups(ArrayList<String> groupArray)
     {
@@ -177,7 +178,7 @@ public class JerkSONparser
             foodMatcher.appendTail(foodBuffer);
             workingString = foodBuffer.toString();
 
-            groupArray.set(i , workingString);
+            groupArray.set(i, workingString);
 
         }
         return groupArray.toString();
