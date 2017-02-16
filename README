@@ -13,8 +13,12 @@ Just like Json , JerkSON is supposed to be a Key Value Pair data store.
 In Json Key and Value are seperated as such (Key:Value) where the colon is the seperator.
 
 In JerkSON Key and Value could be seperated by using a any of the following (:, @, ^, *, %) and there is no guarntee that there isn't another hidden symbol seperator. (There could be another one, or maybe there isn't , you tell me)... lol
+CORRECTION: key and value are connected by : colon
 
 In Json Key and Value pairs are seperated by a ',' in JerkSON its '##'
+CORRECTION: key and value pairs are separated by random punc's in raw
+
+ADDITION: groups of key:value pairs are separated by ##
 
 ##Your Task
 Its your job to build a JerkSON data parser, that is able to read in the raw data , and output a string formated list that resembles (outputFormat.txt) 
