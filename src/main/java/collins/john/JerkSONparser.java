@@ -25,32 +25,11 @@ public class JerkSONparser
             groupArray.add(groupMatch.group());
             //keysXvaluesArray.add(groupArray);
         }
-        //return result.toString();
-        //return groupMatch.group();
+
         return groupArray;
 
     }
-/*
-    public void formatItemsPunctuation(ArrayList<String> groupArray)
-    {
-        String fixedString = "";
-        for (String workingString : groupArray
-                )
-        {
-            Pattern puncPattern = Pattern.compile("[;|!|%|^|@]");
-            Matcher puncMatcher = puncPattern.matcher(workingString);
 
-            StringBuffer puncBuffer = new StringBuffer();
-            while (puncMatcher.find())
-            {
-                puncMatcher.appendReplacement(puncBuffer, ",");
-            }
-            puncMatcher.appendTail(puncBuffer);
-            workingString = puncBuffer.toString();
-        }
-        //return fixedString;
-    }
-    */
 
     public String correctStringsFromByGroups(ArrayList<String> groupArray)
     {
@@ -184,65 +163,7 @@ public class JerkSONparser
         return groupArray.toString();
 
     }
-/*
-    public String correctValuesSpelling(ArrayList<String> groupArray)
-    {
-        String workingString = "";
-        for (String txt : groupArray
-                )
-        {   //Milk
-            Pattern milkPattern = Pattern.compile("((?i)(m.{2}k))");
-            Matcher milkMatcher = milkPattern.matcher(txt);
 
-            StringBuffer milkBuffer = new StringBuffer();
-            while (milkMatcher.find())
-            {
-                milkMatcher.appendReplacement(milkBuffer, "Milk");
-            }
-            milkMatcher.appendTail(milkBuffer);
-            workingString = milkBuffer.toString();
-
-            //Bread
-            Pattern breadPattern = Pattern.compile("(?i)(b.{3}d)");
-            Matcher breadMatcher = breadPattern.matcher(workingString);
-
-            StringBuffer breadBuffer = new StringBuffer();
-            while (breadMatcher.find())
-            {
-                breadMatcher.appendReplacement(breadBuffer, "Bread");
-            }
-            breadMatcher.appendTail(breadBuffer);
-            workingString = breadBuffer.toString();
-
-            //Cookies
-            Pattern cookiesPattern = Pattern.compile("(?i)(c.{5}s)");
-            Matcher cookiesMatcher = cookiesPattern.matcher(workingString);
-
-            StringBuffer cookiesBuffer = new StringBuffer();
-            while (cookiesMatcher.find())
-            {
-                cookiesMatcher.appendReplacement(cookiesBuffer, "Cookies");
-            }
-            cookiesMatcher.appendTail(cookiesBuffer);
-            workingString = cookiesBuffer.toString();
-
-            //Food
-            Pattern foodPattern = Pattern.compile("(?i)(f.{2}d)");
-            Matcher foodMatcher = foodPattern.matcher(workingString);
-            StringBuffer foodBuffer = new StringBuffer();
-            while (foodMatcher.find())
-            {
-                foodMatcher.appendReplacement(foodBuffer, "Food");
-            }
-            foodMatcher.appendTail(foodBuffer);
-            workingString = foodBuffer.toString();
-
-
-        }
-        return workingString;
-
-    }
-    */
 
     public ArrayList<Map<String, String>> convertGroupsToMaps(ArrayList<String> groupsArray)
     {
@@ -251,7 +172,7 @@ public class JerkSONparser
         ArrayList<Map<String, String>> groupsMapsArray = new ArrayList<Map<String, String>>();
         Map<String, String> itemMap;
         String workingString;
-        String itemString;
+        //String itemString;
         for (int i = 0; i < groupsArray.size(); i++)
 
         {
@@ -284,54 +205,6 @@ public class JerkSONparser
         }
         return groupsMapsArray;
     }
-/*
-    public ArrayList<String> itemXgroupParser(String completeJerkSON)//does not work as needed
-    {
-
-        ArrayList<String> keysValuesArray = new ArrayList<String>();
-
-        Pattern groups = Pattern.compile("[^#]+(?=#)");
-        Matcher groupMatch = groups.matcher(completeJerkSON);
-        while (groupMatch.find())
-        {
-            Pattern items = Pattern.compile("[^;|:|!|#|%|^|@]+");
-            Matcher itemMatch = items.matcher(groupMatch.group());
-            while (itemMatch.find())
-            {
-                keysValuesArray.add(itemMatch.group());
-                //System.out.println(itemMatch.group());
-            }
-        }
-        return keysValuesArray;
-    }
-    */
-/*  //not allowed to use .replaceAll() in this project
-    public String errorCorrector(String errorString)
-    {
-        //keys grammar corrections
-        String goodString;
-        goodString =
-                errorString.replaceAll("(?i)(n.{2}e)", "name")
-                        .replaceAll("(?i)(p.{3}e)", "Price")
-                        .replaceAll("(?i)(t.{2}e)", "type")
-                        .replaceAll("(?i)(e.{8}n)", "expiration")
-
-                        //values grammar corrections
-                        .replaceAll("(?i)(m{2}k)", "Milk")//replaces all wrong 'm**k' with "Milk"
-                        .replaceAll("(?i)(b.{3}d)", "Bread")
-                        .replaceAll("(?i)(c.{5}s)", "Cookies")
-                        .replaceAll("(?i)(a.{4}s)", "Apples")
-                        .replaceAll("(?i)(f.{2}d)", "Food")
-
-                        //key and value connector corrections
-                        .replaceAll("[|:|!|%|^|@]", ":")
-
-                        //key value pairs separator corrections
-                        .replaceAll("[;]", ",");
-        return goodString;
-
-    }
-    */
 }
 
 

@@ -6,7 +6,7 @@ import java.util.Map;
 
 /**
  * Created by johncollins on 2/9/17.
- * @@@
+ *
  */
 public class DisplayFormatter
 {
@@ -146,31 +146,19 @@ public class DisplayFormatter
 
     public String formatForScreen(String keyString, String itemName, int itemCount)
     {
-        //String keyString = "label";
-        String label = keyString;// + ":";
+        String label = keyString;
         String spaceCount = "";
-        //String itemName = "data";
-        //int itemCount;
-        //String key;
-        //String value;
-        //key +":"+13-(key.length()+1)+value.length())+
-        //String equalSignLine = "=============";
-        //String minusSignLine = "-------------";
         String emptySpaceLine = "        ";
-        //String nameLine = "name:";
-        //String priceLine = "Price:";
         String seenTimes = "seen  " + itemCount + " times";
         String error = "Error";
 
         spaceCount = this.whiteSpaceGenerator(label, itemName);
 
 
-        return label + spaceCount + itemName + emptySpaceLine + seenTimes;// + "\n"
-                //+ signLine + emptySpaceLine + signLine;
-        //+ label + spaceCount + itemName + emptySpaceLine + seenTimes + "\n"
-        //+ minusSignLine + emptySpaceLine + minusSignLine;
+        return label + spaceCount + itemName + emptySpaceLine + seenTimes;
+
     }
-//look at String Formatter for adding spaces
+
     private String whiteSpaceGenerator(String label, String data)
     {
         String spaces = "";
@@ -184,7 +172,7 @@ public class DisplayFormatter
     public void printItAllOut(HashMap<String, Integer> pricesMap, String itemName, int itemCount)
 
     {
-        int mlCount = 1;//pricesMap.size();
+        int mlCount = 1;
         String el = "=============        =============";
         String ml = "-------------        -------------";
         System.out.println(formatForScreen("name:", itemName, itemCount));
