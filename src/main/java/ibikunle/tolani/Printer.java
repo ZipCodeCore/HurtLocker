@@ -4,7 +4,7 @@ package ibikunle.tolani;
  * Created by tolaniibikunle on 2/15/17.
  */
 public class Printer {
-    //GroceryFactory groceryFactory = new GroceryFactory();
+    GroceryFactory groceryFactory = new GroceryFactory();
     JerkSonParser jerkSonParser = new JerkSonParser();
 
 

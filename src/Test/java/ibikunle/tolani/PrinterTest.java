@@ -1,5 +1,6 @@
 package ibikunle.tolani;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -24,8 +25,9 @@ public class PrinterTest {
     }
     @Test
     public void printerTest(){
-        String expected = " ";
+        String expected = "";
         String actual = printer.printOutput();
         System.out.println(actual);
+        //Assert.assertEquals("I am expecting this format to print out",expected,actual);
     }
 }

@@ -6,7 +6,7 @@ import java.util.HashMap;
  * Created by tolaniibikunle on 2/15/17.
  */
 public class GroceryFactory {
-    static int milkNameCount ;
+    static int milkNameCount ; // if a field is static you call it from anywhere using the class name and the field name
     static int breadNameCount;
     static int cookiesNameCount;
     static int applesNameCount;
@@ -28,8 +28,8 @@ public class GroceryFactory {
     }
 
     private void countGroceries(GroceryItem groceryItem) {
-        countGroceryName(groceryItem);
-        countGroceryPrices(groceryItem);
+        countGroceryName(groceryItem); // this method is counting the number of times a grocery items name is seen
+        countGroceryPrices(groceryItem);// this method is counting the number times a grocery price is seen
     }
 
 
