@@ -50,12 +50,17 @@ public class testParser {
     @Test
     public void testMilkBreakDown() {
 
-       ///Given
-        ArrayList<String> arrayListOfBrokenLines  =new ArrayList<>() "[Milk;price:3.23;type:Food;expiration:1/25/2016, MiLK;price:3.23;type:Food^expiration:1/11/2016, MilK;price:3.23;type:Food;expiration:1/17/2016, MilK;price:1.23;type:Food!expiration:4/25/2016, Milk;price:3.23;type:Food;expiration:1/25/2016, MiLK;priCe:;type:Food;expiration:1/11/2016, MilK;price:3.23;type:Food;expiration:1/17/2016, MilK;priCe:;type:Food;expiration:4/25/2016]\n";
-        String expected = "";
+        ///Given
+        ArrayList<String> arrayListOfBrokenLines = new ArrayList<>();
+        arrayListOfBrokenLines.add("[Milk;price:3.23;type:Food;expiration:1/25/2016, MiLK;price:3.23;type:Food^expiration:1/11/2016, MilK;price:3.23;type:Food;expiration:1/17/2016, MilK;price:1.23;type:Food!expiration:4/25/2016, Milk;price:3.23;type:Food;expiration:1/25/2016, MiLK;priCe:;type:Food;expiration:1/11/2016, MilK;price:3.23;type:Food;expiration:1/17/2016, MilK;priCe:;type:Food;expiration:4/25/2016]\n");
+        String expected = "name:\tMilk\t\t\tseen: 6 times\n" +
+                "=============\t\t\t=============\n" +
+                "Price:\t3.23\t\t\tseen: 5 times\n" +
+                "-------------\t\t\t-------------\n" +
+                "Price:\t1.23\t\t\tseen: 1 time\n";
         //When
-        ArrayList<String> arrayListOfBrokenLines = parser.milkBreakDown(given);
-        String actual = arrayListOfBrokenLines.get(0);
+
+        String actual = parser.milkBreakDown(arrayListOfBrokenLines, 6);
         //Then
         Assert.assertEquals("This should break the line right after two hashtags", expected, actual);
 

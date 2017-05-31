@@ -24,6 +24,7 @@ public class Parser {
         Pattern milk = Pattern.compile("([M|m].\\w+[k|K][^,]+)");
         Matcher milkMatcher = milk.matcher(lineBreakerArray.toString());
         ArrayList<String> milkArray = new ArrayList<>();
+        String milkOutput = "";
         int milkCounter = 0;
 
         Pattern bread = Pattern.compile("([B|b].\\w+[D|d])");
@@ -42,16 +43,12 @@ public class Parser {
         Matcher costMatcher = cost.matcher(file);
         int costCounter = 0;
 
-//        Pattern pattern = Pattern.compile("([N|n].\\w+[E|e].)|()([M|m].\\w+[k|K])|([B|b].\\w+[D|d])|([A|a].\\w+[S|s])|([C|c].\\w+[S|s])|([P|p].\\w+[e].)|(\\d\\.\\d+)");
-//        Matcher matcher = pattern.matcher(file);
-        // System.out.println(lineBreakerArray);
-
-
         while (milkMatcher.find()) {
             milkCounter++;
             milkArray.add(milkMatcher.group(1));
         }
-        milkBreakDown(milkArray);
+//        milkOutput
+        milkBreakDown(milkArray, milkCounter);
 
         while (breadMatcher.find()) {
             System.out.println(breadMatcher.group(1));
@@ -83,34 +80,27 @@ public class Parser {
     }
 
 
-    public String milkBreakDown(ArrayList<String> arrayOfMilk) {
-
-         System.out.println(arrayOfMilk);
-
+    public String milkBreakDown(ArrayList<String> arrayOfMilk, int milkCounter) {
         Pattern pattern = Pattern.compile("(\\d\\.\\d+)");
         Matcher matcher = pattern.matcher(arrayOfMilk.toString());
         ArrayList<String> price = new ArrayList<>();
-        int priceCounter = 0;
-
-
-        String oldValue = "";
 
         while (matcher.find()) {
             price.add(matcher.group(1));
         }
-
-
         Collections.sort(price, Collections.reverseOrder());
 
-
-        System.out.println(price);
         Map<String, Long> counted = price.stream()
                 .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
-        System.out.println(counted.keySet());
-        System.out.println(counted.values());
 
+        String formattedForOutput = String.format("name:\tMilk\t\t\tseen: %s times\n=============\t\t\t=============\nPrice:\t%s\t\t\tseen: %s times\n-------------\t\t\t-------------\nPrice:\t%s\t\t\tseen: %s time\n",
+                milkCounter,
+                counted.keySet().toArray()[1],
+                counted.values().toArray()[1],
+                counted.keySet().toArray()[0],
+                counted.values().toArray()[0]);
 
-        return "";
+        return formattedForOutput;
     }
 
 
