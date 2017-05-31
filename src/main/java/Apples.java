@@ -48,4 +48,61 @@ public class Apples {
         }
         return applesPriceList;
     }
+
+    public static String printApplesStats(int numberOfApples, TreeMap<String, Integer> applePriceCount) {
+        String outputHeader = printAppleHeader(numberOfApples);
+        String outputPrices = printPrices(applePriceCount);
+        String output = outputHeader + outputPrices;
+        return output;
+    }
+
+    public static String printAppleHeader(int numberOfApples) {
+        String output = "name:";
+        output += String.format("%8s", "Apples");
+        output += "            seen: ";
+        output += numberOfApples;
+        if (numberOfApples > 1) {
+            output += String.format("%-6s", " times");
+        }
+        if (numberOfApples == 1) {
+            output += String.format("%-6s", " time");
+        }
+        output += "\n";
+        output += "=============" + "            " + "=============";
+        output += "\n";
+        return output;
+    }
+
+    public static String printPrices(TreeMap<String, Integer> applePriceCount) {
+        String output = "Price:";
+        output += String.format("%7s", applePriceCount.lastKey());
+        output += "            ";
+        output += "seen: ";
+        if (applePriceCount.get(applePriceCount.lastKey()) > 1) {
+            output += String.format("%7s", applePriceCount.get(applePriceCount.lastKey()) + " times");
+        }
+        else {
+            output += String.format("%7s", applePriceCount.get(applePriceCount.lastKey()) + " time");
+        }
+        applePriceCount.remove(applePriceCount.lastKey());
+        while (!applePriceCount.isEmpty()) {
+            output += "\n";
+            output += "-------------" + "            " + "-------------";
+            output += "\n";
+            output += "Price:";
+            output += String.format("%7s", applePriceCount.lastKey());
+            output += "            ";
+            output += "seen: ";
+            if (applePriceCount.get(applePriceCount.lastKey()) > 1) {
+                output += String.format("%7s", applePriceCount.get(applePriceCount.lastKey()) + " times");
+            }
+            else {
+                output += String.format("%7s", applePriceCount.get(applePriceCount.lastKey()) + " time");
+            }
+            output += "\n";
+            applePriceCount.remove(applePriceCount.lastKey());
+        }
+        output += "\n";
+        return output;
+    }
 }

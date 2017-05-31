@@ -31,8 +31,12 @@ public class Main {
         TreeMap<String, Integer> applesPriceCount = Milk.getMilkPriceList(applesList);
         PrintWriter writer = null;
         try {
-            writer = new PrintWriter("output.txt");
+            writer = new PrintWriter("newOutput.txt");
             writer.println(Milk.printMilkStats(numberOfMilks, milkPriceCount));
+            writer.println(Bread.printBreadStats(numberOfBreads, breadPriceCount));
+            writer.println(Cookies.printCookieStats(numberOfCookies, cookiesPriceCount));
+            writer.print(Apples.printApplesStats(numberOfApples, applesPriceCount));
+            writer.print(printErrorInfo());
         } catch (IOException e) {
             System.out.println("Exception");
         } finally {
@@ -70,6 +74,20 @@ public class Main {
 
     public static int getNumberOfProductAppearances(ArrayList<ArrayList<String>> productList) {
         return productList.size();
+    }
+
+    public static String printErrorInfo() {
+        String output = "Errors:";
+        output += "                  ";
+        output += "seen: ";
+        output += ErrorCounter.getErrorCount();
+        if (ErrorCounter.getErrorCount() > 1) {
+            output += String.format("%-6s", " times");
+        }
+        if (ErrorCounter.getErrorCount() == 1) {
+            output += String.format("%-6s", " time");
+        }
+        return output;
     }
 
 

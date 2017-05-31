@@ -51,40 +51,58 @@ public class Milk {
     }
 
     public static String printMilkStats(int numberOfMilks, TreeMap<String, Integer> milkPriceCount) {
+        String outputHeader = printMilkHeader(numberOfMilks);
+        String outputPrices = printPrices(milkPriceCount);
+        String output = outputHeader + outputPrices;
+        return output;
+    }
+
+    public static String printMilkHeader(int numberOfMilks) {
         String output = "name:";
-        output += String.format("%9s", "Milk");
+        output += String.format("%8s", "Milk");
         output += "            seen: ";
         output += numberOfMilks;
         if (numberOfMilks > 1) {
-            output += String.format("%-5s", "times");
+            output += String.format("%-6s", " times");
         }
         if (numberOfMilks == 1) {
-            output += String.format("%-5s", "time");
+            output += String.format("%-6s", " time");
         }
         output += "\n";
         output += "=============" + "            " + "=============";
-        output += "Price:";
-        output += String.format("%7s", milkPriceCount.firstKey());
-        output += "            seen: ";
-        System.out.println(milkPriceCount.get(0));
-        //output += milkPriceCount.get(0).toString();
-        if (milkPriceCount.get(0) > 1) {
-            output += String.format("%-5s", "times");
-        }
-        if (milkPriceCount.get(0) == 1) {
-            output += String.format("%-5s", "time");
-        }
-        output += "-------------" + "            " + "-------------";
+        output += "\n";
+        return output;
+    }
+
+    public static String printPrices(TreeMap<String, Integer> milkPriceCount) {
+        String output = "Price:";
         output += String.format("%7s", milkPriceCount.lastKey());
-        output += "            seen: ";
-        //output += (milkPriceCount.get(1).toString());
-        if (milkPriceCount.get(0) > 1) {
-            output += String.format("%-5s", "times");
+        output += "            ";
+        output += "seen: ";
+        if (milkPriceCount.get(milkPriceCount.lastKey()) > 1) {
+            output += String.format("%7s", milkPriceCount.get(milkPriceCount.lastKey()) + " times");
         }
-        if (milkPriceCount.get(0) == 1) {
-            output += String.format("%-5s", "time");
+        else {
+            output += String.format("%7s", milkPriceCount.get(milkPriceCount.lastKey()) + " time");
         }
-        output += "-------------" + "            " + "-------------";
+        milkPriceCount.remove(milkPriceCount.lastKey());
+        while (!milkPriceCount.isEmpty()) {
+            output += "\n";
+            output += "-------------" + "            " + "-------------";
+            output += "\n";
+            output += "Price:";
+            output += String.format("%7s", milkPriceCount.lastKey());
+            output += "            ";
+            output += "seen: ";
+            if (milkPriceCount.get(milkPriceCount.lastKey()) > 1) {
+                output += String.format("%7s", milkPriceCount.get(milkPriceCount.lastKey()) + " times");
+            }
+            else {
+                output += String.format("%7s", milkPriceCount.get(milkPriceCount.lastKey()) + " time");
+            }
+            output += "\n";
+            milkPriceCount.remove(milkPriceCount.lastKey());
+        }
         return output;
     }
 

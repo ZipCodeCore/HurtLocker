@@ -47,4 +47,61 @@ public class Cookies {
         }
         return cookiesPriceList;
     }
+
+    public static String printCookieStats(int numberOfCookies, TreeMap<String, Integer> cookiePriceCount) {
+        String outputHeader = printCookieHeader(numberOfCookies);
+        String outputPrices = printPrices(cookiePriceCount);
+        String output = outputHeader + outputPrices;
+        return output;
+    }
+
+    public static String printCookieHeader(int numberOfCookies) {
+        String output = "name:";
+        output += String.format("%8s", "Cookies");
+        output += "            seen: ";
+        output += numberOfCookies;
+        if (numberOfCookies > 1) {
+            output += String.format("%-6s", " times");
+        }
+        if (numberOfCookies == 1) {
+            output += String.format("%-6s", " time");
+        }
+        output += "\n";
+        output += "=============" + "            " + "=============";
+        output += "\n";
+        return output;
+    }
+
+    public static String printPrices(TreeMap<String, Integer> cookiePriceCount) {
+        String output = "Price:";
+        output += String.format("%7s", cookiePriceCount.lastKey());
+        output += "            ";
+        output += "seen: ";
+        if (cookiePriceCount.get(cookiePriceCount.lastKey()) > 1) {
+            output += String.format("%7s", cookiePriceCount.get(cookiePriceCount.lastKey()) + " times");
+        }
+        else {
+            output += String.format("%7s", cookiePriceCount.get(cookiePriceCount.lastKey()) + " time");
+        }
+        cookiePriceCount.remove(cookiePriceCount.lastKey());
+        while (!cookiePriceCount.isEmpty()) {
+            output += "\n";
+            output += "-------------" + "            " + "-------------";
+            output += "\n";
+            output += "Price:";
+            output += String.format("%7s", cookiePriceCount.lastKey());
+            output += "            ";
+            output += "seen: ";
+            if (cookiePriceCount.get(cookiePriceCount.lastKey()) > 1) {
+                output += String.format("%7s", cookiePriceCount.get(cookiePriceCount.lastKey()) + " times");
+            }
+            else {
+                output += String.format("%7s", cookiePriceCount.get(cookiePriceCount.lastKey()) + " time");
+            }
+            output += "\n";
+            cookiePriceCount.remove(cookiePriceCount.lastKey());
+        }
+        output += "\n";
+        return output;
+    }
 }

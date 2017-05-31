@@ -47,4 +47,61 @@ public class Bread {
         }
         return breadPriceList;
     }
+
+    public static String printBreadStats(int numberOfBreads, TreeMap<String, Integer> breadPriceCount) {
+        String outputHeader = printBreadHeader(numberOfBreads);
+        String outputPrices = printPrices(breadPriceCount);
+        String output = outputHeader + outputPrices;
+        return output;
+    }
+
+    public static String printBreadHeader(int numberOfBreads) {
+        String output = "name:";
+        output += String.format("%8s", "Bread");
+        output += "            seen: ";
+        output += numberOfBreads;
+        if (numberOfBreads > 1) {
+            output += String.format("%-6s", " times");
+        }
+        if (numberOfBreads == 1) {
+            output += String.format("%-6s", " time");
+        }
+        output += "\n";
+        output += "=============" + "            " + "=============";
+        output += "\n";
+        return output;
+    }
+
+    public static String printPrices(TreeMap<String, Integer> breadPriceCount) {
+        String output = "Price:";
+        output += String.format("%7s", breadPriceCount.lastKey());
+        output += "            ";
+        output += "seen: ";
+        if (breadPriceCount.get(breadPriceCount.lastKey()) > 1) {
+            output += String.format("%7s", breadPriceCount.get(breadPriceCount.lastKey()) + " times");
+        }
+        else {
+            output += String.format("%7s", breadPriceCount.get(breadPriceCount.lastKey()) + " time");
+        }
+        breadPriceCount.remove(breadPriceCount.lastKey());
+        while (!breadPriceCount.isEmpty()) {
+            output += "\n";
+            output += "-------------" + "            " + "-------------";
+            output += "\n";
+            output += "Price:";
+            output += String.format("%7s", breadPriceCount.lastKey());
+            output += "            ";
+            output += "seen: ";
+            if (breadPriceCount.get(breadPriceCount.lastKey()) > 1) {
+                output += String.format("%7s", breadPriceCount.get(breadPriceCount.lastKey()) + " times");
+            }
+            else {
+                output += String.format("%7s", breadPriceCount.get(breadPriceCount.lastKey()) + " time");
+            }
+            output += "\n";
+            breadPriceCount.remove(breadPriceCount.lastKey());
+        }
+        output += "\n";
+        return output;
+    }
 }
