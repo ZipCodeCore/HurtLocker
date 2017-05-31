@@ -17,9 +17,9 @@ public class testParser {
     public void init() throws Exception {
         parser = new Parser();
         ClassLoader classLoader = getClass().getClassLoader();
-      //  String result = IOUtils.toString(classLoader.getResourceAsStream("RawData.txt"));
+        //  String result = IOUtils.toString(classLoader.getResourceAsStream("RawData.txt"));
 
-         output = (new Main()).readRawDataToString();
+        output = (new Main()).readRawDataToString();
     }
 
 
@@ -45,5 +45,19 @@ public class testParser {
         String actual = arrayListOfBrokenLines.get(0);
         //Then
         Assert.assertEquals("This should break the line right after two hashtags", expected, actual);
+    }
+
+    @Test
+    public void testMilkBreakDown() {
+
+       ///Given
+        ArrayList<String> arrayListOfBrokenLines  =new ArrayList<>() "[Milk;price:3.23;type:Food;expiration:1/25/2016, MiLK;price:3.23;type:Food^expiration:1/11/2016, MilK;price:3.23;type:Food;expiration:1/17/2016, MilK;price:1.23;type:Food!expiration:4/25/2016, Milk;price:3.23;type:Food;expiration:1/25/2016, MiLK;priCe:;type:Food;expiration:1/11/2016, MilK;price:3.23;type:Food;expiration:1/17/2016, MilK;priCe:;type:Food;expiration:4/25/2016]\n";
+        String expected = "";
+        //When
+        ArrayList<String> arrayListOfBrokenLines = parser.milkBreakDown(given);
+        String actual = arrayListOfBrokenLines.get(0);
+        //Then
+        Assert.assertEquals("This should break the line right after two hashtags", expected, actual);
+
     }
 }
