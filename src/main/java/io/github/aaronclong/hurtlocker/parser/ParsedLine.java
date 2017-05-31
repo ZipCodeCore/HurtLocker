@@ -1,9 +1,11 @@
 package io.github.aaronclong.hurtlocker.parser;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by aaronlong on 5/31/17.
@@ -21,14 +23,11 @@ public class ParsedLine implements ParsedItem {
 
   public Map<String, String> getParsed() throws ParserException {
     HashMap<String, String> parsedKeyValuePairs = new HashMap<>();
-    String[] keyValuePairs = original.split("(" + ParsedKeyValue.REGEX + ")");
-    Arrays.stream(keyValuePairs).forEach(System.out::println);
+    String[] keyValuePairs = regexPullLines();
     for (String pair : keyValuePairs) {
       Map<String, String> parsed = handleKeyValueParse(pair);
       if (parsed != null) {
         concatMaps(parsedKeyValuePairs, parsed);
-      } else {
-        System.out.println("Nope");
       }
     }
     return parsedKeyValuePairs;
@@ -50,6 +49,18 @@ public class ParsedLine implements ParsedItem {
     }  catch (ParserException e) {
       return null;
     }
+  }
+
+  private String[] regexPullLines() {
+    ArrayList<String> matchedItems = new ArrayList<>();
+    Pattern pattern = Pattern.compile("(" + ParsedKeyValue.REGEX + ")");
+    Matcher matcher = pattern.matcher(original);
+    while (matcher.find()) {
+      matchedItems.add(matcher.group());
+    }
+    String[] matchedItemsAsStrings = new String[matchedItems.size()];
+    matchedItems.toArray(matchedItemsAsStrings);
+    return matchedItemsAsStrings;
   }
 
   public static ParsedLine parse(String original) {

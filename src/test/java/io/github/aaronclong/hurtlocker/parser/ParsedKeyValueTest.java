@@ -16,7 +16,6 @@ public class ParsedKeyValueTest {
       ParsedKeyValue kvPair = ParsedKeyValue.parse("price:1.23;");
       HashMap<String, String> mapSeparatedByColon = new HashMap<>();
       mapSeparatedByColon.put("price", "1.23");
-      System.out.println(kvPair.getParsed());
       assertEquals("Testing getting pair with colon", mapSeparatedByColon, kvPair.getParsed());
     } catch(ParserException e) {
       fail(e.toString());
