@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -29,5 +30,21 @@ public class Bread {
             }
         }
         return breadList;
+    }
+
+    public static TreeMap<String, Integer> getBreadPriceList (ArrayList<ArrayList<String>> breadList) {
+        TreeMap<String, Integer> breadPriceList = new TreeMap<String,Integer>();
+        for (int index = 0; index < breadList.size(); index++) {
+            String price = breadList.get(index).get(1);
+            if (!breadPriceList.containsKey(price)) {
+                breadPriceList.put(price, 1);
+            }
+            else {
+                int count = breadPriceList.get(price);
+                breadPriceList.remove(price);
+                breadPriceList.put(price, count+1);
+            }
+        }
+        return breadPriceList;
     }
 }

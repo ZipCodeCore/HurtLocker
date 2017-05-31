@@ -1,6 +1,8 @@
 import org.apache.commons.io.IOUtils;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.TreeMap;
 import java.util.regex.*;
 
 public class Main {
@@ -19,6 +21,29 @@ public class Main {
         ArrayList<ArrayList<String>> breadList = Bread.parseListForBreadPriceKeyPair(foodList);
         ArrayList<ArrayList<String>> cookiesList = Cookies.parseListForCookiesPriceKeyPair(foodList);
         ArrayList<ArrayList<String>> applesList = Apples.parseListForApplesPriceKeyPair(foodList);
+        int numberOfMilks = getNumberOfProductAppearances(milkList);
+        int numberOfBreads = getNumberOfProductAppearances(breadList);
+        int numberOfCookies = getNumberOfProductAppearances(cookiesList);
+        int numberOfApples = getNumberOfProductAppearances(applesList);
+        TreeMap<String, Integer> milkPriceCount = Milk.getMilkPriceList(milkList);
+        TreeMap<String, Integer> breadPriceCount = Milk.getMilkPriceList(breadList);
+        TreeMap<String, Integer> cookiesPriceCount = Milk.getMilkPriceList(cookiesList);
+        TreeMap<String, Integer> applesPriceCount = Milk.getMilkPriceList(applesList);
+        PrintWriter writer = null;
+        try {
+            writer = new PrintWriter("output.txt");
+            writer.println(Milk.printMilkStats(numberOfMilks, milkPriceCount));
+        } catch (IOException e) {
+            System.out.println("Exception");
+        } finally {
+            try {
+                if (writer != null) {
+                    writer.close();
+                }
+            } catch (Exception e) {
+                System.out.println("Exception");
+            }
+        }
     }
 
 
@@ -42,5 +67,11 @@ public class Main {
             }
         }
     }
+
+    public static int getNumberOfProductAppearances(ArrayList<ArrayList<String>> productList) {
+        return productList.size();
+    }
+
+
 
 }

@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -30,5 +31,21 @@ public class Apples {
             }
         }
         return appleList;
+    }
+
+    public static TreeMap<String, Integer> getApplesPriceList (ArrayList<ArrayList<String>> applesList) {
+        TreeMap<String, Integer> applesPriceList = new TreeMap<String,Integer>();
+        for (int index = 0; index < applesList.size(); index++) {
+            String price = applesList.get(index).get(1);
+            if (!applesPriceList.containsKey(price)) {
+                applesPriceList.put(price, 1);
+            }
+            else {
+                int count = applesPriceList.get(price);
+                applesPriceList.remove(price);
+                applesPriceList.put(price, count+1);
+            }
+        }
+        return applesPriceList;
     }
 }
