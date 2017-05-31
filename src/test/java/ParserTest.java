@@ -7,7 +7,7 @@ import java.util.Arrays;
 /**
  * Created by sarahweisser on 5/31/17.
  */
-public class parserTest {
+public class ParserTest {
 
     String itemString;
     Parser parser;
@@ -58,4 +58,6 @@ public class parserTest {
         //then
         Assert.assertArrayEquals(expected, actual);
     }
+
+
 }

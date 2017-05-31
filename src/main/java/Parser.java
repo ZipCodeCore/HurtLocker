@@ -15,4 +15,5 @@ public class Parser {
         String [] itemInfo = inputString.split("[!@#$%^&*+,:;<=>?]");
         return itemInfo;
     }
+
 }
