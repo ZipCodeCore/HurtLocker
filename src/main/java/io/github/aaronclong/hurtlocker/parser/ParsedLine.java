@@ -18,7 +18,7 @@ public class ParsedLine implements ParsedItem {
     return "";
   }
 
-  public Map<String, String> getParsed() {
+  public Map<String, String> getParsed() throws ParserException {
     return new HashMap<String, String>();
   }
 
