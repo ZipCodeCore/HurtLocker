@@ -11,19 +11,24 @@ public class Bread {
 
     public static ArrayList<ArrayList<String>> parseListForBreadPriceKeyPair(ArrayList<String> foodList) {
         ArrayList<ArrayList<String>> breadList = new ArrayList<ArrayList<String>>();
-        Pattern patternCorrect = Pattern.compile("([B|b][R|r][E|e][A|a][D|d])\\;price\\:(\\d\\.\\d{2})");
-        Pattern patternError = Pattern.compile("([B|b][R|r][E|e][A|a][D|d])\\;price\\:");
+        Pattern patternCorrect = Pattern.compile("(.{4}\\:)([B|b][R|r][E|e][A|a][D|d])\\;price\\:(\\d\\.\\d{2})");
+        Pattern patternErrorOne = Pattern.compile("(.{4}\\:)([B|b][R|r][E|e][A|a][D|d])\\;price\\:");
+        Pattern patternErrorTwo = Pattern.compile("(.{4}\\:)\\;price\\:");
         for (String food : foodList) {
             ArrayList<String> breadEntry = new ArrayList<String>();
             Matcher matcherCorrect = patternCorrect.matcher(food);
             if (matcherCorrect.find()) {
-                breadEntry.add(matcherCorrect.group(1));
                 breadEntry.add(matcherCorrect.group(2));
+                breadEntry.add(matcherCorrect.group(3));
                 breadList.add(breadEntry);
             }
             else {
-                Matcher matcherError = patternError.matcher(food);
-                if (matcherError.find()) {
+                Matcher matcherErrorOne = patternErrorOne.matcher(food);
+                Matcher matcherErrorTwo = patternErrorTwo.matcher(food);
+                if (matcherErrorOne.find()) {
+                    ErrorCounter.increaseErrorCount();
+                }
+                if (matcherErrorTwo.find()) {
                     ErrorCounter.increaseErrorCount();
                 }
             }

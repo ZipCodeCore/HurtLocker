@@ -18,6 +18,7 @@ public class Main {
         ArrayList<ArrayList<String>> breadList = Bread.parseListForBreadPriceKeyPair(foodList);
         ArrayList<ArrayList<String>> cookiesList = Cookies.parseListForCookiesPriceKeyPair(foodList);
         ArrayList<ArrayList<String>> applesList = Apples.parseListForApplesPriceKeyPair(foodList);
+        System.out.println(ErrorCounter.getErrorCount());
     }
 
 
