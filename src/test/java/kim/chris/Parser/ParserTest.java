@@ -1,14 +1,10 @@
 package kim.chris.Parser;
 
 import kim.chris.data.Item;
-import kim.chris.exceptions.ExpirationNotFoundException;
-import kim.chris.exceptions.NameNotFoundException;
-import kim.chris.exceptions.PriceNotFoundException;
-import kim.chris.exceptions.TypeNotFoundException;
+import kim.chris.exceptions.ValueNotFoundException;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import static kim.chris.Parser.Parser.*;
@@ -58,44 +54,63 @@ public class ParserTest {
     @Test
     public void parseJerkTest(){
         //Given
-        ArrayList<Item> expected = new ArrayList<Item>();
-        expected.add(new Item("Milk", 3.23, "Food", "1/25/2016"));
+        String expected = "name:    Milk\t\tseen: 1 time\n" +
+                "=============\t\t=============\n" +
+                "Price:   3.23\t\tseen: 1 time\n" +
+                "\n" +
+                "Errors seen: 0 times";
 
         //When
-        ArrayList<Item> actual = parseJerk(milkLine);
+        String actual = parseJerk(milkLine);
 
         //Then
-        assertEquals("Generated list should match", expected, actual);
+        assertEquals("Strings should match", expected, actual);
     }
 
     @Test
-    public void parseItemTest(){
+    public void parseJerkForRealTest(){
+        //Given
+        String expected = "name:    Milk\t\tseen: 6 times\n" +
+                "=============\t\t=============\n" +
+                "Price:   3.23\t\tseen: 5 times\n" +
+                "-------------\t\t-------------\n" +
+                "Price:   1.23\t\tseen: 1 time\n" +
+                "\n" +
+                "name:   Bread\t\tseen: 6 times\n" +
+                "=============\t\t=============\n" +
+                "Price:   1.23\t\tseen: 6 times\n" +
+                "-------------\t\t-------------\n" +
+                "\n" +
+                "name: Cookies\t\tseen: 8 times\n" +
+                "=============\t\t=============\n" +
+                "Price:   2.25\t\tseen: 8 times\n" +
+                "-------------\t\t-------------\n" +
+                "\n" +
+                "name:  Apples\t\tseen: 4 times\n" +
+                "=============\t\t=============\n" +
+                "Price:   0.25\t\tseen: 2 times\n" +
+                "-------------\t\t-------------\n" +
+                "Price:   0.23\t\tseen: 2 times\n" +
+                "\n" +
+                "Errors seen: 4 times";
+
+        //When
+        String actual = parseJerk(rawData);
+
+        //Then
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void parseLineTest() throws ValueNotFoundException {
         //Given
         Item expected = new Item("Milk", 3.23, "Food", "1/25/2016");
 
         //When
-        Item actual = parseItem(milkLine);
+        Item actual = parseLine(milkLine);
 
         //Then
         assertEquals("Line one of the file should be parsed correctly to Item(Milk, 3.23, Food, 1/25/2016)", expected, actual);
-    }
-
-    @Test
-    public void listToStringTest(){
-        //Given
-        Item item = new Item("Milk", 3.23, "Food", "1/25/2016");
-        ArrayList<Item> list = new ArrayList<Item>();
-        list.add(item);
-        String expected = "name:    Milk \t\t seen: 1 time\n" +
-                "============= \t\t =============\n" +
-                "Price: \t 3.23\t\t seen: 1 times\n" +
-                "-------------\t\t -------------\n";
-
-        //When
-        String actual = listToString(list);
-
-        //Then
-        assertEquals("Output strings should match", expected, actual);
     }
 
     @Test
@@ -108,7 +123,7 @@ public class ParserTest {
     }
 
     @Test
-    public void readNameTest() throws NameNotFoundException {
+    public void readNameTest() throws ValueNotFoundException {
         //Given
         String expected1 = "Milk";
         String expected2 = "Bread";
@@ -129,13 +144,13 @@ public class ParserTest {
         assertEquals("Should return Apples", expected4, actual4);
     }
 
-    @Test (expected = NameNotFoundException.class)
-    public void readNameFailTest() throws NameNotFoundException {
+    @Test (expected = ValueNotFoundException.class)
+    public void readNameFailTest() throws ValueNotFoundException {
         String actual = readName("naMe:;price:3.23;type:Food^expiration:1/04/2016##");
     }
 
     @Test
-    public void readTypeTest() throws TypeNotFoundException {
+    public void readTypeTest() throws ValueNotFoundException {
         //Given
         String expected = "Food";
         
@@ -153,13 +168,13 @@ public class ParserTest {
         assertEquals("The Type of apples should be Food", expected, actual4);
     }
     
-    @Test (expected = TypeNotFoundException.class)
-    public void readTypeFailTest() throws TypeNotFoundException {
+    @Test (expected = ValueNotFoundException.class)
+    public void readTypeFailTest() throws ValueNotFoundException {
         readType("naMe:MilK;Type:;type:;expiration:4/25/2016##\n");
     }
 
     @Test
-    public void readExpirationTest() throws ExpirationNotFoundException{
+    public void readExpirationTest() throws ValueNotFoundException {
         //Given
         String expected1 = "1/25/2016";
         String expected2 = "1/02/2016";
@@ -179,8 +194,8 @@ public class ParserTest {
         assertEquals("The exp date should be 5/02/2016", expected4, actual4);
     }
 
-    @Test (expected = ExpirationNotFoundException.class)
-    public void readExpirationFailTest() throws ExpirationNotFoundException {
+    @Test (expected = ValueNotFoundException.class)
+    public void readExpirationFailTest() throws ValueNotFoundException {
         readExpiration("naMe:MilK;Type:;type:;expiration:##\n");
     }
 
@@ -188,8 +203,8 @@ public class ParserTest {
     public void splitByLineTest(){
         //Given
         ArrayList<String> expected = new ArrayList<String>();
-        expected.add("naMe:Milk;price:3.23;type:Food;expiration:1/25/2016##");
-        expected.add("naME:BreaD;price:1.23;type:Food;expiration:1/02/2016##");
+        expected.add("naMe:Milk;price:3.23;type:Food;expiration:1/25/2016");
+        expected.add("naME:BreaD;price:1.23;type:Food;expiration:1/02/2016");
 
         //When
         ArrayList<String> actual = splitByLine("naMe:Milk;price:3.23;type:Food;expiration:1/25/2016##naME:BreaD;price:1.23;type:Food;expiration:1/02/2016##");

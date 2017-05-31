@@ -11,21 +11,6 @@ public class ItemTest {
 
     }
 
-    @Test
-    public void addItemTest(){
-        //Given
-        Item item = new Item("Milk", 3.23, "Food", "1/25/2016");
-        Double expected = 1.23;
-
-
-        //When
-        item.addPrice(1.23);
-        Double actual = item.getPrices().get(1);
-
-        //Then
-        assertEquals("Price should be added to end of arraylist", expected, actual);
-
-    }
 
     @Test
     public void equalsTest(){
