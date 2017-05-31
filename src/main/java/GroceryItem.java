@@ -1,3 +1,5 @@
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -5,18 +7,19 @@ import java.util.Date;
  */
 public class GroceryItem {
     private String nameOfItem;
-    private String priceOfItem;
+    private BigDecimal priceOfItem;
     private String typeOfItem;
     private String expirationDate;
     private int pricesCount = 0;
     private int itemCount = 0;
-    private long[] prices;
+    private ArrayList<BigDecimal> prices = new ArrayList<BigDecimal>();
 
     public GroceryItem(String[] itemInfo) {
         this.nameOfItem = itemInfo[1];
-        this.priceOfItem =  itemInfo[3];
+        this.priceOfItem =  new BigDecimal(itemInfo[3]);
         this.typeOfItem = itemInfo[5];
         this.expirationDate = itemInfo[7];
+        prices.add(this.priceOfItem);
     }
 
 
@@ -28,11 +31,11 @@ public class GroceryItem {
         this.nameOfItem = nameOfItem;
     }
 
-    public String getPriceOfItem() {
+    public BigDecimal getPriceOfItem() {
         return priceOfItem;
     }
 
-    public void setPriceOfItem(String priceOfItem) {
+    public void setPriceOfItem(BigDecimal priceOfItem) {
         this.priceOfItem = priceOfItem;
     }
 
@@ -68,11 +71,11 @@ public class GroceryItem {
         this.itemCount = itemCount;
     }
 
-    public long[] getPrices() {
+    public ArrayList<BigDecimal> getPrices() {
         return prices;
     }
 
-    public void setPrices(long[] prices) {
+    public void setPrices(ArrayList<BigDecimal> prices) {
         this.prices = prices;
     }
 
