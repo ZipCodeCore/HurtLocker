@@ -13,9 +13,13 @@ public class Main {
 
     public static void main(String[] args) throws Exception{
         String output = (new Main()).readRawDataToString();
-        System.out.println(output);
-
+        ArrayList<String> foodList = createListOfFoodItems(output);
+        ArrayList<ArrayList<String>> milkList = Milk.parseListForMilkPriceKeyPair(foodList);
+        ArrayList<ArrayList<String>> breadList = Bread.parseListForBreadPriceKeyPair(foodList);
+        ArrayList<ArrayList<String>> cookiesList = Cookies.parseListForCookiesPriceKeyPair(foodList);
+        ArrayList<ArrayList<String>> applesList = Apples.parseListForApplesPriceKeyPair(foodList);
     }
+
 
     public static ArrayList<String> createListOfFoodItems(String rawData) {
         ArrayList<String> foodList = new ArrayList<String>();
