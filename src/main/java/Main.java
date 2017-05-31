@@ -11,7 +11,10 @@ public class Main {
 
     public static void main(String[] args) throws Exception{
         String output = (new Main()).readRawDataToString();
-        System.out.println(output);
+        Parser parser = new Parser();
+        parser.patternMatch(output);
+        //System.out.println(output);
+        //System.out.println(parser);
 
     }
 }
