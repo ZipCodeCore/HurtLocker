@@ -1,5 +1,9 @@
 package io.github.aaronclong.hurtlocker.parser;
 
+import java.util.AbstractMap.SimpleEntry;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by aaronlong on 5/31/17.
  */
@@ -14,8 +18,8 @@ public class ParsedLine implements ParsedItem {
     return "";
   }
 
-  public String getParsed() {
-    return "";
+  public Map<String, String> getParsed() {
+    return new HashMap<String, String>();
   }
 
   public static ParsedLine parse(String original) {
