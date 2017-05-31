@@ -5,11 +5,34 @@ import java.util.ArrayList;
  */
 public class Item {
     private String name;
-    private ArrayList<String> price;
+    private ArrayList<String> prices;
+    private int timesSeen;
 
-
-    public Item(String name, long price, String type, String expiration) {
+    public Item(String name, String price) {
+        this.prices = new ArrayList<>();
         this.name = name;
-        this.price = price;
+        this.prices.add(price);
+        this.timesSeen = 1;
+    }
+
+    public void addPriceToItem(String price) {
+        prices.add(price);
+    }
+
+    public void isSeenAgain() {
+        timesSeen++;
+    }
+
+    public String getName() {
+
+        return name;
+    }
+
+    public ArrayList<String> getPrices() {
+        return prices;
+    }
+
+    public int getTimesSeen() {
+        return timesSeen;
     }
 }
