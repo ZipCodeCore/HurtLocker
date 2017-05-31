@@ -11,9 +11,8 @@ public class Cookies {
 
     public static ArrayList<ArrayList<String>> parseListForCookiesPriceKeyPair(ArrayList<String> foodList) {
         ArrayList<ArrayList<String>> cookieList = new ArrayList<ArrayList<String>>();
-        Pattern patternCorrect = Pattern.compile("(.{4}\\:)([C|c][O|o]{2}[K|k][I|i][E|e][S|s])\\;price\\:(\\d\\.\\d{2})");
-        Pattern patternErrorOne = Pattern.compile("(.{4}\\:)([C|c][O|o]{2}[K|k][I|i][E|e][S|s])\\;price\\:");
-        Pattern patternErrorTwo = Pattern.compile("(.{4}\\:)\\;price\\:");
+        Pattern patternCorrect = Pattern.compile("(.{4}\\:)([C|c][O|o]{2}[K|k][I|i][E|e][S|s])\\;.{5}\\:(\\d\\.\\d{2})");
+        Pattern patternErrorOne = Pattern.compile("(.{4}\\:)([C|c][O|o]{2}[K|k][I|i][E|e][S|s])\\;.{5}\\:\\;");
         for (String food : foodList) {
             ArrayList<String> cookieEntry = new ArrayList<String>();
             Matcher matcherCorrect = patternCorrect.matcher(food);
@@ -24,11 +23,7 @@ public class Cookies {
             }
             else {
                 Matcher matcherErrorOne = patternErrorOne.matcher(food);
-                Matcher matcherErrorTwo = patternErrorTwo.matcher(food);
                 if (matcherErrorOne.find()) {
-                    ErrorCounter.increaseErrorCount();
-                }
-                if (matcherErrorTwo.find()) {
                     ErrorCounter.increaseErrorCount();
                 }
             }

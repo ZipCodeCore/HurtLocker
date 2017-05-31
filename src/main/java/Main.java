@@ -14,11 +14,11 @@ public class Main {
     public static void main(String[] args) throws Exception{
         String output = (new Main()).readRawDataToString();
         ArrayList<String> foodList = createListOfFoodItems(output);
+        checkForMissingNameErrors(foodList);
         ArrayList<ArrayList<String>> milkList = Milk.parseListForMilkPriceKeyPair(foodList);
         ArrayList<ArrayList<String>> breadList = Bread.parseListForBreadPriceKeyPair(foodList);
         ArrayList<ArrayList<String>> cookiesList = Cookies.parseListForCookiesPriceKeyPair(foodList);
         ArrayList<ArrayList<String>> applesList = Apples.parseListForApplesPriceKeyPair(foodList);
-        System.out.println(ErrorCounter.getErrorCount());
     }
 
 
@@ -30,6 +30,17 @@ public class Main {
             foodList.add(matcher.group());
         }
         return foodList;
+    }
+
+    public static void checkForMissingNameErrors(ArrayList<String> foodList) {
+        ArrayList<ArrayList<String>> tempFoodList = new ArrayList<ArrayList<String>>();
+        Pattern patternError = Pattern.compile("[N|n][A|a][M|m][E|e]\\:\\;");
+        for (String food : foodList) {
+            Matcher matcherError = patternError.matcher(food);
+            if (matcherError.find()) {
+                ErrorCounter.increaseErrorCount();
+            }
+        }
     }
 
 }

@@ -11,9 +11,8 @@ public class Milk {
 
     public static ArrayList<ArrayList<String>> parseListForMilkPriceKeyPair(ArrayList<String> foodList) {
         ArrayList<ArrayList<String>> milkList = new ArrayList<ArrayList<String>>();
-        Pattern patternCorrect = Pattern.compile("(.{4}\\:)([M|m][I|i][L|l][K|k])\\;price\\:(\\d\\.\\d{2})");
-        Pattern patternErrorOne = Pattern.compile("(.{4}\\:)([M|m][I|i][L|l][K|k])\\;price\\:");
-        Pattern patternErrorTwo = Pattern.compile("(.{4}\\:)\\;price\\:");
+        Pattern patternCorrect = Pattern.compile("(.{4}\\:)([M|m][I|i][L|l][K|k])\\;.{5}\\:(\\d\\.\\d{2})");
+        Pattern patternErrorOne = Pattern.compile("(.{4}\\:)([M|m][I|i][L|l][K|k])\\;.{5}\\:\\;");
         for (String food : foodList) {
             ArrayList<String> milkEntry = new ArrayList<String>();
             Matcher matcherCorrect = patternCorrect.matcher(food);
@@ -24,11 +23,7 @@ public class Milk {
             }
             else {
                 Matcher matcherErrorOne = patternErrorOne.matcher(food);
-                Matcher matcherErrorTwo = patternErrorTwo.matcher(food);
                 if (matcherErrorOne.find()) {
-                    ErrorCounter.increaseErrorCount();
-                }
-                if (matcherErrorTwo.find()) {
                     ErrorCounter.increaseErrorCount();
                 }
             }
