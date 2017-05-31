@@ -1,6 +1,7 @@
 package kim.chris.Parser;
 
 import kim.chris.data.Item;
+import kim.chris.exceptions.ExpirationNotFoundException;
 import kim.chris.exceptions.NameNotFoundException;
 import kim.chris.exceptions.PriceNotFoundException;
 import kim.chris.exceptions.TypeNotFoundException;
@@ -52,7 +53,21 @@ public class Parser {
     }
 
     public static String readType(String line) throws TypeNotFoundException {
-        return "";
+        Matcher type = makeMatcher("(type):(\\w+)", line);
+        if(type.find()){
+            return type.group(2);
+        } else throw new TypeNotFoundException();
+    }
+
+    public static String readExpiration(String line) throws ExpirationNotFoundException {
+        Matcher expiration = makeMatcher("(expiration:)(\\d{0,1}\\/\\d\\d\\/\\d{4})", line);
+        if(expiration.find()){
+            return expiration.group(2);
+        } else throw new ExpirationNotFoundException();
+    }
+
+    public static ArrayList<String> splitByLine(String input){
+        return new ArrayList<String>();
     }
 
 }

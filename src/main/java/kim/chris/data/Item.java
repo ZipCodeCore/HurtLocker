@@ -59,6 +59,6 @@ public class Item {
 
         Item otherItem1 = (Item)otherItem;
 
-        return this.name.equals(otherItem1.name) && this.prices == otherItem1.prices && this.type.equals(otherItem1.prices) && this.expiration.equals(otherItem1.expiration);
+        return this.name.equals(otherItem1.getName()) && this.prices.equals(otherItem1.getPrices()) && this.type.equals(otherItem1.getType()) && this.expiration.equals(otherItem1.getExpiration());
     }
 }

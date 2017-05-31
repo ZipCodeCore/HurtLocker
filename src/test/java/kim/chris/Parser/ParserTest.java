@@ -1,12 +1,14 @@
-package kim.chris;
+package kim.chris.Parser;
 
 import kim.chris.data.Item;
+import kim.chris.exceptions.ExpirationNotFoundException;
 import kim.chris.exceptions.NameNotFoundException;
 import kim.chris.exceptions.PriceNotFoundException;
 import kim.chris.exceptions.TypeNotFoundException;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import static kim.chris.Parser.Parser.*;
@@ -155,6 +157,45 @@ public class ParserTest {
     public void readTypeFailTest() throws TypeNotFoundException {
         readType("naMe:MilK;Type:;type:;expiration:4/25/2016##\n");
     }
-    
+
+    @Test
+    public void readExpirationTest() throws ExpirationNotFoundException{
+        //Given
+        String expected1 = "1/25/2016";
+        String expected2 = "1/02/2016";
+        String expected3 = "1/25/2016";
+        String expected4 = "5/02/2016";
+
+        //When
+        String actual1 = readExpiration(milkLine);
+        String actual2 = readExpiration(breadLine);
+        String actual3 = readExpiration(cookiesLine);
+        String actual4 = readExpiration(applesLine);
+
+        //Then
+        assertEquals("The exp date should be 1/25/2016", expected1, actual1);
+        assertEquals("The exp date should be 1/02/2016", expected2, actual2);
+        assertEquals("The exp date should be 1/25/2016", expected3, actual3);
+        assertEquals("The exp date should be 5/02/2016", expected4, actual4);
+    }
+
+    @Test (expected = ExpirationNotFoundException.class)
+    public void readExpirationFailTest() throws ExpirationNotFoundException {
+        readExpiration("naMe:MilK;Type:;type:;expiration:##\n");
+    }
+
+    @Test
+    public void splitByLineTest(){
+        //Given
+        ArrayList<String> expected = new ArrayList<String>();
+        expected.add("naMe:Milk;price:3.23;type:Food;expiration:1/25/2016##");
+        expected.add("naME:BreaD;price:1.23;type:Food;expiration:1/02/2016##");
+
+        //When
+        ArrayList<String> actual = splitByLine("naMe:Milk;price:3.23;type:Food;expiration:1/25/2016##naME:BreaD;price:1.23;type:Food;expiration:1/02/2016##");
+
+        //Then
+        assertEquals("The two strings returned by splitByLine should equal the expected values", expected, actual);
+    }
     
 }
