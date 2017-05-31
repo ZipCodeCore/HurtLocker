@@ -16,10 +16,10 @@ public class ParsedLineTest {
   @Test
   public void testStandardLine() {
     HashMap<String, String> map = new HashMap<>();
-    map.put("naMe", "Milk");
-    map.put("price", "3.23");
-    map.put("type", "Food");
-    map.put("expiration", "1/25/2016");
+    map.put("Name", "Milk");
+    map.put("Price", "3.23");
+    map.put("Type", "Food");
+    map.put("Expiration", "1/25/2016");
     ParsedLine actualLine = ParsedLine.parse(standardLine);
     try {
       assertEquals("Testing standard line", map, actualLine.getParsed());
@@ -31,10 +31,10 @@ public class ParsedLineTest {
   @Test
   public void testIrregPercent() {
     HashMap<String, String> map = new HashMap<>();
-    map.put("naMe", "Cookies");
-    map.put("price", "2.25");
-    map.put("type", "Food");
-    map.put("expiration", "1/25/2016");
+    map.put("Name", "Cookies");
+    map.put("Price", "2.25");
+    map.put("Type", "Food");
+    map.put("Expiration", "1/25/2016");
     ParsedLine actualLine = ParsedLine.parse(irregularLinePercent);
     try {
       assertEquals("Testing irregularLinePercent", map, actualLine.getParsed());

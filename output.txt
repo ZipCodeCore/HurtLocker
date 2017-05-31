@@ -9,8 +9,8 @@ name:   Bread		 seen: 6 times
 Price:   1.23		 seen: 6 times
 -------------		 -------------
 
-name: Cookies     	 seen: 8 times
-=============     	 =============
+name: Cookies   	 seen: 8 times
+=============        =============
 Price:   2.25        seen: 8 times
 -------------        -------------
 

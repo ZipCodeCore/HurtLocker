@@ -15,7 +15,7 @@ public class ParsedKeyValueTest {
     try {
       ParsedKeyValue kvPair = ParsedKeyValue.parse("price:1.23;");
       HashMap<String, String> mapSeparatedByColon = new HashMap<>();
-      mapSeparatedByColon.put("price", "1.23");
+      mapSeparatedByColon.put("Price", "1.23");
       assertEquals("Testing getting pair with colon", mapSeparatedByColon, kvPair.getParsed());
     } catch(ParserException e) {
       fail(e.toString());
@@ -27,7 +27,7 @@ public class ParsedKeyValueTest {
     try {
       ParsedKeyValue kvPair = ParsedKeyValue.parse("naMe@Milk;");
       HashMap<String, String> mapSeparatedByColon = new HashMap<>();
-      mapSeparatedByColon.put("naMe", "Milk");
+      mapSeparatedByColon.put("Name", "Milk");
       assertEquals("Testing getting pair with atSign", mapSeparatedByColon, kvPair.getParsed());
     } catch(ParserException e) {
       fail(e.toString());
@@ -39,7 +39,7 @@ public class ParsedKeyValueTest {
     try {
       ParsedKeyValue kvPair = ParsedKeyValue.parse("expiration^5/02/2016;");
       HashMap<String, String> mapSeparatedByColon = new HashMap<>();
-      mapSeparatedByColon.put("expiration", "5/02/2016");
+      mapSeparatedByColon.put("Expiration", "5/02/2016");
       assertEquals("Testing getting pair with atSign", mapSeparatedByColon, kvPair.getParsed());
     } catch(ParserException e) {
       fail(e.toString());
@@ -51,7 +51,7 @@ public class ParsedKeyValueTest {
     try {
       ParsedKeyValue kvPair = ParsedKeyValue.parse("naMe*Milk;");
       HashMap<String, String> mapSeparatedByColon = new HashMap<>();
-      mapSeparatedByColon.put("naMe", "Milk");
+      mapSeparatedByColon.put("Name", "Milk");
       assertEquals("Testing getting pair with atSign", mapSeparatedByColon, kvPair.getParsed());
     } catch(ParserException e) {
       fail(e.toString());
@@ -63,7 +63,7 @@ public class ParsedKeyValueTest {
     try {
       ParsedKeyValue kvPair = ParsedKeyValue.parse("naMe%Milk;");
       HashMap<String, String> mapSeparatedByColon = new HashMap<>();
-      mapSeparatedByColon.put("naMe", "Milk");
+      mapSeparatedByColon.put("Name", "Milk");
       assertEquals("Testing getting pair with atSign", mapSeparatedByColon, kvPair.getParsed());
     } catch(ParserException e) {
       fail(e.toString());

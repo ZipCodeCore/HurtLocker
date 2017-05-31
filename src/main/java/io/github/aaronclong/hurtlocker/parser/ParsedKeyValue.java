@@ -26,10 +26,39 @@ public class ParsedKeyValue implements ParsedItem {
     if (!matched.lookingAt()) {
       throw new ParserException();
     }
-    return Collections.singletonMap(matched.group(1), matched.group(3));
+    return Collections.singletonMap(stringFormatter(matched.group(1)),
+                stringFormatter(matched.group(3)));
   }
 
   public static ParsedKeyValue parse(String original) {
     return new ParsedKeyValue(original);
+  }
+
+  private String stringFormatter (String unformatted) {
+    String result = fixFirstlettercapitilization(unformatted);
+    result = fixConsecutiveCapitilization(result);
+    return result;
+  }
+
+  private String fixFirstlettercapitilization(String unformatted) {
+    Pattern parsePattern = Pattern.compile("\\b([a-z])");
+    Matcher matcher = parsePattern.matcher(unformatted);
+    String result = unformatted;
+    while (matcher.find()) {
+      String lowerToUpper = matcher.group().toUpperCase();
+      result = matcher.replaceAll(lowerToUpper);
+    }
+    return result;
+  }
+
+  private String fixConsecutiveCapitilization(String unformatted) {
+    Pattern parsePattern = Pattern.compile("(?!^[A-Z])[A-Z]");
+    Matcher matcher = parsePattern.matcher(unformatted);
+    String result = unformatted;
+    while (matcher.find()) {
+      String upperToLower = matcher.group().toLowerCase();
+      result = matcher.replaceAll(upperToLower);
+    }
+    return result;
   }
 }
