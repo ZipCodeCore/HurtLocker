@@ -66,7 +66,7 @@ public class Milk {
             output += String.format("%-6s", " times");
         }
         if (numberOfMilks == 1) {
-            output += String.format("%-6s", " time");
+            output += String.format("%-5s", " time");
         }
         output += "\n";
         output += "=============" + "            " + "=============";
@@ -78,12 +78,11 @@ public class Milk {
         String output = "Price:";
         output += String.format("%7s", milkPriceCount.lastKey());
         output += "            ";
-        output += "seen: ";
         if (milkPriceCount.get(milkPriceCount.lastKey()) > 1) {
-            output += String.format("%7s", milkPriceCount.get(milkPriceCount.lastKey()) + " times");
+            output += "seen: " + milkPriceCount.get(milkPriceCount.lastKey()) + " times";
         }
         else {
-            output += String.format("%7s", milkPriceCount.get(milkPriceCount.lastKey()) + " time");
+            output += "seen: " + milkPriceCount.get(milkPriceCount.lastKey()) + " time";
         }
         milkPriceCount.remove(milkPriceCount.lastKey());
         while (!milkPriceCount.isEmpty()) {
@@ -93,12 +92,11 @@ public class Milk {
             output += "Price:";
             output += String.format("%7s", milkPriceCount.lastKey());
             output += "            ";
-            output += "seen: ";
             if (milkPriceCount.get(milkPriceCount.lastKey()) > 1) {
-                output += String.format("%7s", milkPriceCount.get(milkPriceCount.lastKey()) + " times");
+                output += "seen: " + milkPriceCount.get(milkPriceCount.lastKey()) + " times";
             }
             else {
-                output += String.format("%7s", milkPriceCount.get(milkPriceCount.lastKey()) + " time");
+                output += "seen: " + milkPriceCount.get(milkPriceCount.lastKey()) + " time";
             }
             output += "\n";
             milkPriceCount.remove(milkPriceCount.lastKey());
