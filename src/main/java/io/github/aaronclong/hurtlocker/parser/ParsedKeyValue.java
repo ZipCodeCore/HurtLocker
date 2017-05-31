@@ -23,10 +23,10 @@ public class ParsedKeyValue implements ParsedItem {
 
   public Map<String, String> getParsed() throws ParserException {
     HashMap<String, String> parsedItems = new HashMap<>();
-    Pattern parsePattern = Pattern.compile("[\\w\\.\\/]+([:@\\^\\*%])[\\w\\.\\/]+");
+    Pattern parsePattern = Pattern.compile("([\\w\\.\\/]+)([:@\\^\\*%])([\\w\\.\\/]+)");
     Matcher matched = parsePattern.matcher(original);
     if (!matched.lookingAt()) throw new ParserException();
-
+    parsedItems.put(matched.group(1), matched.group(3));
     return parsedItems;
   }
 
