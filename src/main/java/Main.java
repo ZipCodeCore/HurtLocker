@@ -19,8 +19,10 @@ public class Main {
        // System.out.println(output);
 
         Parser parser = new Parser();
+        System.out.println(parser.parseString("naMe:Milk;price:3.05;type:Food;expiration:1/25/2016"));
+        System.out.print(parser.createItemList());
 
-        System.out.println(parser.matchPricePattern("naMe:Milk;price:3.23;type:Food;expiration:1/25/2016"));
+        //System.out.println(parser.matchNamePattern("naMe:;price:;type:Food;expiration:1/25/2016"));
 
     }
 }

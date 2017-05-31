@@ -113,4 +113,18 @@ public class ParserTest {
         //Then
         Assert.assertEquals("Should be 3.23", expected, actual);
     }
+
+    @Test
+    public void createItemListTest(){
+        //Given
+        int expected = 28;
+
+        //When
+        parser.parseString(result);
+        parser.createItemList();
+        int actual = parser.getItemListSize();
+
+        //Then
+        Assert.assertEquals("list size should be 28", expected, actual);
+    }
 }
