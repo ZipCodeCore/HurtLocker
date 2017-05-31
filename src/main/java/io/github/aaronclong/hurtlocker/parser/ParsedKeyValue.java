@@ -35,12 +35,13 @@ public class ParsedKeyValue implements ParsedItem {
   }
 
   private String stringFormatter (String unformatted) {
-    String result = fixFirstlettercapitilization(unformatted);
+    String result = fixFirstletterCapitilization(unformatted);
     result = fixConsecutiveCapitilization(result);
+    result = fixZeros(result);
     return result;
   }
 
-  private String fixFirstlettercapitilization(String unformatted) {
+  private String fixFirstletterCapitilization(String unformatted) {
     Pattern parsePattern = Pattern.compile("\\b([a-z])");
     Matcher matcher = parsePattern.matcher(unformatted);
     String result = unformatted;
@@ -58,6 +59,16 @@ public class ParsedKeyValue implements ParsedItem {
     while (matcher.find()) {
       String upperToLower = matcher.group().toLowerCase();
       result = matcher.replaceAll(upperToLower);
+    }
+    return result;
+  }
+
+  private String fixZeros(String unformatted) {
+    Pattern parsePattern = Pattern.compile("o\\d+");
+    Matcher matcher = parsePattern.matcher(unformatted);
+    String result = unformatted;
+    while (matcher.find()) {
+      result = matcher.replaceAll("oo");
     }
     return result;
   }

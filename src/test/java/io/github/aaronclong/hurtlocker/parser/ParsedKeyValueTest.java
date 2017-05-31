@@ -69,4 +69,16 @@ public class ParsedKeyValueTest {
       fail(e.toString());
     }
   }
+
+  @Test
+  public void testGetParseZero() {
+    try {
+      ParsedKeyValue kvPair = ParsedKeyValue.parse("naMe%Co0kies;");
+      HashMap<String, String> mapWithZero = new HashMap<>();
+      mapWithZero.put("Name", "Cookies");
+      assertEquals("Testing getting pair with atSign", mapWithZero, kvPair.getParsed());
+    } catch(ParserException e) {
+      fail(e.toString());
+    }
+  }
 }
