@@ -25,8 +25,7 @@ public class ParsedKeyValue implements ParsedItem {
     HashMap<String, String> parsedItems = new HashMap<>();
     Pattern parsePattern = Pattern.compile("[\\w\\.\\/]+([:@\\^\\*%])[\\w\\.\\/]+");
     Matcher matched = parsePattern.matcher(original);
-    System.out.println(matched.matches());
-    if (!matched.matches()) throw new ParserException();
+    if (!matched.lookingAt()) throw new ParserException();
 
     return parsedItems;
   }
