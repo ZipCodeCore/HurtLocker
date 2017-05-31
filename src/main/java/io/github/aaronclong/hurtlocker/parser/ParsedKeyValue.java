@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
  * Created by aaronlong on 5/31/17.
  */
 public class ParsedKeyValue implements ParsedItem {
-  private String original;
+  private final String original;
   protected static final String REGEX = "([\\w\\.\\/]+)([:@\\^\\*%])([\\w\\.\\/]+)";
 
   private ParsedKeyValue(String theOriginal) {
@@ -17,13 +17,15 @@ public class ParsedKeyValue implements ParsedItem {
   }
 
   public String getOriginal() {
-    return "";
+    return original;
   }
 
   public Map<String, String> getParsed() throws ParserException {
     Pattern parsePattern = Pattern.compile(REGEX);
     Matcher matched = parsePattern.matcher(original);
-    if (!matched.lookingAt()) throw new ParserException();
+    if (!matched.lookingAt()) {
+      throw new ParserException();
+    }
     return Collections.singletonMap(matched.group(1), matched.group(3));
   }
 
