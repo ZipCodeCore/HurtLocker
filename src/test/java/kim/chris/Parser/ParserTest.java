@@ -92,7 +92,7 @@ public class ParserTest {
                 "-------------\t\t-------------\n" +
                 "Price:   0.23\t\tseen: 2 times\n" +
                 "\n" +
-                "Errors seen: 4 times";
+                "Errors              seen: 4 times";
 
         //When
         String actual = parseJerk(rawData);

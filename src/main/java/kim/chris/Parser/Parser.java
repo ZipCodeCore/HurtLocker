@@ -43,7 +43,7 @@ public class Parser {
         sb.append(breadCounter);
         sb.append(cookieCounter);
         sb.append(appleCounter);
-        sb.append("Errors seen: " + exceptions + " times");
+        sb.append("Errors              seen: " + exceptions + " times");
         return sb.toString();
     }
 
