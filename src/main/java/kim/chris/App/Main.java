@@ -1,4 +1,4 @@
-package kim.chris;
+package kim.chris.App;
 
 import org.apache.commons.io.IOUtils;
 

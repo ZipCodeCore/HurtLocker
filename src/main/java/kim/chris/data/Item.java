@@ -1,4 +1,4 @@
-package kim.chris;
+package kim.chris.data;
 
 import java.util.ArrayList;
 

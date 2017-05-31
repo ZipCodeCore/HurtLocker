@@ -1,17 +1,24 @@
 package kim.chris;
 
+import kim.chris.data.Item;
+import kim.chris.exceptions.NameNotFoundException;
+import kim.chris.exceptions.PriceNotFoundException;
+import kim.chris.exceptions.TypeNotFoundException;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
 
-import static kim.chris.JerkSONParser.*;
+import static kim.chris.Parser.Parser.*;
 import static org.junit.Assert.*;
 
-public class JerkSONParserTest {
+public class ParserTest {
     String rawData;
     String output;
-    String firstLine;
+    String milkLine;
+    String breadLine;
+    String cookiesLine;
+    String applesLine;
 
     @Before
     public void initialize() {
@@ -39,7 +46,11 @@ public class JerkSONParserTest {
                 "Price:   0.23       seen: 2 times\n" +
                 "\n" +
                 "Errors seen: 4 times";
-        firstLine = "naMe:Milk;price:3.23;type:Food;expiration:1/25/2016##";
+        milkLine = "naMe:Milk;price:3.23;type:Food;expiration:1/25/2016##";
+        breadLine = "naME:BreaD;price:1.23;type:Food;expiration:1/02/2016##";
+        cookiesLine = "naMe:Co0kieS;pRice:2.25;type:Food;expiration:1/25/2016##";
+        applesLine = "naMe:apPles;pRice:0.23;type:Food;expiration:5/02/2016##";
+
     }
 
     @Test
@@ -49,7 +60,7 @@ public class JerkSONParserTest {
         expected.add(new Item("Milk", 3.23, "Food", "1/25/2016"));
 
         //When
-        ArrayList<Item> actual = parseJerk(firstLine);
+        ArrayList<Item> actual = parseJerk(milkLine);
 
         //Then
         assertEquals("Generated list should match", expected, actual);
@@ -61,7 +72,7 @@ public class JerkSONParserTest {
         Item expected = new Item("Milk", 3.23, "Food", "1/25/2016");
 
         //When
-        Item actual = parseItem(firstLine);
+        Item actual = parseItem(milkLine);
 
         //Then
         assertEquals("Line one of the file should be parsed correctly to Item(Milk, 3.23, Food, 1/25/2016)", expected, actual);
@@ -84,4 +95,66 @@ public class JerkSONParserTest {
         //Then
         assertEquals("Output strings should match", expected, actual);
     }
+
+    @Test
+    public void containsTest(){
+        //When
+        boolean actual = contains(milkLine, "[nN][aA][mM][eE]:");
+
+        //Then
+        assertTrue("Input should contain name: ", actual);
+    }
+
+    @Test
+    public void readNameTest() throws NameNotFoundException {
+        //Given
+        String expected1 = "Milk";
+        String expected2 = "Bread";
+        String expected3 = "Cookies";
+        String expected4 = "Apples";
+
+        //When
+        String actual1 = readName(milkLine);
+        String actual2 = readName(breadLine);
+        String actual3 = readName(cookiesLine);
+        String actual4 = readName(applesLine);
+
+
+        //Then
+        assertEquals("Should return Milk", expected1, actual1);
+        assertEquals("Should return Bread", expected2, actual2);
+        assertEquals("Should return Cookies", expected3, actual3);
+        assertEquals("Should return Apples", expected4, actual4);
+    }
+
+    @Test (expected = NameNotFoundException.class)
+    public void readNameFailTest() throws NameNotFoundException {
+        String actual = readName("naMe:;price:3.23;type:Food^expiration:1/04/2016##");
+    }
+
+    @Test
+    public void readTypeTest() throws TypeNotFoundException {
+        //Given
+        String expected = "Food";
+        
+        //When
+        String actual1 = readType(milkLine);
+        String actual2 = readType(breadLine);
+        String actual3 = readType(cookiesLine);
+        String actual4 = readType(applesLine);
+
+
+        //Then
+        assertEquals("The Type of milk should be Food", expected, actual1);
+        assertEquals("The Type of bread should be Food", expected, actual2);
+        assertEquals("The Type of cookies should be Food", expected, actual3);
+        assertEquals("The Type of apples should be Food", expected, actual4);
+    }
+    
+    @Test (expected = TypeNotFoundException.class)
+    public void readTypeFailTest() throws TypeNotFoundException {
+        readType("naMe:MilK;Type:;type:;expiration:4/25/2016##\n");
+    }
+    
+    
 }
