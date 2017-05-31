@@ -129,4 +129,90 @@ public class HurtLockerTests {
         Assert.assertTrue(expectedErrorCount == actualErrorCount);
     }
 
+    @Test
+    public void testParseForCookiesPriceKeyPair() {
+        //Given:
+        String rawData = "naMe:COokIes;price:2.25;type:Food;expiration:3/22/2016##naMe:COOkieS;price:2.25;type:Food;expiration:1/25/2016##NAME:MilK;price:3.23;type:Food;expiration:1/17/2016##naMe:MilK;price:1.23;type:Food!expiration:4/25/2016##naMe:apPles;price:0.25;type:Food;expiration:1/23/2016##naMe:apPles;price:0.23;type:Food;expiration:5/02/2016##";
+        ArrayList<String> productList = Main.createListOfFoodItems(rawData);
+        ArrayList<ArrayList<String>> expectedCookiesProductList = new ArrayList<ArrayList<String>>();
+        ArrayList<String> cookiesProductOne = new ArrayList<String>();
+        cookiesProductOne.add("COokIes");
+        cookiesProductOne.add("2.25");
+        ArrayList<String> cookiesProductTwo = new ArrayList<String>();
+        cookiesProductTwo.add("COOkieS");
+        cookiesProductTwo.add("2.25");
+        expectedCookiesProductList.add(cookiesProductOne);
+        expectedCookiesProductList.add(cookiesProductTwo);
+
+        //When:
+        ArrayList<ArrayList<String>> actualCookiesProductList = Cookies.parseListForCookiesPriceKeyPair(productList);
+
+        //Then:
+        Assert.assertTrue(expectedCookiesProductList.equals(actualCookiesProductList));
+    }
+
+    @Test
+    public void testParseForCookiesPriceKeyPairReturnsAnError() {
+        //Given:
+        String rawData = "naMe:COokIes;price:;type:Food;expiration:3/22/2016##naMe:COOkieS;price:2.25;type:Food;expiration:1/25/2016##NAME:MilK;price:3.23;type:Food;expiration:1/17/2016##naMe:MilK;price:1.23;type:Food!expiration:4/25/2016##naMe:apPles;price:0.25;type:Food;expiration:1/23/2016##naMe:apPles;price:0.23;type:Food;expiration:5/02/2016##";
+        ArrayList<String> productList = Main.createListOfFoodItems(rawData);
+        ArrayList<ArrayList<String>> expectedCookiesProductList = new ArrayList<ArrayList<String>>();
+        ArrayList<String> cookiesProductTwo = new ArrayList<String>();
+        cookiesProductTwo.add("COOkieS");
+        cookiesProductTwo.add("2.25");
+        expectedCookiesProductList.add(cookiesProductTwo);
+        int expectedErrorCount = 1;
+
+        //When:
+        ArrayList<ArrayList<String>> actualCookiesProductList = Cookies.parseListForCookiesPriceKeyPair(productList);
+        int actualErrorCount = ErrorCounter.getErrorCount();
+
+        //Then:
+        Assert.assertTrue(expectedCookiesProductList.equals(actualCookiesProductList));
+        Assert.assertTrue(expectedErrorCount == actualErrorCount);
+    }
+
+    @Test
+    public void testParseForApplesPriceKeyPair() {
+        //Given:
+        String rawData = "naMe:COokIes;price:2.25;type:Food;expiration:3/22/2016##naMe:COOkieS;price:2.25;type:Food;expiration:1/25/2016##NAME:MilK;price:3.23;type:Food;expiration:1/17/2016##naMe:MilK;price:1.23;type:Food!expiration:4/25/2016##naMe:apPles;price:0.25;type:Food;expiration:1/23/2016##naMe:apPles;price:0.23;type:Food;expiration:5/02/2016##";
+        ArrayList<String> productList = Main.createListOfFoodItems(rawData);
+        ArrayList<ArrayList<String>> expectedApplesProductList = new ArrayList<ArrayList<String>>();
+        ArrayList<String> ApplesProductOne = new ArrayList<String>();
+        ApplesProductOne.add("apPles");
+        ApplesProductOne.add("0.25");
+        ArrayList<String> ApplesProductTwo = new ArrayList<String>();
+        ApplesProductTwo.add("apPles");
+        ApplesProductTwo.add("0.23");
+        expectedApplesProductList.add(ApplesProductOne);
+        expectedApplesProductList.add(ApplesProductTwo);
+
+        //When:
+        ArrayList<ArrayList<String>> actualApplesProductList = Apples.parseListForApplesPriceKeyPair(productList);
+
+        //Then:
+        Assert.assertTrue(expectedApplesProductList.equals(actualApplesProductList));
+    }
+
+    @Test
+    public void testParseForApplesPriceKeyPairReturnsAnError() {
+        //Given:
+        String rawData = "naMe:COokIes;price:2.25;type:Food;expiration:3/22/2016##naMe:COOkieS;price:2.25;type:Food;expiration:1/25/2016##NAME:MilK;price:3.23;type:Food;expiration:1/17/2016##naMe:MilK;price:1.23;type:Food!expiration:4/25/2016##naMe:apPles;price:;type:Food;expiration:1/23/2016##naMe:apPles;price:0.23;type:Food;expiration:5/02/2016##";
+        ArrayList<String> productList = Main.createListOfFoodItems(rawData);
+        ArrayList<ArrayList<String>> expectedApplesProductList = new ArrayList<ArrayList<String>>();
+        ArrayList<String> ApplesProductTwo = new ArrayList<String>();
+        ApplesProductTwo.add("apPles");
+        ApplesProductTwo.add("0.23");
+        expectedApplesProductList.add(ApplesProductTwo);
+        int expectedErrorCount = 1;
+
+        //When:
+        ArrayList<ArrayList<String>> actualApplesProductList = Apples.parseListForApplesPriceKeyPair(productList);
+        int actualErrorCount = ErrorCounter.getErrorCount();
+
+        //Then:
+        Assert.assertTrue(expectedApplesProductList.equals(actualApplesProductList));
+        Assert.assertTrue(expectedErrorCount == actualErrorCount);
+    }
+
 }
