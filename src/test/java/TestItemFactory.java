@@ -1,6 +1,7 @@
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.stream.Stream;
 
 /**
@@ -9,17 +10,17 @@ import java.util.stream.Stream;
 public class TestItemFactory {
 
     @Test
-    public void testCreateItemList() {
+    public void testCreateItemMap() {
         // Given
         Stream<String> namesStream = Stream.of("milk", "cookies");
         Stream<String> pricesStream = Stream.of("3.23", "1.20");
 
         // When
-        ArrayList<Item> items = ItemFactory.createItemList(namesStream, pricesStream);
+        HashMap<String, ArrayList<String>> itemMap = ItemFactory.createItemMap(namesStream, pricesStream, 2);
 
         // Then
-        assertEquals("milk", items.get(0).getName());
-        assertEquals("cookies", items.get(1).getName());
+        assertEquals("3.23", itemMap.get("milk").get(0));
+        assertEquals("1.20", itemMap.get("cookies").get(0));
 
     }
 }
