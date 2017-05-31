@@ -1,8 +1,6 @@
 package io.github.aaronclong.hurtlocker.parser;
 
-import jdk.nashorn.internal.runtime.*;
-
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -12,6 +10,7 @@ import java.util.regex.Pattern;
  */
 public class ParsedKeyValue implements ParsedItem {
   private String original;
+  protected static final String REGEX = "([\\w\\.\\/]+)([:@\\^\\*%])([\\w\\.\\/]+)";
 
   private ParsedKeyValue(String theOriginal) {
     original = theOriginal;
@@ -22,12 +21,10 @@ public class ParsedKeyValue implements ParsedItem {
   }
 
   public Map<String, String> getParsed() throws ParserException {
-    HashMap<String, String> parsedItems = new HashMap<>();
-    Pattern parsePattern = Pattern.compile("([\\w\\.\\/]+)([:@\\^\\*%])([\\w\\.\\/]+)");
+    Pattern parsePattern = Pattern.compile(REGEX);
     Matcher matched = parsePattern.matcher(original);
     if (!matched.lookingAt()) throw new ParserException();
-    parsedItems.put(matched.group(1), matched.group(3));
-    return parsedItems;
+    return Collections.singletonMap(matched.group(1), matched.group(3));
   }
 
   public static ParsedKeyValue parse(String original) {
