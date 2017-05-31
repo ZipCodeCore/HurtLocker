@@ -3,6 +3,8 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 import static org.junit.Assert.assertEquals;
@@ -41,16 +43,45 @@ public class TestParser {
 
     @Test
     public void testGetNameFromItemString() {
+
         // Given
         Stream<String> itemStringStream = parser.getItemStringsStream(rawDataString);
         Optional<String> expectedFirstName = Optional.of("Milk");
+        long expectedCount = 28;
 
         // When
         Stream<String> nameStream = parser.getNamesStream(itemStringStream);
         Optional<String> actualFirstName = nameStream.findFirst();
+
+        itemStringStream = parser.getItemStringsStream(rawDataString);
+        nameStream = parser.getNamesStream(itemStringStream);
+        long actualCount = nameStream.count();
+
+
         // Then
         assertEquals(expectedFirstName, actualFirstName);
+        assertEquals(expectedCount, actualCount);
+
+    }
+
+    @Test
+    public void testGetPriceFromItemString() {
+        // Given
+        Stream<String> itemStringStream = parser.getItemStringsStream(rawDataString);
+        Optional<String> expectedFirstPrice = Optional.of("3.23");
+        long expectedCount = 28;
+
+        // When
+        Stream<String> priceStream = parser.getPricesStream(itemStringStream);
+        Optional<String> actualFirstPrice = priceStream.findFirst();
+
+        itemStringStream = parser.getItemStringsStream(rawDataString);
+        priceStream = parser.getPricesStream(itemStringStream);
+        long actualCount = priceStream.count();
 
 
+        // Then
+        assertEquals(expectedFirstPrice, actualFirstPrice);
+        assertEquals(expectedCount, actualCount);
     }
 }

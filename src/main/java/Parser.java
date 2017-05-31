@@ -1,10 +1,10 @@
 import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
@@ -19,8 +19,6 @@ public class Parser {
         return result;
     }
 
-
-
     public Stream<String> getItemStringsStream(String rawDataString) {
         Pattern pattern = Pattern.compile("##");
         return pattern.splitAsStream(rawDataString);
@@ -28,14 +26,41 @@ public class Parser {
 
     public Stream<String> getNamesStream(Stream<String> itemStringStream) {
         Stream<String> namesStream;
-        namesStream = itemStringStream.peek( iS ->  getName(iS) );
-        return null;
+        namesStream = itemStringStream.flatMap( iS ->  getItemName(iS) );
+        return namesStream;
     }
 
-    private Stream<String> getName(String iS) {
-        //find regex for String after name:, before symbol
-        Pattern pattern = Pattern.compile("regex");
-        return pattern.splitAsStream(iS);
+    private Stream<String> getItemName(String itemString) {
+        String[] names = new String[1];
+
+        Pattern p = Pattern.compile("([Nn][Aa][Mm][Ee]:)(\\w+)");
+        Matcher m = p.matcher(itemString);
+
+        while (m.find()) {
+            System.out.println(m.group(2).replaceAll("0", "o").toLowerCase());
+            names[0] = m.group(2).replaceAll("0", "o").toLowerCase();
+        }
+        return Arrays.stream(names);
+    }
+
+    public Stream<String> getPricesStream(Stream<String> itemStringStream) {
+        Stream<String> namesStream;
+        namesStream = itemStringStream.flatMap( iS ->  getItemPrice(iS) );
+        return namesStream;
+    }
+
+    private Stream<String> getItemPrice(String itemString) {
+        String[] prices = new String[1];
+
+        Pattern p = Pattern.compile("([Pp][Rr][Ii][Cc][Ee]:)(\\d+\\.\\d+)");
+        Matcher m = p.matcher(itemString);
+
+
+        while (m.find()) {
+            System.out.println(m.group(2));
+            prices[0] = m.group(2);
+        }
+        return Arrays.stream(prices);
     }
 
     // used to see elements in stream for debugging purposes
@@ -43,11 +68,5 @@ public class Parser {
         Pattern pattern = Pattern.compile("##");
         return pattern.split(rawDataString);
     }
-
-//    public Stream<String> getRawDataStream() throws IOException{
-//        Stream<String> rawDataStream = Files.lines(Paths.get("RawData.txt"));
-//        return rawDataStream;
-//    }
-
 
 }
