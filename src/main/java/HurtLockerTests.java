@@ -47,7 +47,7 @@ public class HurtLockerTests {
     public void testParseForMilkPriceKeyPair() {
         //Given:
         String rawData = "naMe:Milk;price:3.23;type:Food;expiration:1/25/2016##naME:BreaD;price:1.23;type:Food;expiration:1/02/2016##NAMe:BrEAD;price:1.23;type:Food;expiration:2/25/2016##naMe:MiLK;price:3.23;type:Food^expiration:1/11/2016##";
-        ArrayList<String> milkProductList = Main.createListOfFoodItems(rawData);
+        ArrayList<String> productList = Main.createListOfFoodItems(rawData);
         ArrayList<ArrayList<String>> expectedMilkProductList = new ArrayList<ArrayList<String>>();
         ArrayList<String> milkProductOne = new ArrayList<String>();
         milkProductOne.add("Milk");
@@ -59,10 +59,74 @@ public class HurtLockerTests {
         expectedMilkProductList.add(milkProductTwo);
 
         //When:
-        ArrayList<ArrayList<String>> actualMilkProductList = Main.parseListForMilkPriceKeyPair(milkProductList);
+        ArrayList<ArrayList<String>> actualMilkProductList = Milk.parseListForMilkPriceKeyPair(productList);
 
         //Then:
         Assert.assertTrue(expectedMilkProductList.equals(actualMilkProductList));
+    }
+
+    @Test
+    public void testParseForMilkPriceKeyPairReturnsAnError() {
+        //Given:
+        String rawData = "naMe:Milk;price:3.23;type:Food;expiration:1/25/2016##naME:BreaD;price:1.23;type:Food;expiration:1/02/2016##NAMe:BrEAD;price:1.23;type:Food;expiration:2/25/2016##naMe:MiLK;price:;type:Food^expiration:1/11/2016##";
+        ArrayList<String> productList = Main.createListOfFoodItems(rawData);
+        ArrayList<ArrayList<String>> expectedMilkProductList = new ArrayList<ArrayList<String>>();
+        ArrayList<String> milkProductOne = new ArrayList<String>();
+        milkProductOne.add("Milk");
+        milkProductOne.add("3.23");
+        expectedMilkProductList.add(milkProductOne);
+        int expectedErrorCount = 1;
+
+        //When:
+        ArrayList<ArrayList<String>> actualMilkProductList = Milk.parseListForMilkPriceKeyPair(productList);
+        int actualErrorCount = ErrorCounter.getErrorCount();
+
+        //Then:
+        Assert.assertTrue(expectedMilkProductList.equals(actualMilkProductList));
+        Assert.assertTrue(expectedErrorCount == actualErrorCount);
+    }
+
+    @Test
+    public void testParseForBreadPriceKeyPair() {
+        //Given:
+        String rawData = "naME:BreaD;price:1.23;type:Food;expiration:1/02/2016##NAMe:BrEAD;price:1.23;type:Food;expiration:2/25/2016##naMe:MiLK;price:3.23;type:Food^expiration:1/11/2016##";
+        ArrayList<String> productList = Main.createListOfFoodItems(rawData);
+        ArrayList<ArrayList<String>> expectedBreadProductList = new ArrayList<ArrayList<String>>();
+        ArrayList<String> breadProductOne = new ArrayList<String>();
+        breadProductOne.add("BreaD");
+        breadProductOne.add("1.23");
+        ArrayList<String> breadProductTwo = new ArrayList<String>();
+        breadProductTwo.add("BrEAD");
+        breadProductTwo.add("1.23");
+        expectedBreadProductList.add(breadProductOne);
+        expectedBreadProductList.add(breadProductTwo);
+
+        //When:
+        ArrayList<ArrayList<String>> actualBreadProductList = Bread.parseListForBreadPriceKeyPair(productList);
+
+        //Then:
+        Assert.assertTrue(expectedBreadProductList.equals(actualBreadProductList));
+    }
+
+    @Test
+    public void testParseForBreadPriceKeyPairReturnsAnError() {
+        //Given:
+        String rawData = "naME:BreaD;price:1.23;type:Food;expiration:1/02/2016##NAMe:BrEAD;price:;type:Food;expiration:2/25/2016##naMe:MiLK;price:3.23;type:Food^expiration:1/11/2016##";
+        ArrayList<String> productList = Main.createListOfFoodItems(rawData);
+        ArrayList<ArrayList<String>> expectedBreadProductList = new ArrayList<ArrayList<String>>();
+        ArrayList<String> breadProductOne = new ArrayList<String>();
+        breadProductOne.add("BreaD");
+        breadProductOne.add("1.23");
+        expectedBreadProductList.add(breadProductOne);
+        int expectedErrorCount = 1;
+
+        //When:
+        ArrayList<ArrayList<String>> actualBreadProductList = Bread.parseListForBreadPriceKeyPair(productList);
+        int actualErrorCount = ErrorCounter.getErrorCount();
+
+        //Then:
+        Assert.assertTrue(expectedBreadProductList.equals(actualBreadProductList));
+        Assert.assertTrue(expectedErrorCount == actualErrorCount);
     }
 
 }
