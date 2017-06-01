@@ -1,15 +1,11 @@
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.lang.reflect.Array;
 import java.util.*;
 import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-
-import static javax.script.ScriptEngine.FILENAME;
 
 
 /**
@@ -19,45 +15,41 @@ public class Parser {
 
     private int exceptionCounter;
     private ArrayList<String> cleanArrayList;
+    int milkCounter;
+    int breadCounter;
+    int cookieCounter;
+    int appleCounter;
 
 
-    // 28 take away the count of other items should equal the amount of error
-
-    public String patternMatch(String file) //throws NoMatchFoundException
-    {
+    public String patternMatch(String file) throws NoMatchFoundException {
         cleanArrayList = lineBreaker(file);
-        cleanArrayList = exceptionHandler(cleanArrayList);
+        cleanArrayList = removeBadData(cleanArrayList);
 
         Pattern milk = Pattern.compile("([M|m].\\w+[k|K][^,]+)");
         Matcher milkMatcher = milk.matcher(cleanArrayList.toString());
         ArrayList<String> milkArray = new ArrayList<>();
         String milkOutput;
-        int milkCounter = 0;
+        milkCounter = 0;
 
         Pattern bread = Pattern.compile("([B|b].\\w+[D|d][^,]+)");
         Matcher breadMatcher = bread.matcher(cleanArrayList.toString());
         ArrayList<String> breadArray = new ArrayList<>();
         String breadOutput;
-        int breadCounter = 0;
+        breadCounter = 0;
 
 
         Pattern cookies = Pattern.compile("([C|c].\\w+[S|s][^,]+)");
         Matcher cookiesMatcher = cookies.matcher(cleanArrayList.toString());
         ArrayList<String> cookieArray = new ArrayList<>();
         String cookieOutput;
-        int cookieCounter = 0;
+        cookieCounter = 0;
 
 
         Pattern apples = Pattern.compile("([A|a].\\w+[S|s][^,]+)");
         Matcher applesMatcher = apples.matcher(cleanArrayList.toString());
         ArrayList<String> appleArray = new ArrayList<>();
         String appleOutput;
-        int appleCounter = 0;
-
-
-//        Pattern cost = Pattern.compile("(\\d\\.\\d+)");
-//        Matcher costMatcher = cost.matcher(file);
-//        int costCounter = 0;
+        appleCounter = 0;
 
         while (milkMatcher.find()) {
             milkCounter++;
@@ -85,7 +77,6 @@ public class Parser {
             appleCounter++;
 
         }
-
         appleOutput = appleBreakDown(appleArray, appleCounter);
 
         String errors = String.format("%s%s%s%sErrors:\t\t\t\tseen: %s times",
@@ -94,16 +85,17 @@ public class Parser {
                 this.exceptionCounter);
         return errors;
 
-
     }
 
     public ArrayList<String> lineBreaker(String file) {
         Pattern pattern = Pattern.compile("[^#]+");
         Matcher matcher = pattern.matcher(file);
         ArrayList<String> arrayListOfBrokenLines = new ArrayList<>();
+
         while (matcher.find()) {
             arrayListOfBrokenLines.add(matcher.group());
         }
+
         return arrayListOfBrokenLines;
     }
 
@@ -200,40 +192,37 @@ public class Parser {
     }
 
 
-    public ArrayList<String> exceptionHandler(ArrayList<String> newArrayList) //throws NoMatchFoundException// throws NoMatchFoundException
-    {
+    public ArrayList<String> removeBadData(ArrayList<String> newArrayList) {
         Pattern exception = Pattern.compile("(([N|n].\\w+[E|e].)(([M|m].\\w+[k|K])|([B|b].\\w+[D|d])|([A|a].\\w+[S|s])|([C|c].\\w+[S|s]))\\W([P|p].\\w+[e].)\\d.([^,]+))");
         Matcher exceptionMatcher = exception.matcher(newArrayList.toString());
         ArrayList<String> exceptionFreeArrayList = new ArrayList<>();
         exceptionCounter = 0;
 
         for (int i = 0; i < 28; i++) {
+            try {
 
-            if (exceptionMatcher.find()) {
-                exceptionFreeArrayList.add(exceptionMatcher.group());
-            } else {
+                if (exceptionMatcher.find()) {
+                    exceptionFreeArrayList.add(exceptionMatcher.group());
+                } else {
+                    throw new NoMatchFoundException();
+                }
+
+            } catch (NoMatchFoundException e) {
                 exceptionCounter++;
-              //  throw new NoMatchFoundException();
             }
+
         }
         return exceptionFreeArrayList;
     }
 
-    public void parseToTextFile(String file) //throws NoMatchFoundException
-    {
+    public void parseToTextFile(String file) throws NoMatchFoundException {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter("/Users/anthonyjones/dev/labs/HurtLocker/output.txt"))) {
 
             String content = patternMatch(file);
-
             bw.write(content);
-
-            // no need to close it.
-            //bw.close();
-
-            System.out.println("Done");
+            System.out.println("File created!");
 
         } catch (IOException e) {
-
             e.printStackTrace();
 
         }

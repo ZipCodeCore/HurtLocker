@@ -9,7 +9,7 @@ public class Main {
         return result;
     }
 
-    public static void main(String[] args) throws Exception,NoMatchFoundException{
+    public static void main(String[] args) throws Exception{
         String output = (new Main()).readRawDataToString();
         Parser parser = new Parser();
         parser.parseToTextFile(output);
