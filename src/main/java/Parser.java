@@ -37,7 +37,6 @@ public class Parser {
         Matcher m = p.matcher(itemString);
 
         while (m.find()) {
-            System.out.println(m.group(2).replaceAll("0", "o").toLowerCase());
             names[0] = m.group(2).replaceAll("0", "o").toLowerCase();
         }
         return Arrays.stream(names);
@@ -57,7 +56,6 @@ public class Parser {
 
 
         while (m.find()) {
-            System.out.println(m.group(2));
             prices[0] = m.group(2);
         }
         return Arrays.stream(prices);

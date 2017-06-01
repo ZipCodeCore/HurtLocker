@@ -46,7 +46,7 @@ public class TestParser {
 
         // Given
         Stream<String> itemStringStream = parser.getItemStringsStream(rawDataString);
-        Optional<String> expectedFirstName = Optional.of("Milk");
+        Optional<String> expectedFirstName = Optional.of("milk");
         long expectedCount = 28;
 
         // When

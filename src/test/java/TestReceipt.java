@@ -11,36 +11,24 @@ import static org.junit.Assert.assertEquals;
 public class TestReceipt {
 
     @Test
-    public void addItemToReceipt() {
+    public void testToString() {
         // Given
-        String expected = "name:    Milk \t\t seen: 6 times\n" +
-                "============= \t \t =============\n" +
-                "Price: \t 3.23\t\t seen: 5 times\n" +
-                "-------------\t\t -------------\n" +
-                "Price:   1.23\t\t seen: 1 time\n" +
-                "\n" +
-                "name:   Bread\t\t seen: 6 times\n" +
-                "=============\t\t =============\n" +
-                "Price:   1.23\t\t seen: 6 times\n" +
-                "-------------\t\t -------------\n" +
-                "\n" +
-                "name: Cookies     \t seen: 8 times\n" +
-                "=============     \t =============\n" +
-                "Price:   2.25        seen: 8 times\n" +
-                "-------------        -------------\n" +
-                "\n" +
-                "name:  Apples     \t seen: 4 times\n" +
-                "=============     \t =============\n" +
-                "Price:   0.25     \t seen: 2 times\n" +
-                "-------------     \t -------------\n" +
-                "Price:   0.23  \t \t seen: 2 times\n" +
-                "\n" +
-                "Errors         \t \t seen: 4 times";
+        String expected = "name:    milk\t\tseen: 2 times\n" +
+                "=============\t\t=============\n" +
+                "price:   3.23\t\tseen: 1 times\n" +
+                "=============\t\t=============\n" +
+                "price:   3.00\t\tseen: 1 times\n" +
+                "=============\t\t=============\n" +
+                "name: cookies\t\tseen: 2 times\n" +
+                "=============\t\t=============\n" +
+                "price:   1.20\t\tseen: 2 times\n" +
+                "=============\t\t=============\n" +
+                "\nErrors       \t\tseen: 1 times";
 
-        Stream<String> namesStream = Stream.of("milk", "cookies", "milk");
-        Stream<String> pricesStream = Stream.of("3.23", "1.20", "3.00");
+        Stream<String> namesStream = Stream.of("milk", "cookies", "milk", "cookies", "");
+        Stream<String> pricesStream = Stream.of("3.23", "1.20", "3.00", "1.20", "33.33");
 
-        HashMap<String, ArrayList<String>> itemMap = ItemFactory.createItemMap(namesStream, pricesStream, 3);
+        HashMap<String, ArrayList<String>> itemMap = MapFactory.createItemMap(namesStream, pricesStream, 5);
         Receipt receipt = new Receipt(itemMap);
         // When
         String actual = receipt.toString();

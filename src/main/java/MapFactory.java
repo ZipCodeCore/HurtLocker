@@ -6,7 +6,7 @@ import java.util.stream.Stream;
 /**
  * Created by andrewwong on 5/31/17.
  */
-public class ItemFactory {
+public class MapFactory {
     public static HashMap<String, ArrayList<String>> createItemMap(Stream<String> names, Stream<String> prices, int numOfPrices) {
         HashMap<String, ArrayList<String>> itemMap = new HashMap<>();
         ArrayList<String> nameList = names.collect(Collectors.toCollection(ArrayList::new));
@@ -28,13 +28,20 @@ public class ItemFactory {
         return itemMap;
     }
 
-    public static HashMap<String, Integer> createPriceMap(ArrayList<String> prices, String price) {
+    public static HashMap<String, Integer> createPriceMap(ArrayList<String> prices) {
         HashMap<String, Integer> priceMap = new HashMap<>();
-        int seen = 0;
+        String priceKey;
+        int timesPriceSeen;
         for(int i = 0; i < prices.size(); i++) {
-            if (price.equals(prices.get(i))) {
-                seen++;
+            priceKey = prices.get(i);
+            if(!priceMap.containsKey(priceKey)) {
+                priceMap.put(priceKey, 1);
+            } else {
+                timesPriceSeen = priceMap.get(priceKey);
+                timesPriceSeen++;
+                priceMap.put(priceKey, timesPriceSeen);
             }
         }
+        return priceMap;
     }
 }
