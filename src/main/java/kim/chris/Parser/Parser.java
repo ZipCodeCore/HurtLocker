@@ -12,12 +12,14 @@ public class Parser {
     public static String parseJerk(String input) {
         //split into Items
         ArrayList<String> lines = splitByLine(input);
+
         //go through and count each item type
         Counter milkCounter = new Counter("Milk");
         Counter breadCounter = new Counter("Bread");
         Counter cookieCounter = new Counter("Cookies");
         Counter appleCounter = new Counter("Apples");
         int exceptions = 0;
+
         Item currentItem;
         for(String line: lines){
             try{
@@ -60,10 +62,17 @@ public class Parser {
     }
 
     public static String readName(String line) throws ValueNotFoundException {
-        Matcher milk = makeMatcher("[Mm][Ii][Ll][Kk]", line);
-        Matcher bread = makeMatcher("[Bb][Rr][Ee][Aa][Dd]", line);
-        Matcher cookies = makeMatcher("[Cc][Oo0][Oo0][Kk][Ii][Ee][Ss]", line);
-        Matcher apples = makeMatcher("[Aa][Pp][Pp][Ll][Ee][Ss]", line);
+        Matcher name = makeMatcher("[Nn]\\w+:", line);
+        if(name.find()){
+          return parseName(name.group(2));
+        } else throw new ValueNotFoundException();
+    }
+
+    private static String parseName(String value) throws ValueNotFoundException {
+        Matcher milk = makeMatcher("[Mm][Ii][Ll][Kk]", value);
+        Matcher bread = makeMatcher("[Bb][Rr][Ee][Aa][Dd]", value);
+        Matcher cookies = makeMatcher("[Cc][Oo0][Oo0][Kk][Ii][Ee][Ss]", value);
+        Matcher apples = makeMatcher("[Aa][Pp][Pp][Ll][Ee][Ss]", value);
         if(milk.find()) return "Milk";
         else if (bread.find()) return "Bread";
         else if (cookies.find()) return "Cookies";
@@ -97,7 +106,7 @@ public class Parser {
     }
 
     public static ArrayList<String> splitByLine(String input){
-        ArrayList<String> result = new ArrayList<String>();
+        ArrayList<String> result = new ArrayList<>();
         String[] splitArray = Pattern.compile("##").split(input, 0);
         for(String str: splitArray){
             result.add(str);
