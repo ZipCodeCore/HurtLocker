@@ -13,7 +13,7 @@ public class Main {
 
   public static void main(String[] args) throws Exception {
     ReceiptPrinter receipt = new ReceiptPrinter();
-    System.out.println(receipt);
+    System.out.println("Check your Downloads Folder");
     FileHandler.makeFile(receipt.toString());
   }
 }
