@@ -34,7 +34,7 @@ public class ParsedKeyValue implements ParsedItem {
     return new ParsedKeyValue(original);
   }
 
-  private String stringFormatter (String unformatted) {
+  private String stringFormatter(String unformatted) {
     String result = fixFirstCharacterCapitalization(unformatted);
     result = fixConsecutiveCapitalization(result);
     //result = fixZeros(result);
