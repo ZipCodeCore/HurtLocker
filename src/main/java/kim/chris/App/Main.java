@@ -1,5 +1,9 @@
+package kim.chris.App;
+
+import kim.chris.Parser.Parser;
 import org.apache.commons.io.IOUtils;
-import java.io.IOException;
+
+import java.io.PrintWriter;
 
 public class Main {
 
@@ -11,7 +15,8 @@ public class Main {
 
     public static void main(String[] args) throws Exception{
         String output = (new Main()).readRawDataToString();
-        System.out.println(output);
-
+        PrintWriter out = new PrintWriter("finished.txt");
+        out.println(Parser.parseJerk(output));
+        out.close();
     }
 }

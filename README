@@ -8,7 +8,7 @@ In this project you will find a file in the resource folder called RawData.txt. 
 
 ##JerkSON Format
 
-Just like Json , JerkSON is supposed to be a Key Value Pair data store.
+Just like Json , JerkSON is supposed to be a Key Value Pair kim.chris.data store.
 
 In Json Key and Value are seperated as such (Key:Value) where the colon is the seperator.
 
@@ -17,7 +17,7 @@ In JerkSON Key and Value could be seperated by using a any of the following (:, 
 In Json Key and Value pairs are seperated by a ',' in JerkSON its '##'
 
 ##Your Task
-Its your job to build a JerkSON data parser, that is able to read in the raw data , and output a string formated list that resembles (outputFormat.txt) 
+Its your job to build a JerkSON kim.chris.data parser, that is able to read in the raw kim.chris.data , and output a string formated list that resembles (outputFormat.txt)
 
 There are some things to look out for.... If you haven't figured it out by now Tariq has many wonderful qualities, spelling isn't one of them, so Words may not be spelled correctly. You need to decipher what Tariq was trying to spell using pattern matching.
 
@@ -42,7 +42,7 @@ Notice how TYPE has a key but no Value.... if you try and parse this into an obj
 
 You will need to handle your exceptions!
 
-I also expect you to report on how many exceptions you saw while parsing the data.
+I also expect you to report on how many exceptions you saw while parsing the kim.chris.data.
 
 
 GOOD LUCK ZIPCODERS!!!! My the Odds be ever in your favor!!!!
