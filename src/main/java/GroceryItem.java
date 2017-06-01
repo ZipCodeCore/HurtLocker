@@ -22,6 +22,9 @@ public class GroceryItem {
         prices.add(this.priceOfItem);
     }
 
+    public GroceryItem() {
+
+    }
 
     public String getNameOfItem() {
         return nameOfItem;

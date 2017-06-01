@@ -33,7 +33,6 @@ public class Parser {
         Stream<String> names = Arrays.stream(arrayOfItemNames).map(String::toLowerCase);
         names = names.map(s -> s.replaceAll("0", "o"));
         uniqueItemNames = names.filter(pattern.asPredicate()).distinct().toArray(String[]:: new);
-        System.out.println(Arrays.toString(uniqueItemNames));
         return uniqueItemNames;
     }
 }
