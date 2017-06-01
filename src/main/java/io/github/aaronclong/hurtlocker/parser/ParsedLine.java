@@ -3,7 +3,6 @@ package io.github.aaronclong.hurtlocker.parser;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

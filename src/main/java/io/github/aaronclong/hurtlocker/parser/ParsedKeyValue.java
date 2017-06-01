@@ -35,8 +35,8 @@ public class ParsedKeyValue implements ParsedItem {
   }
 
   private String stringFormatter (String unformatted) {
-    String result = fixConsecutiveCapitalization(unformatted);
-    result = fixFirstCharacterCapitalization(result);
+    String result = fixFirstCharacterCapitalization(unformatted);
+    result = fixConsecutiveCapitalization(result);
     //result = fixZeros(result);
     return result;
   }
@@ -53,7 +53,7 @@ public class ParsedKeyValue implements ParsedItem {
   }
 
   private String fixConsecutiveCapitalization(String unformatted) {
-    Pattern parsePattern = Pattern.compile("([A-Z])");
+    Pattern parsePattern = Pattern.compile("(?!^[A-Z])[A-Z]");
     Matcher matcher = parsePattern.matcher(unformatted);
     String result = unformatted;
     while (matcher.find()) {
