@@ -1,3 +1,4 @@
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -19,11 +20,10 @@ public class GroceryListCreatorTest {
     }
 
     @Test
-    public void createItemMap() {
+    public void createGroceryItemObjects() {
         //given
         list = new GroceryListCreator();
         list.createItems(itemString);
-        list.createList();
         System.out.println(list.getItems());
 
         //when
@@ -31,6 +31,20 @@ public class GroceryListCreatorTest {
         //then
 
 
+    }
+
+    @Test
+    public void errorCountTest() {
+        //given
+        list = new GroceryListCreator();
+        list.createItems(itemString);
+        int expectedErrorCount = 1;
+
+        //when
+        int actualErrorCount = list.getErrorCount();
+
+        //then
+        Assert.assertEquals(expectedErrorCount,actualErrorCount);
     }
 
 

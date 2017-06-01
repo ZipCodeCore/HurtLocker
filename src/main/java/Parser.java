@@ -1,5 +1,6 @@
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 /**
  * Created by sarahweisser on 5/31/17.
@@ -7,13 +8,15 @@ import java.util.regex.Pattern;
 public class Parser {
 
     public String[] itemStrings (String inputString) {
-        String[] items = inputString.split("##");
-        return items;
+        Stream<String> itemStream = Pattern.compile("##").splitAsStream(inputString);
+        String[] groceryItemArr = itemStream.toArray(String[]::new);
+        return groceryItemArr;
     }
 
-    public String[] itemStringInfo(String inputString) {
-        String [] itemInfo = inputString.split("[!@#$%^&*+,:;<=>?]");
-        return itemInfo;
+    public String[] itemStringInfo(String groceryItemString) {
+        Stream<String> groceryItemInfoStream = Pattern.compile("[!@#$%^&*+,:;<=>?]").splitAsStream(groceryItemString);
+        String [] groceryItemInfo = groceryItemInfoStream.toArray(String[]::new);
+        return groceryItemInfo;
     }
 
 }

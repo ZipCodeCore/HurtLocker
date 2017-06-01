@@ -3,6 +3,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 /**
  * Created by sarahweisser on 5/31/17.
@@ -53,7 +55,6 @@ public class ParserTest {
 
         //when
         String[] actual = parser.itemStringInfo(missingInfoString);
-        System.out.println(Arrays.toString(actual));
 
         //then
         Assert.assertArrayEquals(expected, actual);

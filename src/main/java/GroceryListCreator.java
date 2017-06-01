@@ -11,23 +11,25 @@ public class GroceryListCreator {
     private Parser parser = new Parser();
     private int errorCount = 0;
 
-    public HashMap<String, GroceryItem> getItems() {
-        return groceryList;
+    public ArrayList<GroceryItem> getItems() {
+        return listOfItems;
     }
 
     public ArrayList<GroceryItem> createItems(String itemString) {
         String[] itemStrings = parser.itemStrings(itemString);
         for (int i = 0; i < itemStrings.length; i++) {
             String[] itemInfo = parser.itemStringInfo(itemStrings[i]);
+            boolean hasError = false;
             for (int j = 0; j < itemInfo.length; j++) {
-                if (itemInfo.equals("")) {
+                if (itemInfo[j].equals("")) {
+                    hasError = true;
                     errorCount += 1;
                 }
             }
-            GroceryItem item = new GroceryItem(itemInfo);
-            System.out.println(item.getNameOfItem());
-            listOfItems.add(item);
-            System.out.println(listOfItems.get(i));
+            if (!hasError) {
+                GroceryItem item = new GroceryItem(itemInfo);
+                listOfItems.add(item);
+            }
         }
         return listOfItems;
     }
@@ -36,19 +38,5 @@ public class GroceryListCreator {
         return errorCount;
     }
 
-    public HashMap<String, GroceryItem> createList() {
-        try {
-            for (int i = 0; i < listOfItems.size(); i++) {
-                if (!listOfItems.get(i).getNameOfItem().equalsIgnoreCase("")) {
-                    boolean inMapAlready = listOfItems.get(i).getNameOfItem().matches()
-                    if (!groceryList.containsKey(""))
-                    groceryList.put(listOfItems.get(i).getNameOfItem(), listOfItems.get(i));
-                }
-            }
-        }
-        catch(NullPointerException npe) {
-            errorCount += 1;
-        }
-        return groceryList;
-    }
+
 }
