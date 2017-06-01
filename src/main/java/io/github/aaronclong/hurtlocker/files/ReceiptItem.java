@@ -40,7 +40,7 @@ public class ReceiptItem {
     StringBuilder sb = new StringBuilder(500);
     String header = String.format("name:   %s\t\tseen: %d times\n", name, originalSize);
     sb.append(header);
-    sb.append("============= \t\t=============\n");
+    sb.append("=============\t\t=============\n");
     for (Map.Entry<String, Integer> entry : prices) {
       sb.append(makeLinePerPrice(entry));
       sb.append("-------------\t\t-------------\n");

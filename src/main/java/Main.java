@@ -1,4 +1,6 @@
 import java.io.IOException;
+
+import io.github.aaronclong.hurtlocker.files.ReceiptPrinter;
 import org.apache.commons.io.IOUtils;
 
 public class Main {
@@ -8,7 +10,7 @@ public class Main {
   }
 
   public static void main(String[] args) throws Exception {
-    String output = (new Main()).readRawDataToString();
-    System.out.println(output);
+    ReceiptPrinter receipt =  new ReceiptPrinter();
+    System.out.println(receipt);
   }
 }
