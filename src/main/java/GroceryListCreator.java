@@ -38,5 +38,11 @@ public class GroceryListCreator {
         return errorCount;
     }
 
-
+    public ArrayList<String> itemNames() {
+        ArrayList<String> itemNames = new ArrayList<>();
+        for (int i = 0; i < listOfItems.size(); i++) {
+            itemNames.add(listOfItems.get(i).getNameOfItem());
+        }
+        return itemNames;
+    }
 }
