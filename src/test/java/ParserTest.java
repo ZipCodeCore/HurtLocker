@@ -127,4 +127,35 @@ public class ParserTest {
         //Then
         Assert.assertEquals("list size should be 28", expected, actual);
     }
+
+    @Test
+    public void cookieCountTest(){
+        //Given
+        String expected = "name:\tCookies\t\tseen: 8 times";
+
+        //When
+        parser.parseString(result);
+        parser.createItemList();
+
+        String actual = parser.cookieCount();
+
+        //Then
+        Assert.assertEquals("strings should be equal", expected, actual);
+    }
+
+    @Test
+    public void priceCountTest(){
+        //Given
+        String expected = "name:\tCookies\t\tseen: 8 times";
+
+        //When
+        parser.parseString(result);
+        parser.createItemList();
+        parser.cookieCount();
+
+        String actual = parser.priceCount();
+
+        //Then
+        Assert.assertEquals("strings should be equal", expected, actual);
+    }
 }

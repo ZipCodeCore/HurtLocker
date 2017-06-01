@@ -13,6 +13,7 @@ public class Parser {
     public static int exceptionCount = 0;
     private List<String> byLine;
     private ArrayList<Item> itemList = new ArrayList<Item>();
+    private ArrayList<Double> cookiesList = new ArrayList<Double>();
 
     public List<String> parseString(String string) {
 
@@ -108,5 +109,47 @@ public class Parser {
     public int getItemListSize(){
         return itemList.size();
     }
+
+//    public String output(){
+//
+//    }
+
+    public String cookieCount() {
+
+        Pattern findCookies = Pattern.compile("[Cc].+[sS]", Pattern.CASE_INSENSITIVE);
+
+        for (int i = 0; i < itemList.size(); i++) {
+
+            if (itemList.get(i).getName() != null && itemList.get(i).getPrice() !=0) {
+            Matcher cookiesMatcher = findCookies.matcher(itemList.get(i).getName());
+
+                if (cookiesMatcher.find() == true) {
+                    cookiesList.add(itemList.get(i).getPrice());
+                }
+            }
+        }
+
+        return "name:\tCookies\t\tseen: " + cookiesList.size() + " times";
+    }
+
+    public String priceCount(){
+        ArrayList<Double> priceList = new ArrayList<Double>();
+
+        priceList.add(cookiesList.get(0));
+
+        for(int i = 0; i<cookiesList.size()-1; i++){
+            if(cookiesList.get(i) != cookiesList.get(i+1)){
+                priceList.add(cookiesList.get(i));
+            }
+        }
+
+        for(int i =0; i<priceList.size(); i++){
+            return "Price:\t"+priceList.get(i)+"\t\tseen: " + priceList.size() + " times";
+        }
+        return null;
+    }
+
+
+
 
 }
