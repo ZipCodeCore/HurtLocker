@@ -1,5 +1,6 @@
 package io.github.aaronclong.hurtlocker.files;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -14,10 +15,10 @@ public class FileHandler {
 
   private FileHandler(String theFileName) {
     fileName = theFileName;
-    open();
+    readFile();
   }
 
-  private void open() {
+  private void readFile() {
     try {
       ClassLoader classLoader = getClass().getClassLoader();
       Path file = Paths.get(classLoader.getResource(fileName).toURI());
@@ -34,5 +35,14 @@ public class FileHandler {
 
   public String fileAsString() {
     return readFile;
+  }
+  
+  public static void makeFile(String file) {
+    try {
+      Files.write(Paths.get(System.getProperty("user.home") + "/Downloads/output.txt"),
+              file.getBytes());
+    } catch (IOException e) {
+      System.out.println(e);
+    }
   }
 }
