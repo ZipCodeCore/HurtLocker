@@ -27,19 +27,10 @@ public class ParsedLine implements ParsedItem {
     for (String pair : keyValuePairs) {
       Map<String, String> parsed = handleKeyValueParse(pair);
       if (parsed != null) {
-        concatMaps(parsedKeyValuePairs, parsed);
+        ParsedItem.concatMaps(parsedKeyValuePairs, parsed);
       }
     }
     return parsedKeyValuePairs;
-  }
-
-  private void concatMaps(Map<String, String> base, Map<String, String> temporary) {
-    Set<String> tempKeys = temporary.keySet();
-    for (String key : tempKeys) {
-      if (!base.containsKey(key)) {
-        base.put(key, temporary.get(key));
-      }
-    }
   }
 
   private Map<String, String> handleKeyValueParse(String pair) {

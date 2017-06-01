@@ -35,13 +35,13 @@ public class ParsedKeyValue implements ParsedItem {
   }
 
   private String stringFormatter (String unformatted) {
-    String result = fixFirstletterCapitilization(unformatted);
-    result = fixConsecutiveCapitilization(result);
-    result = fixZeros(result);
+    String result = fixConsecutiveCapitalization(unformatted);
+    result = fixFirstCharacterCapitalization(result);
+    //result = fixZeros(result);
     return result;
   }
 
-  private String fixFirstletterCapitilization(String unformatted) {
+  private String fixFirstCharacterCapitalization(String unformatted) {
     Pattern parsePattern = Pattern.compile("\\b([a-z])");
     Matcher matcher = parsePattern.matcher(unformatted);
     String result = unformatted;
@@ -52,13 +52,14 @@ public class ParsedKeyValue implements ParsedItem {
     return result;
   }
 
-  private String fixConsecutiveCapitilization(String unformatted) {
-    Pattern parsePattern = Pattern.compile("(?!^[A-Z])[A-Z]");
+  private String fixConsecutiveCapitalization(String unformatted) {
+    Pattern parsePattern = Pattern.compile("([A-Z])");
     Matcher matcher = parsePattern.matcher(unformatted);
     String result = unformatted;
     while (matcher.find()) {
-      String upperToLower = matcher.group().toLowerCase();
-      result = matcher.replaceAll(upperToLower);
+      String match = matcher.group();
+      String upperToLower = match.toLowerCase();
+      result = result.replaceAll(match, upperToLower);
     }
     return result;
   }
