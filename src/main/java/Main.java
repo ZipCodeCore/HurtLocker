@@ -1,10 +1,7 @@
 import org.apache.commons.io.IOUtils;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.List;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Main {
 
@@ -18,12 +15,27 @@ public class Main {
         //String output = (new Main()).readRawDataToString();
        // System.out.println(output);
 
-        Parser parser = new Parser();
-        System.out.println(parser.parseString("naMe:;price:3.05;type:Food;expiration:1/25/2016"));
-        System.out.print(parser.createItemList());
-        System.out.print(parser.cookieCount());
+        Map<String, String> regexItem = new HashMap<String, String>();
 
-        //System.out.println(parser.matchNamePattern("naMe:;price:;type:Food;expiration:1/25/2016"));
+        regexItem.put("[Cc].+[sS]", "Cookies");
+        regexItem.put("[Mm].{2}[Kk]", "Milk");
+        regexItem.put("[Bb].{3}[Dd]", "Bread");
+        regexItem.put("[Aa][Pp].+[sS]", "Apples");
+
+        Parser parser = new Parser();
+        parser.parseString((new Main()).readRawDataToString());
+        parser.createItemList();
+
+        System.out.println(parser.findItemCount("[Aa][Pp].+[sS]", "Apples"));
+        System.out.println(parser.priceCount());
+
+//        for(Map.Entry<String, String> entry : regexItem.entrySet()) {
+//            System.out.println(parser.findItemCount(entry.getKey(), entry.getValue()));
+//            System.out.println(parser.priceCount());
+//            System.out.println();
+//        }
+
+
 
     }
 }

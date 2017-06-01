@@ -129,15 +129,15 @@ public class ParserTest {
     }
 
     @Test
-    public void cookieCountTest(){
+    public void findItemCountTest(){
         //Given
-        String expected = "name:\tCookies\t\tseen: 8 times";
+        String expected = "Name:\tCookies\t\tseen: 8 times";
 
         //When
         parser.parseString(result);
         parser.createItemList();
 
-        String actual = parser.cookieCount();
+        String actual = parser.findItemCount("[Cc].+[sS]", "Cookies");
 
         //Then
         Assert.assertEquals("strings should be equal", expected, actual);
@@ -146,12 +146,12 @@ public class ParserTest {
     @Test
     public void priceCountTest(){
         //Given
-        String expected = "name:\tCookies\t\tseen: 8 times";
+        String expected = "Price:\t2.25\t\tseen: 8 times";
 
         //When
         parser.parseString(result);
         parser.createItemList();
-        parser.cookieCount();
+        parser.findItemCount("[Aa][Pp].+[sS]", "Apples");
 
         String actual = parser.priceCount();
 

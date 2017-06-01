@@ -1,6 +1,7 @@
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -13,7 +14,7 @@ public class Parser {
     public static int exceptionCount = 0;
     private List<String> byLine;
     private ArrayList<Item> itemList = new ArrayList<Item>();
-    private ArrayList<Double> cookiesList = new ArrayList<Double>();
+    private ArrayList<Double> findItemCountList = new ArrayList<Double>();
 
     public List<String> parseString(String string) {
 
@@ -96,17 +97,17 @@ public class Parser {
 
     }
 
-    public ArrayList<Item> createItemList(){
+    public ArrayList<Item> createItemList() {
 
-        for(int i =0; i < byLine.size(); i++){
+        for (int i = 0; i < byLine.size(); i++) {
 
-                itemList.add(new Item(matchNamePattern(byLine.get(i)), matchPricePattern(byLine.get(i)),
-                        matchTypePattern(byLine.get(i)), matchExpirationPattern(byLine.get(i))));
+            itemList.add(new Item(matchNamePattern(byLine.get(i)), matchPricePattern(byLine.get(i)),
+                    matchTypePattern(byLine.get(i)), matchExpirationPattern(byLine.get(i))));
         }
         return itemList;
     }
 
-    public int getItemListSize(){
+    public int getItemListSize() {
         return itemList.size();
     }
 
@@ -114,42 +115,43 @@ public class Parser {
 //
 //    }
 
-    public String cookieCount() {
+    public String findItemCount(String regex, String item) {
 
-        Pattern findCookies = Pattern.compile("[Cc].+[sS]", Pattern.CASE_INSENSITIVE);
+        Pattern findName = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
 
         for (int i = 0; i < itemList.size(); i++) {
 
-            if (itemList.get(i).getName() != null && itemList.get(i).getPrice() !=0) {
-            Matcher cookiesMatcher = findCookies.matcher(itemList.get(i).getName());
+            if (itemList.get(i).getName() != null && itemList.get(i).getPrice() != 0) {
+                Matcher findItemCountMatcher = findName.matcher(itemList.get(i).getName());
 
-                if (cookiesMatcher.find() == true) {
-                    cookiesList.add(itemList.get(i).getPrice());
+                if (findItemCountMatcher.find() == true) {
+                    findItemCountList.add(itemList.get(i).getPrice());
                 }
             }
         }
 
-        return "name:\tCookies\t\tseen: " + cookiesList.size() + " times";
+        return "Name:\t" + item + "\t\tseen: " + findItemCountList.size() + " times";
     }
 
-    public String priceCount(){
+    public String priceCount() {
         ArrayList<Double> priceList = new ArrayList<Double>();
+        String output = "";
+        int count = 0;
 
-        priceList.add(cookiesList.get(0));
+        Collections.sort(findItemCountList);
+        for (int i = 0; i < findItemCountList.size() - 1; i++) {
 
-        for(int i = 0; i<cookiesList.size()-1; i++){
-            if(cookiesList.get(i) != cookiesList.get(i+1)){
-                priceList.add(cookiesList.get(i));
+            if (priceList.isEmpty() || !priceList.get(priceList.size() - 1).equals(findItemCountList.get(i))) {
+                priceList.add(findItemCountList.get(i));
+                count++;
+            }else {
             }
         }
-
-        for(int i =0; i<priceList.size(); i++){
-            return "Price:\t"+priceList.get(i)+"\t\tseen: " + priceList.size() + " times";
+        System.out.print(priceList);
+        for (int i = 0; i < priceList.size(); i++) {
+            output += "Price:\t" + priceList.get(i) + "\t\tseen: " + count + " times\n";
         }
-        return null;
+        return output;
     }
-
-
-
 
 }
