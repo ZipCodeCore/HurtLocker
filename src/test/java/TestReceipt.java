@@ -32,6 +32,7 @@ public class TestReceipt {
         Receipt receipt = new Receipt(itemMap);
         // When
         String actual = receipt.toString();
+        System.out.println(actual);
 
         // Then
         assertEquals(expected, actual);

@@ -41,6 +41,8 @@ public class Receipt {
         return sb.toString();
     }
 
+
+    // wrap name in nameArray[index] in optional, errors++ if .get is null
     private String formatNameLine(String[] nameArray, int index) throws NoNameException {
         StringBuilder nameBuilder = new StringBuilder();
         int lengthOfName = 0;
@@ -63,11 +65,13 @@ public class Receipt {
         String[] priceArray = new String[priceMap.size()];
         priceMap.keySet().toArray(priceArray);
         for (int k = 0; k < priceMap.size(); k++) {
+        if(priceArray[k]!=null){
             priceBuilder.append("price:   " + priceArray[k]);
             priceBuilder.append("\t\tseen: ");
             priceBuilder.append(priceMap.get(priceArray[k]));
             priceBuilder.append(" times");
             priceBuilder.append("\n=============\t\t=============\n");
+        } else errors++;
         }
 
         return priceBuilder.toString();
