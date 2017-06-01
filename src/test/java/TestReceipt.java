@@ -23,10 +23,10 @@ public class TestReceipt {
                 "=============\t\t=============\n" +
                 "price:   1.20\t\tseen: 2 times\n" +
                 "=============\t\t=============\n" +
-                "\nErrors       \t\tseen: 1 times";
+                "Errors       \t\tseen: 1 times";
 
-        Stream<String> namesStream = Stream.of("milk", "cookies", "milk", "cookies", "");
-        Stream<String> pricesStream = Stream.of("3.23", "1.20", "3.00", "1.20", "33.33");
+        Stream<String> namesStream = Stream.of("milk", "cookies", "milk", "cookies", null, "milk");
+        Stream<String> pricesStream = Stream.of("3.23", "1.20", "3.00", "1.20", "33.33", null);
 
         HashMap<String, ArrayList<String>> itemMap = MapFactory.createItemMap(namesStream, pricesStream, 5);
         Receipt receipt = new Receipt(itemMap);

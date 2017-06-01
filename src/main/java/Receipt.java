@@ -28,24 +28,23 @@ public class Receipt {
         HashMap<String, Integer> priceMap;
 
         for(int i = 0; i < numOfItems; i++) {
-            sb.append(formatNameLine(nameArray, i));
-            priceMap = MapFactory.createPriceMap(itemMap.get(nameArray[i]));
-            sb.append(formatPriceLine(priceMap));
+            try{
+                sb.append(formatNameLine(nameArray, i));
+                priceMap = MapFactory.createPriceMap(itemMap.get(nameArray[i]));
+                sb.append(formatPriceLine(priceMap));
+            } catch (NullPointerException npe) {
+                errors++;
+            }
 
         }
-        sb.append("Errors       \t\tseem: " + this.errors + " times");
+        sb.append("Errors       \t\tseen: " + this.errors + " times");
         return sb.toString();
     }
 
-    private String formatNameLine(String[] nameArray, int index) {
+    private String formatNameLine(String[] nameArray, int index) throws NoNameException {
         StringBuilder nameBuilder = new StringBuilder();
         int lengthOfName = 0;
-        try{
-            lengthOfName = nameArray[index].length();
-
-        } catch (NullPointerException npe) {
-            this.errors++;
-        }
+        lengthOfName = nameArray[index].length();
         int numOfSpaces = 8 - lengthOfName;
         nameBuilder.append("name:");
         for(int j = 0; j < numOfSpaces; j++) {
@@ -59,7 +58,7 @@ public class Receipt {
         return nameBuilder.toString();
     }
 
-    private String formatPriceLine(HashMap<String, Integer> priceMap) {
+    private String formatPriceLine(HashMap<String, Integer> priceMap) throws NoPriceException{
         StringBuilder priceBuilder = new StringBuilder();
         String[] priceArray = new String[priceMap.size()];
         priceMap.keySet().toArray(priceArray);

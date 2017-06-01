@@ -26,11 +26,11 @@ public class Parser {
 
     public Stream<String> getNamesStream(Stream<String> itemStringStream) {
         Stream<String> namesStream;
-        namesStream = itemStringStream.flatMap( iS ->  getItemName(iS) );
+        namesStream = itemStringStream.flatMap(Parser::getItemName);
         return namesStream;
     }
 
-    private Stream<String> getItemName(String itemString) {
+    private static Stream<String> getItemName(String itemString) {
         String[] names = new String[1];
 
         Pattern p = Pattern.compile("([Nn][Aa][Mm][Ee]:)(\\w+)");
@@ -44,11 +44,11 @@ public class Parser {
 
     public Stream<String> getPricesStream(Stream<String> itemStringStream) {
         Stream<String> namesStream;
-        namesStream = itemStringStream.flatMap( iS ->  getItemPrice(iS) );
+        namesStream = itemStringStream.flatMap(Parser::getItemPrice);
         return namesStream;
     }
 
-    private Stream<String> getItemPrice(String itemString) {
+    private static Stream<String> getItemPrice(String itemString) {
         String[] prices = new String[1];
 
         Pattern p = Pattern.compile("([Pp][Rr][Ii][Cc][Ee]:)(\\d+\\.\\d+)");
