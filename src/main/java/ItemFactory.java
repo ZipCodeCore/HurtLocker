@@ -8,7 +8,6 @@ import java.util.stream.Stream;
  */
 public class ItemFactory {
     public static HashMap<String, ArrayList<String>> createItemMap(Stream<String> names, Stream<String> prices, int numOfPrices) {
-//        ArrayList<Item> itemList = new ArrayList<>();
         HashMap<String, ArrayList<String>> itemMap = new HashMap<>();
         ArrayList<String> nameList = names.collect(Collectors.toCollection(ArrayList::new));
         ArrayList<String> priceList = prices.collect(Collectors.toCollection(ArrayList::new));
@@ -27,5 +26,15 @@ public class ItemFactory {
             }
         }
         return itemMap;
+    }
+
+    public static HashMap<String, Integer> createPriceMap(ArrayList<String> prices, String price) {
+        HashMap<String, Integer> priceMap = new HashMap<>();
+        int seen = 0;
+        for(int i = 0; i < prices.size(); i++) {
+            if (price.equals(prices.get(i))) {
+                seen++;
+            }
+        }
     }
 }

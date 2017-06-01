@@ -12,14 +12,15 @@ public class TestItemFactory {
     @Test
     public void testCreateItemMap() {
         // Given
-        Stream<String> namesStream = Stream.of("milk", "cookies");
-        Stream<String> pricesStream = Stream.of("3.23", "1.20");
+        Stream<String> namesStream = Stream.of("milk", "cookies", "milk");
+        Stream<String> pricesStream = Stream.of("3.23", "1.20", "3.00");
 
         // When
-        HashMap<String, ArrayList<String>> itemMap = ItemFactory.createItemMap(namesStream, pricesStream, 2);
+        HashMap<String, ArrayList<String>> itemMap = ItemFactory.createItemMap(namesStream, pricesStream, 3);
 
         // Then
         assertEquals("3.23", itemMap.get("milk").get(0));
+        assertEquals("3.00", itemMap.get("milk").get(1));
         assertEquals("1.20", itemMap.get("cookies").get(0));
 
     }
