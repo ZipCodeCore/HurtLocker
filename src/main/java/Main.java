@@ -9,10 +9,10 @@ public class Main {
         return result;
     }
 
-    public static void main(String[] args) throws Exception{
+    public static void main(String[] args) throws Exception,NoMatchFoundException{
         String output = (new Main()).readRawDataToString();
         Parser parser = new Parser();
-        parser.patternMatch(output);
+        parser.parseToTextFile(output);
         //System.out.println(output);
         //System.out.println(parser);
 
