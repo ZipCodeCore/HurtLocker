@@ -1,10 +1,10 @@
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 
 /**
  * Created by aurorabanuelos on 5/31/17.
@@ -111,9 +111,6 @@ public class Parser {
         return itemList.size();
     }
 
-//    public String output(){
-//
-//    }
 
     public String findItemCount(String regex, String item) {
 
@@ -134,24 +131,43 @@ public class Parser {
     }
 
     public String priceCount() {
-        ArrayList<Double> priceList = new ArrayList<Double>();
         String output = "";
-        int count = 0;
 
-        Collections.sort(findItemCountList);
-        for (int i = 0; i < findItemCountList.size() - 1; i++) {
+        Set<Double> priceCountSet = new HashSet<Double>(findItemCountList);
+        for (Double price : priceCountSet) {
+            output += "Price:\t"+ price + "\t\tseen: " + Collections.frequency(findItemCountList, price) + " times\n";
+        }
+        findItemCountList.clear();
+        return output.trim();
+    }
 
-            if (priceList.isEmpty() || !priceList.get(priceList.size() - 1).equals(findItemCountList.get(i))) {
-                priceList.add(findItemCountList.get(i));
-                count++;
-            }else {
-            }
+    public String outputErrors(){
+
+        return "Errors:\t\t\t\tseen: "+ exceptionCount +" times";
+
+    }
+
+    public void createNewOutputFile(String input) throws Exception{
+        PrintStream out = new PrintStream(new FileOutputStream("outputAfterParsing.txt"));
+
+        Map<String, String> regexItem = new HashMap<String, String>();
+
+        regexItem.put("[Cc].+[sS]", "Cookies");
+        regexItem.put("[Mm].{2}[Kk]", "Milk");
+        regexItem.put("[Bb].{3}[Dd]", "Bread");
+        regexItem.put("[Aa][Pp].+[sS]", "Apples");
+
+
+        parseString(input);
+        createItemList();
+
+        for(Map.Entry<String, String> entry : regexItem.entrySet()) {
+            out.println(findItemCount(entry.getKey(), entry.getValue()));
+            out.println(priceCount());
+            out.println();
         }
-        System.out.print(priceList);
-        for (int i = 0; i < priceList.size(); i++) {
-            output += "Price:\t" + priceList.get(i) + "\t\tseen: " + count + " times\n";
-        }
-        return output;
+
+        out.println(outputErrors());
     }
 
 }

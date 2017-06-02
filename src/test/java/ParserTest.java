@@ -151,9 +151,24 @@ public class ParserTest {
         //When
         parser.parseString(result);
         parser.createItemList();
-        parser.findItemCount("[Aa][Pp].+[sS]", "Apples");
+        parser.findItemCount("[Cc].+[sS]", "Cookies");
 
         String actual = parser.priceCount();
+
+        //Then
+        Assert.assertEquals("strings should be equal", expected, actual);
+    }
+
+    @Test
+    public void outputErrorTest(){
+        //Given
+        String expected = "Errors:\t\t\t\tseen: 4 times";
+
+        //When
+        parser.parseString(result);
+        parser.createItemList();
+
+        String actual = parser.outputErrors();
 
         //Then
         Assert.assertEquals("strings should be equal", expected, actual);
