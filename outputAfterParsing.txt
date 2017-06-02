@@ -5,8 +5,8 @@ Name:	Bread		seen: 6 times
 Price:	1.23		seen: 6 times
 
 Name:	Milk		seen: 6 times
-Price:	3.23		seen: 5 times
 Price:	1.23		seen: 1 times
+Price:	3.23		seen: 5 times
 
 Name:	Apples		seen: 4 times
 Price:	0.25		seen: 2 times

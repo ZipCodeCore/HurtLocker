@@ -69,7 +69,7 @@ public class ParserTest {
         String expected = "Milk";
 
         //When
-        String actual = parser.matchNamePattern(input);
+        String actual = parser.matchPairPattern("(?<=[Nn][Aa][Mm][Ee].)[A-Za-z0-9]+",input);
 
         //Then
         Assert.assertEquals("Strings should be Milk", expected, actual);
@@ -79,13 +79,13 @@ public class ParserTest {
     public void matchPricePatternTest(){
         //Given
         String input = "naMe:Milk;price:3.23;type:Food;expiration:1/25/2016";
-        double expected = 3.23;
+        String expected = "3.23";
 
         //When
-        double actual = parser.matchPricePattern(input);
+        String actual = parser.matchPairPattern("(?<=[Pp][Rr][Ii][Cc][Ee].)[0-9]+\\.[0-9]{2}", input);
 
         //Then
-        Assert.assertEquals("Should be 3.23", expected, actual, 0.1);
+        Assert.assertEquals("Should be 3.23", expected, actual);
     }
 
     @Test
@@ -95,7 +95,7 @@ public class ParserTest {
         String expected = "Food";
 
         //When
-        String actual = parser.matchTypePattern(input);
+        String actual = parser.matchPairPattern("(?<=[Tt][Yy][Pp][Ee].)[A-Za-z0-9]+",input);
 
         //Then
         Assert.assertEquals("Should be Food", expected, actual);
@@ -108,7 +108,7 @@ public class ParserTest {
         String expected = "1/25/2016";
 
         //When
-        String actual = parser.matchExpirationPattern(input);
+        String actual = parser.matchPairPattern("(?<=[Ee][Xx][Pp][Ii][Rr][Aa][Tt][Ii][Oo][Nn].).+\\b",input);
 
         //Then
         Assert.assertEquals("Should be 3.23", expected, actual);

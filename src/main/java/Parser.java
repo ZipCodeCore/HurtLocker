@@ -14,7 +14,7 @@ public class Parser {
     public static int exceptionCount = 0;
     private List<String> byLine;
     private ArrayList<Item> itemList = new ArrayList<Item>();
-    private ArrayList<Double> findItemCountList = new ArrayList<Double>();
+    private ArrayList<String> findItemCountList = new ArrayList<String>();
 
     public List<String> parseString(String string) {
 
@@ -22,73 +22,18 @@ public class Parser {
         return byLine;
     }
 
-    public String matchNamePattern(String string) {
-        String name = "";
-        Pattern findItemName = Pattern.compile("(?<=[Nn][Aa][Mm][Ee].)[A-Za-z0-9]+", Pattern.CASE_INSENSITIVE);
-        Matcher itemMatcher = findItemName.matcher(string);
+    public String matchPairPattern(String regex, String byLineString) {
+
+        String pairValue = "";
+        Pattern findPairValue = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+        Matcher pairValueMatcher = findPairValue.matcher(byLineString);
 
         try {
-            if (itemMatcher.find() == false) {
+            if (pairValueMatcher.find() == false) {
                 throw new NoPatternMatchedException("not found");
             } else {
-                name = itemMatcher.group();
-                return name;
-            }
-        } catch (NoPatternMatchedException e) {
-            exceptionCount += 1;
-            return null;
-        }
-    }
-
-    public double matchPricePattern(String string) {
-        double price = 0.0;
-        Pattern findPriceAmount = Pattern.compile("(?<=[Pp][Rr][Ii][Cc][Ee].)[0-9]+\\.[0-9]{2}", Pattern.CASE_INSENSITIVE);
-        Matcher priceMatcher = findPriceAmount.matcher(string);
-
-        try {
-            if (priceMatcher.find() == false) {
-                throw new NoPatternMatchedException("not found");
-            } else {
-                price = Double.parseDouble(priceMatcher.group());
-                return price;
-            }
-        } catch (NoPatternMatchedException e) {
-            exceptionCount += 1;
-            return 0;
-        }
-    }
-
-    public String matchTypePattern(String string) {
-        String type = "";
-        Pattern findTypeName = Pattern.compile("(?<=[Tt][Yy][Pp][Ee].)[A-Za-z0-9]+", Pattern.CASE_INSENSITIVE);
-        Matcher typeMatcher = findTypeName.matcher(string);
-
-        try {
-            if (typeMatcher.find() == false) {
-                throw new NoPatternMatchedException("not found");
-            } else {
-                type = typeMatcher.group();
-                return type;
-            }
-        } catch (NoPatternMatchedException e) {
-            exceptionCount += 1;
-            return null;
-        }
-
-    }
-
-    public String matchExpirationPattern(String string) {
-
-        String expiration = "";
-        Pattern findExpiration = Pattern.compile("(?<=[Ee][Xx][Pp][Ii][Rr][Aa][Tt][Ii][Oo][Nn].).+\\b", Pattern.CASE_INSENSITIVE);
-        Matcher expirationMatcher = findExpiration.matcher(string);
-
-        try {
-            if (expirationMatcher.find() == false) {
-                throw new NoPatternMatchedException("not found");
-            } else {
-                expiration = expirationMatcher.group();
-                return expiration;
+                pairValue = pairValueMatcher.group();
+                return pairValue;
             }
         } catch (NoPatternMatchedException e) {
             exceptionCount += 1;
@@ -101,8 +46,10 @@ public class Parser {
 
         for (int i = 0; i < byLine.size(); i++) {
 
-            itemList.add(new Item(matchNamePattern(byLine.get(i)), matchPricePattern(byLine.get(i)),
-                    matchTypePattern(byLine.get(i)), matchExpirationPattern(byLine.get(i))));
+            itemList.add(new Item(matchPairPattern("(?<=[Nn][Aa][Mm][Ee].)[A-Za-z0-9]+", byLine.get(i)),
+                    matchPairPattern("(?<=[Pp][Rr][Ii][Cc][Ee].)[0-9]+\\.[0-9]{2}", byLine.get(i)),
+                    matchPairPattern("(?<=[Tt][Yy][Pp][Ee].)[A-Za-z0-9]+", byLine.get(i)),
+                    matchPairPattern("(?<=[Ee][Xx][Pp][Ii][Rr][Aa][Tt][Ii][Oo][Nn].).+\\b", byLine.get(i))));
         }
         return itemList;
     }
@@ -118,7 +65,7 @@ public class Parser {
 
         for (int i = 0; i < itemList.size(); i++) {
 
-            if (itemList.get(i).getName() != null && itemList.get(i).getPrice() != 0) {
+            if (itemList.get(i).getName() != null && itemList.get(i).getPrice() != null) {
                 Matcher findItemCountMatcher = findName.matcher(itemList.get(i).getName());
 
                 if (findItemCountMatcher.find() == true) {
@@ -133,8 +80,8 @@ public class Parser {
     public String priceCount() {
         String output = "";
 
-        Set<Double> priceCountSet = new HashSet<Double>(findItemCountList);
-        for (Double price : priceCountSet) {
+        Set<String> priceCountSet = new HashSet<String>(findItemCountList);
+        for (String price : priceCountSet) {
             output += "Price:\t"+ price + "\t\tseen: " + Collections.frequency(findItemCountList, price) + " times\n";
         }
         findItemCountList.clear();
