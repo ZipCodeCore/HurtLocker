@@ -4,9 +4,7 @@ import java.util.regex.Pattern;
 public class ErrorCounter {
 
 
-    public String errorCounter() throws Exception {
-        StringParser stringParser = new StringParser();
-        String[] listArray = stringParser.stringParser();
+    public String errorCounter(String[] listArray) throws Exception {
         Pattern pattern = Pattern.compile(":;");
         Integer counter = 0;
         for(String s : listArray){
@@ -16,6 +14,5 @@ public class ErrorCounter {
             }
         }
         return String.format("Number of errors: %d", counter);
-
     }
 }

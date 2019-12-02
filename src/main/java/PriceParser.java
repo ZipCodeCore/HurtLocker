@@ -1,30 +1,28 @@
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class PriceParser {
 
-    public ArrayList<String> priceParser(String[] array, String p){
+    public HashMap<String, Integer> priceMapper(String[] array, String p) {
+        HashMap<String, Integer> priceMap = new HashMap<>();
         ContainsRegex regex = new ContainsRegex();
-        ArrayList<String> priceList = new ArrayList<String>();
         String pattern = p;
-        Pattern pricePattern = Pattern.compile("(?<!(?:\\d|\\.))\\d+\\.\\d{2}(?!\\.)");
-        for(String s : array){
-            Matcher matcher = pricePattern.matcher(s);
-            if(regex.containsRegex(s,pattern)){
-                priceList.add(s.substring(12,25).replaceAll("[^\\d.]+", ""));
+        for (String s : array) {
+            if (regex.containsRegex(s, pattern) && !priceMap.containsKey(s) && !p.equals("")) {
+                priceMap.put(s.substring(12, 25).replaceAll("[^\\d.]+", ""), 0);
             }
         }
-        return priceList;
-    }
+        Pattern pricePattern = Pattern.compile(p);
 
-    public String priceCounter(ArrayList<String> parsedPrices, String price){
-        Integer count = 0;
-        for(String p : parsedPrices){
-            if(p.equals(price)){
-                count++;
+        for (String s : priceMap.keySet()) {
+            for(String text : array) {
+                Matcher matcher = pricePattern.matcher(text);
+                if (text.contains(s) && matcher.find()) {
+                    priceMap.put(s, priceMap.get(s) + 1);
+                }
             }
         }
-        return String.format("%-15s %15s", "Price: $" + price, "Seen: ") + count;
+        return priceMap;
     }
 }

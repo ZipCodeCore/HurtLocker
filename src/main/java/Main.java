@@ -1,7 +1,5 @@
 import org.apache.commons.io.IOUtils;
 
-import java.sql.SQLOutput;
-
 public class Main {
 
     public String readRawDataToString() throws Exception{
@@ -11,17 +9,17 @@ public class Main {
     }
 
     public static void main(String[] args) throws Exception{
-        MilkCompiler milkCompiler = new MilkCompiler();
-        BreadCompiler breadCompiler = new BreadCompiler();
-        CookiesCompiler cookiesCompiler = new CookiesCompiler();
-        AppleCompiler appleCompiler = new AppleCompiler();
+        StringParser stringParser = new StringParser();
+        String[] listArray = stringParser.stringParser();
+
+        Compiler compiler = new Compiler();
         ErrorCounter errorCounter = new ErrorCounter();
 
-        System.out.println(milkCompiler.milkCompiler());
-        System.out.println(breadCompiler.breadCompiler());
-        System.out.println(cookiesCompiler.cookiesCompiler());
-        System.out.println(appleCompiler.applesCompiler());
-        System.out.println(errorCounter.errorCounter());
+        System.out.println(compiler.compiler(listArray, "[Mm][Ii][Ll][Kk]", "Milk"));
+        System.out.println(compiler.compiler(listArray,"[Bb][Rr][Ee][Aa][Dd]", "Bread"));
+        System.out.println(compiler.compiler(listArray,"[Cc][0oO][Oo0][Kk][Ii][Ee][Ss]", "Cookies"));
+        System.out.println(compiler.compiler(listArray, "[Aa][Pp][Pp][Ll][Ee][Ss]", "Apples"));
+        System.out.println(errorCounter.errorCounter(listArray));
     }
 
 }
