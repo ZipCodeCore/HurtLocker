@@ -1,5 +1,6 @@
 package jerkson;
 
+import jerkson.utils.StringUtils;
 import org.json.JSONObject;
 
 import java.util.*;
@@ -50,7 +51,7 @@ public class JerkSONUtils {
     }
 
     public static String fixName(String name) {
-        return name.toUpperCase() + name.toLowerCase();
+        return StringUtils.toUpper(name) + StringUtils.toLower(name);
     }
 
     public static String jsonBuilder(String[] labels, String[] values) {
@@ -84,7 +85,7 @@ public class JerkSONUtils {
     public static Map<String, Integer> getNameCounts(String[] list) {
         Map<String, Integer> names = new HashMap();
         Arrays.stream(list).forEach(entry -> {
-            String name = (new JSONObject(entry)).get("name").toString().toLowerCase();
+            String name = StringUtils.toLower((new JSONObject(entry)).get("name").toString());
 
             if (!matches(name, "\t")) {
                 name = setNameToKey(name, names);

@@ -1,26 +1,20 @@
 package jerkson.utils;
 
-import com.sun.jdi.ByteValue;
-
-import java.io.ByteArrayInputStream;
-import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 public class StringUtils {
-    static final Map<String, Integer> map = getA();
+    static final Map<String, Integer> map = getAlphabetMap();
 
     public static String toUpper(String in) {
         StringBuilder out = new StringBuilder();
         String[] lets = Pattern.compile("").split(in);
         for (String s : lets) {
-            Integer num = map.get(s);
+            Integer num = (map.containsKey(s)) ? map.get(s) : 0;
             if (num > 26) out.append(s);
             else {
-                String toApp = findByValue(map, num+26);
+                String toApp = (num+26 <=52) ? findByValue(map, num+26) : s;
                 out.append(toApp);
             }
         }
@@ -31,10 +25,10 @@ public class StringUtils {
         StringBuilder out = new StringBuilder();
         String[] lets = Pattern.compile("").split(in);
         for (String s : lets) {
-            Integer num = map.get(s);
+            Integer num = (map.containsKey(s)) ? map.get(s) : 0;
             if (num < 27) out.append(s);
             else {
-                String toApp = findByValue(map, num-26);
+                String toApp = (num-26>=0) ? findByValue(map, num-26) : s;
                 out.append(toApp);
             }
         }
@@ -48,7 +42,7 @@ public class StringUtils {
         return null;
     }
 
-    public static Map<String, Integer> getA() {
+    public static Map<String, Integer> getAlphabetMap() {
         Map<String, Integer> map = new HashMap<>();
         map.put("a",1);
         map.put("b",2);
