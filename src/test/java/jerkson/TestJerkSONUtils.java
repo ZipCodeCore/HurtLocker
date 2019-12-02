@@ -4,14 +4,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.List;
 import java.util.Map;
 
-/**
-    make map of Name, nameFreq, prices {price, priceFreq}
 
-
-*/
 public class TestJerkSONUtils {
     String[] list;
 
@@ -22,7 +17,7 @@ public class TestJerkSONUtils {
             list = JerkSONUtils.breakIntoEntries(initial);
 
             for (int i = 0; i < list.length; i++)
-                list[i] = JerkSONUtils.prepJ2(list[i]);
+                list[i] = JerkSONUtils.prepForJSON(list[i]);
             list = JerkSONUtils.filterOutErrorEntries(list);
         } catch( Exception e) {
             e.printStackTrace();

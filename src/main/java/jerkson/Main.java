@@ -2,7 +2,6 @@ package jerkson;
 
 import org.apache.commons.io.IOUtils;
 
-import java.util.List;
 import java.util.Map;
 
 public class Main {
@@ -26,17 +25,19 @@ public class Main {
         String[] list = JerkSONUtils.breakIntoEntries(output);
 
         for (int i = 0; i < list.length; i++)
-            list[i] = JerkSONUtils.prepJ2(list[i]);
+            list[i] = JerkSONUtils.prepForJSON(list[i]);
 
         String out = prettyPrint(list);
         System.out.println(out);
     }
 
     public static String prettyPrint(String[] list) {
-        int initSize = list.length;
         StringBuilder out = new StringBuilder();
+
+        int initSize = list.length;
         list = JerkSONUtils.filterOutErrorEntries(list);
         Integer errorCount = initSize - list.length;
+
         Map<String, Integer> names = JerkSONUtils.getNameCounts(list);
         for (String name : names.keySet()) {
             out.append(String.format("\nName:%s%s\t\tseen: %s times\n" +
@@ -51,17 +52,15 @@ public class Main {
                 ct++;
             }
         }
-
         out.append("\nErrors\t\t\t\tseen: " + errorCount + " times");
         return out.toString();
     }
 
-    public static String tabs(String word, Integer labelLen) {
+    public static String tabs(String word, Integer len) {
         String tabs = "";
-        int num = 13 - labelLen - word.length();
-        for (int i = 0; i < num; i++) {
+        int num = 13 - len - word.length();
+        for (int i = 0; i < num; i++)
             tabs = tabs + " ";
-        }
         return tabs;
     }
 }

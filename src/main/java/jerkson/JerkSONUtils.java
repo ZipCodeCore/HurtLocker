@@ -11,54 +11,21 @@ public class JerkSONUtils {
 
     public static String[] breakIntoEntries(String in) {
         return split(in, "[#]+");
-//        return Pattern.compile("[#]+").split(in);
-//        [A-Za-z]+:[A-Za-z0-9/.]*
     }
      public static String[] breakEntry(String in) {
         return split(in, "[;^%@*!]");
-//        return Pattern.compile("[;^%@*!]").split(in);
-//        [A-Za-z]+:[A-Za-z0-9/.]*
     }
 
     public static String[] breakPair(String in) {
         return split(in, ":");
     }
 
-//    public static void getKeyValuePair(String in) {
-//        String[] row = Pattern.compile(":").split(in);
-//        if (row.length == 2) {
-//            System.out.println(row[0] + "\t" + row[1]);
-//        }
-//    }
-
-//    public static String parseGobble(String in) {
-//        StringBuilder out = new StringBuilder();
-//        for (int i = 0; i < in.length(); i++) {
-//            Character chip = in.charAt(i);
-//            Pattern patternA = Pattern.compile("[A-Za-z0-9/.:]");
-//            Pattern patternB = Pattern.compile(":");
-//            Matcher matcherA = patternA.matcher(chip.toString());
-//            Matcher matcherB = patternB.matcher(chip.toString());
-//            if (matcherA.matches()) {
-//                out.append(chip);
-//                if (matcherB.matches()) out.append("\t");
-//            }
-//            else out.append("\n");
-//        }
-//        return out.toString();
-//    }
-
-//    public static String[] stringToList(String in) {
-//        return split(in, "\n\n");
-//    }
-
-    public static String prepJ2(String entry) {
-//        String[] list = split(entry,"\n");
+    public static String prepForJSON(String entry) {
         String[] list = breakEntry(entry);
         String[] labels = {"name", "price", "type", "expiration"};
         String[] values = new String[4];
         for (int i = 0; i < 4; i++) {
-            String[] arr = breakPair(list[i]);//split(list[i], ":\t");
+            String[] arr = breakPair(list[i]);
             values[i] = (arr.length == 2) ? arr[1] : "\t";
         }
         return jsonBuilder(labels, values);
@@ -75,7 +42,8 @@ public class JerkSONUtils {
     public static String[] filterListByName(String[] list, String name) {
         return Arrays.stream(list)
                 .filter(e ->
-                        matches((new JSONObject(e)).get("name").toString(),
+                        matches(
+                                (new JSONObject(e)).get("name").toString(),
                                 String.format("[%s0]+", fixName(name))))
                 .collect(Collectors.toList())
                 .toArray(new String[0]);
@@ -120,12 +88,7 @@ public class JerkSONUtils {
             String name = (new JSONObject(entry)).get("name").toString().toLowerCase();
 
             if (!matches(name, "\t")) {
-                for (String key : names.keySet()) {
-                    if (matches(key, "[" + fixName(name) + "]+")) {
-                        name = key;
-                        break;
-                    }
-                }
+                name = setNameToKey(name, names);
                 if (!names.containsKey(name)) names.put(name, 1);
                 else names.put(name, names.get(name) + 1);
             }
@@ -133,6 +96,12 @@ public class JerkSONUtils {
         return names;
     }
 
+    public static String setNameToKey(String name, Map<String, Integer> names) {
+        for (String key : names.keySet())
+            if (matches(key, "[" + fixName(name) + "]+"))
+                return key;
+        return name;
+    }
 
     public static Map<String, Integer> getPricesByName(String[] list, String name) {
         Map<String, Integer> prices = new HashMap();
