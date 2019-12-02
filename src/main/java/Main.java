@@ -1,5 +1,6 @@
 import org.apache.commons.io.IOUtils;
-import java.io.IOException;
+
+import java.sql.SQLOutput;
 
 public class Main {
 
@@ -10,8 +11,17 @@ public class Main {
     }
 
     public static void main(String[] args) throws Exception{
-        String output = (new Main()).readRawDataToString();
-        System.out.println(output);
+        MilkCompiler milkCompiler = new MilkCompiler();
+        BreadCompiler breadCompiler = new BreadCompiler();
+        CookiesCompiler cookiesCompiler = new CookiesCompiler();
+        AppleCompiler appleCompiler = new AppleCompiler();
+        ErrorCounter errorCounter = new ErrorCounter();
 
+        System.out.println(milkCompiler.milkCompiler());
+        System.out.println(breadCompiler.breadCompiler());
+        System.out.println(cookiesCompiler.cookiesCompiler());
+        System.out.println(appleCompiler.applesCompiler());
+        System.out.println(errorCounter.errorCounter());
     }
+
 }
