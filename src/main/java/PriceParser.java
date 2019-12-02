@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 public class PriceParser {
 
@@ -21,6 +22,6 @@ public class PriceParser {
                 count++;
             }
         }
-        return String.format("%-15s %15s", "Price: " + price, "Seen: ") + count;
+        return String.format("%-15s %15s", "Price: $" + price, "Seen: ") + count;
     }
 }
