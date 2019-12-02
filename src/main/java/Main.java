@@ -13,5 +13,7 @@ public class Main {
         String output = (new Main()).readRawDataToString();
         System.out.println(output);
 
+        StringParser parser = new StringParser(output);
+        parser.processFile();
     }
 }
