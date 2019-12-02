@@ -23,22 +23,29 @@ public class Main {
 
     public static void run() {
         String output = (new Main()).readRawDataToString();
-        String parsed = JerkSONUtils.parseGobble(output);
-        List<String> list = JerkSONUtils.stringToList(parsed);
+//        String parsed = JerkSONUtils.parseGobble(output);
+//        System.out.println("GOBBLE\t\t"+parsed);
+//        String[] list = JerkSONUtils.stringToList(parsed);
+        String[] list = JerkSONUtils.breakIntoEntries(output);
 
-        for (int i = 0; i < list.size(); i++) {
-            String json = JerkSONUtils.prepJ2(list.get(i));
-            list.set(i, json);
+        for (int i = 0; i < list.length; i++) {
+//            System.out.println(list[i]);
+//            String[] subEntries = JerkSONUtils.breakEntry(list[i]);
+//            for (String s : subEntries) {
+//                System.out.println("GOBBLER\t\t" +s);
+//            }
+            String json = JerkSONUtils.prepJ2(list[i]);
+            list[i] =json;
         }
         String out = prettyPrint(list);
         System.out.println(out);
     }
 
-    public static String prettyPrint(List<String> list) {
-        int initSize = list.size();
+    public static String prettyPrint(String[] list) {
+        int initSize = list.length;
         StringBuilder out = new StringBuilder();
         list = JerkSONUtils.filterOutErrorEntries(list);
-        Integer errorCount = initSize - list.size();
+        Integer errorCount = initSize - list.length;
         Map<String, Integer> names = JerkSONUtils.getNameCounts(list);
         for (String name : names.keySet()) {
             out.append(String.format("\nName:%s%s\t\tseen: %s times\n" +

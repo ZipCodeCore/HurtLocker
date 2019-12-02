@@ -13,7 +13,7 @@ import java.util.Map;
 
 */
 public class TestJerkSONUtils {
-    List<String> list;
+    String[] list;
 
     @Before
     public void setUp() {
@@ -22,18 +22,40 @@ public class TestJerkSONUtils {
             String initial = (new Main()).readRawDataToString();
             initial = JerkSONUtils.parseGobble(initial);
             list = JerkSONUtils.stringToList(initial);
-            Integer before = list.size();
-            for (int i = 0; i < list.size(); i++) {
-                String json = JerkSONUtils.prepJ2(list.get(i));
-                list.set(i, json);
+            Integer before = list.length;
+            for (int i = 0; i < list.length; i++) {
+                String json = JerkSONUtils.prepJ2(list[i]);
+                list[i] = json;
 //                System.out.println(json);
             }
             list = JerkSONUtils.filterOutErrorEntries(list);
-            errorCount = before - list.size();
+            errorCount = before - list.length;
         } catch( Exception e) {
             e.printStackTrace();
         }
         System.out.println(errorCount);
+    }
+
+    @Test
+    public void testBreakIntoEntries() {
+        String initial = (new Main()).readRawDataToString();
+        for (String s : JerkSONUtils.breakIntoEntries(initial)) {
+            System.out.println(s);
+        }
+    }
+
+    @Test
+    public void testBreakEntry() {
+        String initial = (new Main()).readRawDataToString();
+        String[] entries =  JerkSONUtils.breakIntoEntries(initial);
+        for (String entry : entries) {
+            String[] list = JerkSONUtils.breakEntry(entry);
+            System.out.println("\nENTRY");
+            for (int i = 0; i < list.length; i++) {
+                JerkSONUtils.getKeyValuePair(list[i]);
+//                System.out.println("\t"+list[i]);
+            }
+        }
     }
 
     @Test
@@ -47,46 +69,6 @@ public class TestJerkSONUtils {
             }
         }
     }
-//
-//    @Test
-//    public void testGetOccurrancesOfName1() {
-//        Long actual = JerkSONUtils.getOccurancesOfName(list, "Milk");
-//        Long expected = 8L;
-//        Assert.assertEquals(expected, actual);
-//    }
-//    @Test
-//    public void testGetOccurrancesOfName2() {
-//        Long actual = JerkSONUtils.getOccurancesOfName(list, "Cookies");
-//        Long expected = 7L;
-//        Assert.assertEquals(expected, actual);
-//    }
-//    @Test
-//    public void testGetOccurrancesOfName3() {
-//        Long actual = JerkSONUtils.getOccurancesOfName(list, "Apples");
-//        Long expected = 4L;
-//        Assert.assertEquals(expected, actual);
-//    }
-//    @Test
-//    public void testGetOccurrancesOfName4() {
-//        Long actual = JerkSONUtils.getOccurancesOfName(list, "Bread");
-//        Long expected = 6L;
-//        Assert.assertEquals(expected, actual);
-//    }
-//
-//    @Test
-//    public void testGetOccurrancesOfPriceForName() {
-//        Long actual = JerkSONUtils.getOccurancesOfPriceForName(list, "Milk", "3.23");
-//        Long expected = 5L;
-//        Assert.assertEquals(expected, actual);
-//    }
-//
-//    @Test
-//    public void testGetNames() {
-//        List<String> names = JerkSONUtils.getNames(list);
-//        for (String name : names) {
-//            System.out.println(name);
-//        }
-//    }
 
     @Test
     public void testGetNameCounts() {

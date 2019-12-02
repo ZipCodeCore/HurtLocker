@@ -8,6 +8,27 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class JerkSONUtils {
+
+    public static String[] breakIntoEntries(String in) {
+        return Pattern.compile("[#]+").split(in);
+//        [A-Za-z]+:[A-Za-z0-9/.]*
+    }
+     public static String[] breakEntry(String in) {
+        return Pattern.compile("[;^%@*!]").split(in);
+//        [A-Za-z]+:[A-Za-z0-9/.]*
+    }
+
+    public static String[] breakPair(String in) {
+        return Pattern.compile(":").split(in);
+    }
+
+    public static void getKeyValuePair(String in) {
+        String[] row = Pattern.compile(":").split(in);
+        if (row.length == 2) {
+            System.out.println(row[0] + "\t" + row[1]);
+        }
+    }
+
     public static String parseGobble(String in) {
         StringBuilder out = new StringBuilder();
         for (int i = 0; i < in.length(); i++) {
@@ -25,27 +46,38 @@ public class JerkSONUtils {
         return out.toString();
     }
 
-    public static List<String> stringToList(String in) {
-        return Arrays.asList(in.split("\n\n"));
+    public static String[] stringToList(String in) {
+        return split(in, "\n\n");
     }
 
     public static String prepJ2(String entry) {
-        String[] list = entry.split("\n");
+//        String[] list = split(entry,"\n");
+        String[] list = breakEntry(entry);
         String[] labels = {"name", "price", "type", "expiration"};
         String[] values = new String[4];
         for (int i = 0; i < 4; i++) {
-            String[] arr = list[i].split(":\t");
+            String[] arr = breakPair(list[i]);//split(list[i], ":\t");
             values[i] = (arr.length == 2) ? arr[1] : "\t";
         }
         return jsonBuilder(labels, values);
     }
 
-    public static List<String> filterListByName(List<String> list, String name) {
-        return list.stream()
+    public static String[] split(String in, String regex) {
+        return Pattern.compile(regex).split(in);
+    }
+
+    public static Boolean matches(String in, String regex) {
+        return Pattern.compile(regex).matcher(in).matches();
+    }
+
+    public static String[] filterListByName(String[] list, String name) {
+        return Arrays.stream(list)
                 .filter(e ->
-                        (new JSONObject(e)).get("name").toString()
-                                .matches(String.format("[%s0]+", fixName(name))))
-                .collect(Collectors.toList());
+                        matches(
+                                (new JSONObject(e)).get("name").toString(),
+                                String.format("[%s0]+", fixName(name))))
+                .collect(Collectors.toList())
+                .toArray(new String[0]);
 
     }
 
@@ -66,29 +98,29 @@ public class JerkSONUtils {
         return json.toString();
     }
 
-    public static List<String> filterOutErrorEntries(List<String> list) {
-        return list.stream()
-                .filter(entry -> checkErr(entry))
-                .collect(Collectors.toList());
+    public static String[] filterOutErrorEntries(String[] list) {
+        return Arrays.stream(list)
+                .filter(JerkSONUtils::checkErr)
+                .collect(Collectors.toList())
+                .toArray(new String[0]);
     }
 
     public static Boolean checkErr(String entry) {
         JSONObject json = new JSONObject(entry);
-        for (String key : json.keySet()) {
-            if (json.get(key).toString().matches("\t"))
+        for (String key : json.keySet())
+            if (matches(json.get(key).toString(),"\t"))
                 return false;
-        }
         return true;
     }
 
-    public static Map<String, Integer> getNameCounts(List<String> list) {
+    public static Map<String, Integer> getNameCounts(String[] list) {
         Map<String, Integer> names = new HashMap();
-        list.stream().forEach(entry -> {
+        Arrays.stream(list).forEach(entry -> {
             String name = (new JSONObject(entry)).get("name").toString().toLowerCase();
 
-            if (!name.matches("\t")) {
+            if (!matches(name, "\t")) {
                 for (String key : names.keySet()) {
-                    if (key.matches("[" + fixName(name) + "]+")) {
+                    if (matches(key, "[" + fixName(name) + "]+")) {
                         name = key;
                         break;
                     }
@@ -101,15 +133,16 @@ public class JerkSONUtils {
     }
 
 
-    public static Map<String, Integer> getPricesByName(List<String> list, String name) {
+    public static Map<String, Integer> getPricesByName(String[] list, String name) {
         Map<String, Integer> prices = new HashMap();
-        filterListByName(list, name).stream().forEach(entry -> {
-            String price = (new JSONObject(entry)).get("price").toString();
-            if (!price.matches("\t")) {
-                if (!prices.containsKey(price)) prices.put(price, 1);
-                else prices.put(price, prices.get(price) + 1);
-            }
-        });
+        Arrays.stream(filterListByName(list, name))
+                .forEach(entry -> {
+                    String price = (new JSONObject(entry)).get("price").toString();
+                    if (!matches(price, "\t")) {
+                        if (!prices.containsKey(price)) prices.put(price, 1);
+                        else prices.put(price, prices.get(price) + 1);
+                    }
+                });
         return prices;
     }
 }
