@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class PriceParser {
@@ -7,7 +8,9 @@ public class PriceParser {
         ContainsRegex regex = new ContainsRegex();
         ArrayList<String> priceList = new ArrayList<String>();
         String pattern = p;
+        Pattern pricePattern = Pattern.compile("(?<!(?:\\d|\\.))\\d+\\.\\d{2}(?!\\.)");
         for(String s : array){
+            Matcher matcher = pricePattern.matcher(s);
             if(regex.containsRegex(s,pattern)){
                 priceList.add(s.substring(12,25).replaceAll("[^\\d.]+", ""));
             }
