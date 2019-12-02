@@ -1,7 +1,6 @@
 package jerkson;
 
 import org.apache.commons.io.IOUtils;
-
 import java.util.Map;
 
 public class Main {
