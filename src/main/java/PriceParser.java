@@ -13,8 +13,11 @@ public class PriceParser {
                 priceMap.put(s.substring(12, 25).replaceAll("[^\\d.]+", ""), 0);
             }
         }
-        Pattern pricePattern = Pattern.compile(p);
+        return getStringIntegerHashMap(array, p, priceMap);
+    }
 
+    private HashMap<String, Integer> getStringIntegerHashMap(String[] array, String p, HashMap<String, Integer> priceMap) {
+        Pattern pricePattern = Pattern.compile(p);
         for (String s : priceMap.keySet()) {
             for(String text : array) {
                 Matcher matcher = pricePattern.matcher(text);

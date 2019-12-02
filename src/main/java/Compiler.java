@@ -11,13 +11,13 @@ public class Compiler {
 
 
         sb.append(itemCounter.itemCounter(listArray,p,item)).append("\n");
-        sb.append(String.format("%-15s %15s", "=============", "========\n"));
+        sb.append(String.format("%-16s %16s", "=============", "========\n"));
         for(String s : priceMap.keySet()){
             if(!s.equals("")) {
                 sb.append(String.format("%-15s %15s", "Price: $" + s, "Seen: ") + priceMap.get(s)).append("\n");
             }
         }
-        sb.append(String.format("%-15s %15s", "=============", "========\n"));
+        sb.append(String.format("%-16s %16s", "=============", "========\n"));
 
         return sb.toString();
     }
