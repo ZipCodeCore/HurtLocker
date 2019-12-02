@@ -17,74 +17,96 @@ public class TestJerkSONUtils {
 
     @Before
     public void setUp() {
-        Integer errorCount = 0;
         try {
             String initial = (new Main()).readRawDataToString();
-            initial = JerkSONUtils.parseGobble(initial);
-            list = JerkSONUtils.stringToList(initial);
-            Integer before = list.length;
-            for (int i = 0; i < list.length; i++) {
-                String json = JerkSONUtils.prepJ2(list[i]);
-                list[i] = json;
-//                System.out.println(json);
-            }
+            list = JerkSONUtils.breakIntoEntries(initial);
+
+            for (int i = 0; i < list.length; i++)
+                list[i] = JerkSONUtils.prepJ2(list[i]);
             list = JerkSONUtils.filterOutErrorEntries(list);
-            errorCount = before - list.length;
         } catch( Exception e) {
             e.printStackTrace();
         }
-        System.out.println(errorCount);
     }
 
     @Test
     public void testBreakIntoEntries() {
         String initial = (new Main()).readRawDataToString();
-        for (String s : JerkSONUtils.breakIntoEntries(initial)) {
-            System.out.println(s);
-        }
+        String[] entries = JerkSONUtils.breakIntoEntries(initial);
+        Integer actualLen = entries.length;
+        Integer expectedLen = 28;
+        String actual = entries[0];
+        String expected = "naMe:Milk;price:3.23;type:Food;expiration:1/25/2016";
+        Assert.assertEquals(expectedLen, actualLen);
+        Assert.assertEquals(expected, actual);
     }
 
     @Test
     public void testBreakEntry() {
         String initial = (new Main()).readRawDataToString();
         String[] entries =  JerkSONUtils.breakIntoEntries(initial);
-        for (String entry : entries) {
-            String[] list = JerkSONUtils.breakEntry(entry);
-            System.out.println("\nENTRY");
-            for (int i = 0; i < list.length; i++) {
-                JerkSONUtils.getKeyValuePair(list[i]);
-//                System.out.println("\t"+list[i]);
-            }
-        }
+        String[] entry = JerkSONUtils.breakEntry(entries[2]);
+        String actual = entry[0];
+        String expected = "NAMe:BrEAD";
+        Assert.assertEquals(expected, actual);
     }
 
     @Test
     public void testMapping() {
+        StringBuilder actual = new StringBuilder();
         Map<String, Integer> names = JerkSONUtils.getNameCounts(list);
         for (String key : names.keySet()) {
-            System.out.println("\nName\t" + key + "\tcount\t" + names.get(key));
+            actual.append("\nName\t" + key + "\tcount\t" + names.get(key) + "\n");
             Map<String, Integer> prices = JerkSONUtils.getPricesByName(list, key);
             for (String price : prices.keySet()) {
-                System.out.println("price\t" + price + "\tcount\t" + prices.get(price));
+                actual.append("price\t" + price + "\tcount\t" + prices.get(price) + "\n");
             }
         }
+
+        String expected = "\n" +
+                "Name\tbread\tcount\t6\n" +
+                "price\t1.23\tcount\t6\n" +
+                "\n" +
+                "Name\tmilk\tcount\t6\n" +
+                "price\t1.23\tcount\t1\n" +
+                "price\t3.23\tcount\t5\n" +
+                "\n" +
+                "Name\tapples\tcount\t4\n" +
+                "price\t0.25\tcount\t2\n" +
+                "price\t0.23\tcount\t2\n" +
+                "\n" +
+                "Name\tcookies\tcount\t8\n" +
+                "price\t2.25\tcount\t8\n";
+        Assert.assertEquals(expected, actual.toString());
     }
 
     @Test
     public void testGetNameCounts() {
+        StringBuilder actual = new StringBuilder();
         Map<String, Integer> names = JerkSONUtils.getNameCounts(list);
-        for (String name : names.keySet()) {
-            System.out.println(name + " " + names.get(name));
-        }
+        for (String name : names.keySet())
+            actual.append(name + "\t" + names.get(name) + "\n");
+        String expected =
+                "bread\t6\n" +
+                "milk\t6\n" +
+                "apples\t4\n" +
+                "cookies\t8\n";
+        Assert.assertEquals(expected, actual.toString());
+
     }
 
     @Test
     public void testGetPricesByName() {
-//        List<String> names = JerkSONUtils.filterListByName(list, "Milk");
+        StringBuilder actual = new StringBuilder();
         Map<String, Integer> prices = JerkSONUtils.getPricesByName(list, "Milk");
-        System.out.println("Milk");
+        actual.append("Milk" + "\n");
         for (String price : prices.keySet()) {
-            System.out.println(price + " " + prices.get(price));
+            actual.append(price + "\t" + prices.get(price) + "\n");
         }
+        String expected =
+                "Milk\n" +
+                "1.23\t1\n" +
+                "3.23\t5\n";
+        Assert.assertEquals(expected, actual.toString());
     }
 }

@@ -17,26 +17,17 @@ public class Main {
         }
     }
 
-    public static void main(String[] args) throws Exception{
+    public static void main(String[] args) {
         run();
     }
 
     public static void run() {
         String output = (new Main()).readRawDataToString();
-//        String parsed = JerkSONUtils.parseGobble(output);
-//        System.out.println("GOBBLE\t\t"+parsed);
-//        String[] list = JerkSONUtils.stringToList(parsed);
         String[] list = JerkSONUtils.breakIntoEntries(output);
 
-        for (int i = 0; i < list.length; i++) {
-//            System.out.println(list[i]);
-//            String[] subEntries = JerkSONUtils.breakEntry(list[i]);
-//            for (String s : subEntries) {
-//                System.out.println("GOBBLER\t\t" +s);
-//            }
-            String json = JerkSONUtils.prepJ2(list[i]);
-            list[i] =json;
-        }
+        for (int i = 0; i < list.length; i++)
+            list[i] = JerkSONUtils.prepJ2(list[i]);
+
         String out = prettyPrint(list);
         System.out.println(out);
     }
