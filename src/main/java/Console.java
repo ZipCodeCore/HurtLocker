@@ -2,6 +2,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import java.util.Scanner;
 
 public class Console {
@@ -17,13 +18,18 @@ public class Console {
         this.path = System.getProperty("user.home") + "/" + fileName;
     }
 
-    public void writeToFile (String lineToWrite) throws IOException {
-        this.writer = new FileWriter(this.path,this.appendToFile);
-        PrintWriter printLine = new PrintWriter(writer);
-        this.lineToWrite = lineToWrite;
-        formatLineToWrite();
-        printLine.printf("%s" + "%n", this.lineToWrite);
-        printLine.close();
+    public void writeToFile (List<String> lineToWrite) throws IOException {
+
+        for(String each : lineToWrite){
+            System.out.println(each.toString());
+        }
+//
+//        this.writer = new FileWriter(this.path,this.appendToFile);
+//        PrintWriter printLine = new PrintWriter(writer);
+//        this.lineToWrite = lineToWrite;
+//        formatLineToWrite();
+//        printLine.printf("%s" + "%n", this.lineToWrite);
+//        printLine.close();
     }
 
 //    public void readFile (String dataToRead) throws IOException {
