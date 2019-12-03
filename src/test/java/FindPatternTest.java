@@ -1,4 +1,5 @@
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.Assert;
@@ -25,7 +26,7 @@ CleanTheJerk cleaner;
 
     @Test
     public void countTest(){
-        Integer expected = 31;
+        Integer expected = 28;
         Integer actual = finder.count();
         Assert.assertEquals(expected, actual);
     }
@@ -39,11 +40,6 @@ CleanTheJerk cleaner;
     @Test
     public void splitToItems () {
         cleaner.splitToItems();
-    }
-
-    @Test
-    public void getFoodNamesTest () {
-        finder.getFodNames();
     }
 
     @Test
@@ -61,16 +57,6 @@ CleanTheJerk cleaner;
     @Test
     public void printResultsTest () {
         finder.printResults();
-    }
-
-    @Test
-    public void matchNamesTest () {
-        finder.matchNames();
-    }
-
-    @Test
-    public void validDataTest () {
-        ArrayList<String> validData = finder.findValidData();
     }
 
     @Test

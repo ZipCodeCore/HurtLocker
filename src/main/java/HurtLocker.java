@@ -3,7 +3,6 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class HurtLocker {
-    public String rawData;
 
     public static String loadFile() {
         File file = new File("/Users/david/Desktop/TrombelloProjects/IntelliJ Labs/HurtLocker/src/main/resources/RawData.txt");
@@ -19,7 +18,4 @@ public class HurtLocker {
         }
         return rawData.toString();
     }
-
-
-
 }
