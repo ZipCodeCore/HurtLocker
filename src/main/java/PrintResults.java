@@ -1,50 +1,28 @@
+import java.sql.SQLOutput;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class PrintResults {
-    CleanTheJerk cleaner = new CleanTheJerk();
     FindPatterns finder = new FindPatterns();
+    MapResults mapResults = new MapResults();
 
-
-
-    public Map milkResultsMap (){
-        Map<String, Long> myMap = new HashMap();
-        ArrayList<GroceryObjects> list = finder.createGroceryObjects();
-        for (int i = 0; i < list.size(); i++) {
-                    myMap = list.stream().filter(x -> x.getName().equals("Milk")).collect(Collectors.groupingBy(GroceryObjects::getPrice, Collectors.counting()));
-            }
-        return myMap;
+    public void printDoubleLines () {
+        System.out.println(String.format("%-20s %28s", "====================", "==============="));
     }
 
-    public Map applesResultsMap (){
-        Map<String, Long> myMap = new HashMap();
-        ArrayList<GroceryObjects> list = finder.createGroceryObjects();
-        for (int i = 0; i < list.size(); i++) {
-            myMap = list.stream().filter(x -> x.getName().equals("Apples")).collect(Collectors.groupingBy(GroceryObjects::getPrice, Collectors.counting()));
-        }
-        return myMap;
+    public void printSingleLine () {
+        System.out.println(String.format("%-20s %28s", "--------------------", "---------------"));
     }
 
-    public Map breadResultsMap (){
-        Map<String, Long> myMap = new HashMap();
-        ArrayList<GroceryObjects> list = finder.createGroceryObjects();
-        for (int i = 0; i < list.size(); i++) {
-            myMap = list.stream().filter(x -> x.getName().equals("Bread")).collect(Collectors.groupingBy(GroceryObjects::getPrice, Collectors.counting()));
-        }
-        return myMap;
+    public void printMilk () {
+        Map<String, Integer> milkMap = mapResults.milkResultsMap();
+        Integer numOfMilks =  mapResults.countMilk();
+        ArrayList<String> keys = new ArrayList<String> (mapResults.milkResultsMap().keySet());
+        System.out.println(String.format("Grocery Item: Milk:               seen %d time(s)", numOfMilks));
+        printDoubleLines();
+        System.out.println(String.format("Price: %s                       seen %d time(s)", keys.get(1), milkMap.get("3.23")));
+        printSingleLine();
+        System.out.println(String.format("Price: %s                       seen %d time(s)", keys.get(0), milkMap.get("1.23")));
+
     }
-
-    public Map cookiesResultsMap (){
-        Map<String, Long> myMap = new HashMap();
-        ArrayList<GroceryObjects> list = finder.createGroceryObjects();
-        for (int i = 0; i < list.size(); i++) {
-            myMap = list.stream().filter(x -> x.getName().equals("Cookies")).collect(Collectors.groupingBy(GroceryObjects::getPrice, Collectors.counting()));
-        }
-        return myMap;
-    }
-
-
-
 }

@@ -56,18 +56,6 @@ public class CleanTheJerk {
         String appleClean = appleMatcher.replaceAll("Apples");
         return appleClean;
     }
-
-
-//
-//    public void something () {
-////        results = finder.createGroceryObjects();
-////        ArrayList<String> milkCount = new ArrayList<>();
-////        for (int i = 0; i < results.size(); i++) {
-//            Pattern milkPattern = Pattern.compile("[milk]", Pattern.CASE_INSENSITIVE);
-////            Matcher milkMatcher = milkPattern.matcher(results.get(i).getName().);
-////            results.get(i).setName();
-//
-//        }
 }
 
 

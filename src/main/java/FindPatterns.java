@@ -1,9 +1,5 @@
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -12,7 +8,6 @@ public class FindPatterns {
     private ArrayList<String> itemWords;
     private ArrayList<String> validData;
     private ArrayList<GroceryObjects> groceryObjectsList;
-
 
 
     public Integer count() {
@@ -57,7 +52,6 @@ public class FindPatterns {
            for (int i = 0; i < singleWords.length; i++) {
                System.out.println(singleWords);
            }
-
        }
 
    public ArrayList<GroceryObjects> createGroceryObjects () {
@@ -70,7 +64,7 @@ public class FindPatterns {
                groceryObjectsList.add(new GroceryObjects(m.group(2), m.group(5)));
            }
        }
-       //System.out.println(groceryObjectsList.size());
+       //System.out.println(groceryObjectsList);
        return groceryObjectsList;
    }
 
