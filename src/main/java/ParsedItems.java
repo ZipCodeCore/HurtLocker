@@ -1,17 +1,22 @@
 import java.time.LocalDate;
+import java.util.Date;
 
 public class ParsedItems {
     private String name;
     private Double price;
     private String foodType;
-    private LocalDate expiration;
 
 
-    public ParsedItems(String name, Double price, String foodType, LocalDate expiration) {
+    public ParsedItems(String name, Double price) {
         this.name = name;
         this.price = price;
+        this.foodType = null;
+    }
+
+    public ParsedItems(String name, String price, String foodType) {
+        this.name = name;
+        this.price = Double.parseDouble(price);
         this.foodType = foodType;
-        this.expiration = expiration;
     }
 
     public String getName() {
@@ -38,11 +43,11 @@ public class ParsedItems {
         this.foodType = foodType;
     }
 
-    public LocalDate getExpiration() {
-        return expiration;
-    }
-
-    public void setExpiration(LocalDate expiration) {
-        this.expiration = expiration;
+    @Override
+    public String toString() {
+        return "ParsedItems{" +
+                "name='" + name + '\'' +
+                ", price=" + price +
+                '}';
     }
 }
