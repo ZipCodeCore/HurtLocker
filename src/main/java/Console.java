@@ -22,30 +22,15 @@ public class Console {
 
         for(String each : allLines){
             lineToWrite = lineToWrite.concat(each);
-
         }
 
         System.out.println(lineToWrite);
-//
-//        this.writer = new FileWriter(this.path,this.appendToFile);
-//        PrintWriter printLine = new PrintWriter(writer);
-//        this.lineToWrite = lineToWrite;
-//        formatLineToWrite();
-//        printLine.printf("%s" + "%n", this.lineToWrite);
-//        printLine.close();
+
+        this.writer = new FileWriter(this.path,this.appendToFile);
+        PrintWriter printLine = new PrintWriter(writer);
+        printLine.printf("%s" + "%n", this.lineToWrite);
+        printLine.close();
     }
-
-//    public void readFile (String dataToRead) throws IOException {
-        //File fileToRead = new File(this.path);
-//        Scanner sc = new Scanner(dataToRead);
-//
-//        sc.useDelimiter("##");
-//        while (sc.hasNextLine()) {
-//            System.out.println(sc.nextLine());
-//        }
-//    }
-
-
 
 
 }
