@@ -8,61 +8,23 @@ import java.util.regex.Pattern;
 
 public class FindPatterns {
     private Integer errors = 0;
-
-//    @Override
-//    public String toString() {
-//        return "FindPatterns{" +
-//                "errors=" + errors +
-//                ", matcher=" + matcher +
-//                ", nameValues=" + nameValues +
-//                ", findName=" + findName +
-//                '}';
-//    }
-
-    public String loadFile() {
-        File file = new File("/Users/david/Desktop/TrombelloProjects/IntelliJ Labs/HurtLocker/src/main/resources/RawData.txt");
-        StringBuilder rawData = new StringBuilder();
-        try (Scanner scanner = new Scanner(file)) {
-            while (scanner.hasNextLine()) {
-                String line = scanner.nextLine();
-                rawData.append(line);
-            }
-            scanner.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return rawData.toString();
-    }
+    CleanTheJerk cleaner = new CleanTheJerk();
+    ArrayList<String> itemWords;
+    ArrayList<String> validData;
+    ArrayList<GroceryObjects> groceryObjectsList;
 
 
-//    public Integer findNumOfItems () {
-//        Integer numOfItems = 0;
-//        Matcher matcher;
-//        Pattern findItems = Pattern.compile( "[food]", Pattern.CASE_INSENSITIVE);
-//        matcher = findItems.matcher(loadFile());
-//        return null;
-//    }
 
     public Integer count() {
         Pattern pattern = Pattern.compile("##");
-        String [] myRawData = pattern.split(loadFile());
+        String[] myRawData = pattern.split(HurtLocker.loadFile());
         return myRawData.length;
-
-        //String[] rawData = loadFile().split("##");
-        //Long count = Arrays.stream(rawData).filter(word -> word.toLowerCase().contains("food")).count();
-
-
-//        for (int i = 0; i < rawData.length; i++){
-//            System.out.println(rawData.toString());
-//        }
-        //return count.intValue();
-        //System.out.println(rawData);
     }
 
-    public String[] findValueName() {
+    public String[] splitToWordsArray() {
         //String [] rawData = loadFile().split("##");
-        Pattern pattern = Pattern.compile("[:;*^@#]");
-        String [] myRawDataArray = pattern.split(loadFile());
+        Pattern pattern = Pattern.compile("([:!;*^@])| (\\##)");
+        String[] myRawDataArray = pattern.split(HurtLocker.loadFile());
         //String[] rawDataArray = loadFile().split("[:;*^@#]");
 //        String [] individual;
 //        for (int i = 0; i < rawDataArray.length; i++) {
@@ -82,15 +44,138 @@ public class FindPatterns {
         }
         return myRawDataArray;
     }
-    public ArrayList<String> findNames (){
-        ArrayList<String> names = new ArrayList<>();
-//        Pattern p = Pattern.compile("/([name]) = ([a-z)\\)/), Pattern.CASE_INSENSITIVE);
-//        Matcher m;
-//        m = p.matcher(loadFile());
-return null;
+
+
+    public ArrayList<String> getFodNames() {
+        ArrayList<String> foodNames = new ArrayList<>();
+        //Pattern p = Pattern.compile("[:!;*^@]");
+        for (int i = 0; i < cleaner.splitToItems().length; i++) {
+            //String [] fields = p.split(splitToPairs()[i]);
+            Pattern splitToWords = Pattern.compile("[:!;*^@]");
+            String[] splitToWordsArray = splitToWords.split(cleaner.splitToItems()[i]);
+            for (int j = 0; j < splitToWordsArray.length; j++) {
+                foodNames.add(splitToWordsArray[2]);
+            }
+        }
+        for (int i = 0; i < foodNames.size(); i++) {
+            String s = foodNames.get(i);
+            System.out.println(s);
+        }
+        return foodNames;
+
     }
 
+    public Integer errors() {
+        String[] items = cleaner.splitToItems();
+        for (int i = 0; i < items.length; i++) {
+            Pattern errorPattern = Pattern.compile(":;");
+            Matcher errorMatcher = errorPattern.matcher(items[i]);
+            if(errorMatcher.find()){
+                errors++;
+            }
+        }
+        return errors;
+    }
+
+   public void separateToWords () {
+        String [] pairs = cleaner.splitToItems();
+        String [] singleWords = new String[0];
+           for (int i = 0; i < pairs.length; i++) {
+               Pattern splitToWords = Pattern.compile("[:!;*^@]");
+               singleWords = splitToWords.split(pairs[i]);
+           }
+           for (int i = 0; i < singleWords.length; i++) {
+               System.out.println(singleWords);
+
+           }
+
+       }
+
+   public ArrayList<String> findValidData () {
+           String[] pairs = cleaner.splitToItems();
+           validData = new ArrayList<>(Arrays.asList(pairs));
+
+           ArrayList<String> allWords = new ArrayList<>();
+           for (int i = 0; i < validData.size(); i++) {
+               String item = pairs[i];
+               Pattern splitToWords = Pattern.compile(":");
+               String[] itemsSeparated = splitToWords.split(item);
+               if (itemsSeparated.length != 8) {
+                   validData.remove(i);
+               }
+
+           }
+           return null;
+       }
+
+   public ArrayList<GroceryObjects> createGroceryObjects () {
+       String[] pairs = cleaner.splitToItems();
+       groceryObjectsList = new ArrayList<>();
+       for (int i = 0; i < pairs.length; i++) {
+           Pattern names = Pattern.compile("([nN][aA][mM][Ee]:)([a-zA-Z]+)([:!;*^@])([pP][rR][iI][cC][Ee]:)(\\d\\.\\d\\d)");
+           Matcher m = names.matcher(pairs[i]);
+           while (m.find()) {
+               groceryObjectsList.add(new GroceryObjects(m.group(2), m.group(5)));
+               System.out.println("I've been added!");
+           }
+           }
+
+           return groceryObjectsList;
+       }
+
+   public void printResults () {
+        ArrayList<GroceryObjects> resultsToPrint = createGroceryObjects();
+        for (int i = 0; i < resultsToPrint.size(); i++) {
+           System.out.println(resultsToPrint.get(i).toString());
+           System.out.println(resultsToPrint.size());
+       }
+   }
+
+
+   public void matchNames () {
+           String [] pairs = cleaner.splitToItems();
+           ArrayList pairsList = new ArrayList();
+           for (int i = 0; i < pairs.length; i++) {
+               String s = pairs[i];
+               Pattern names = Pattern.compile("/([name:]) ([a-z])=\\1/", Pattern.CASE_INSENSITIVE);
+               Matcher m = names.matcher(s);
+               if (m.find()){
+                   pairsList.add(m.group(2));
+               }
+
+           }
+           for (int i = 0; i < pairsList.size(); i++) {
+               String pair = pairs[i];
+
+           }
+           System.out.println(pairsList);
+
+       }
+
 }
+
+
+//
+//
+//
+//                   Pattern names = Pattern.compile("[name:]", Pattern.CASE_INSENSITIVE);
+//                   Matcher m = names.matcher(splitToWordsArray[i]);
+//                   if (m.matches())
+//
+//
+//               }
+//           }
+
+//        for (int i = 0; i < foodNames.size(); i++) {
+//             String s = foodNames.get(i);
+//             System.out.println(s);
+//        }
+
+       //return foodNames;
+    //}
+//    Pattern names = Pattern.compile("/([name:]) ([a-z])=\\1/", Pattern.CASE_INSENSITIVE);
+//    Matcher m = names.matcher(splitToPairs()[i]);
+
 
 
 
