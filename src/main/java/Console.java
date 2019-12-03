@@ -18,11 +18,14 @@ public class Console {
         this.path = System.getProperty("user.home") + "/" + fileName;
     }
 
-    public void writeToFile (List<String> lineToWrite) throws IOException {
+    public void writeToFile (List<String> allLines) throws IOException {
 
-        for(String each : lineToWrite){
-            System.out.println(each.toString());
+        for(String each : allLines){
+            lineToWrite = lineToWrite.concat(each);
+
         }
+
+        System.out.println(lineToWrite);
 //
 //        this.writer = new FileWriter(this.path,this.appendToFile);
 //        PrintWriter printLine = new PrintWriter(writer);
@@ -42,12 +45,7 @@ public class Console {
 //        }
 //    }
 
-    private void formatLineToWrite (){
-//        String formatedDate = String.valueOf(new Date());
-//        formatedDate = formatedDate.substring(0,19);
-//
-//        this.lineToWrite = this.lineToWrite + formatedDate;
-    }
+
 
 
 }
