@@ -3,7 +3,7 @@ import java.util.regex.Pattern;
 
 public class ItemCounter {
 
-    public String itemCounter(String[] array, String p, String item) throws Exception {
+    public String itemCounter(String[] array, String p, String item){
         ContainsRegex regex = new ContainsRegex();
         String pattern = p;
         Integer count = 0;

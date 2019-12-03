@@ -2,8 +2,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ContainsRegex {
-    Main main = new Main();
-
 
     public Boolean containsRegex(String s, String p){
         Pattern pattern = Pattern.compile(p);
@@ -15,8 +13,4 @@ public class ContainsRegex {
         }
         return count == 1;
     }
-
-
-
-
 }
