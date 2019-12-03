@@ -13,7 +13,7 @@ public class StringParser {
     private Console console = new Console("Output.txt", true);
     private Set<String> uniqueValues = new HashSet<>();
 
-    //-------- constructor ----------------
+//-------- constructor ----------------
     public StringParser(String dataIn) {
         rawData = dataIn;
     }
@@ -114,7 +114,7 @@ public class StringParser {
         addDividers("new");
     }
 
-//------- error counting -------------------------------
+//------- error counting -------------------------
 
     private void getErrors(String lineIn) {
         // delimiter between key:value pairs ->    ; ^ % * ! @
@@ -148,13 +148,13 @@ public class StringParser {
     }
 
 
-    //-------- utilities ------------------------------------
-    private Boolean findPattern(String textToSearch, String pattern) {
+//-------- utilities ------------------------------------
+    public Boolean findPattern(String textToSearch, String pattern) {
         Pattern pattern1 = Pattern.compile(pattern);
         return pattern1.matcher(textToSearch).find();
     }
 
-    private String matchedString(String textToSearch, String pattern) {
+    public String matchedString(String textToSearch, String pattern) {
 
         Pattern pattern1 = Pattern.compile(pattern);
         Matcher matcher = pattern1.matcher(textToSearch);
