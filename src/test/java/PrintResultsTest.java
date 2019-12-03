@@ -17,7 +17,25 @@ public class PrintResultsTest {
 
     @Test
     public void checkMilk () {
-       Map<String, Long> myMap = printer.resultsMap();
+       Map<String, Long> myMap = printer.milkResultsMap();
+        System.out.println(myMap.entrySet());
+    }
+
+    @Test
+    public void checkApples () {
+        Map<String, Long> myMap = printer.applesResultsMap();
+        System.out.println(myMap.entrySet());
+    }
+
+    @Test
+    public void checkBread () {
+        Map<String, Long> myMap = printer.breadResultsMap();
+        System.out.println(myMap.entrySet());
+    }
+
+    @Test
+    public void checkCookies () {
+        Map<String, Long> myMap = printer.cookiesResultsMap();
         System.out.println(myMap.entrySet());
     }
 }
