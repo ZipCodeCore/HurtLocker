@@ -29,5 +29,12 @@ public class StringParserTest {
 
     @Test
     public void matchedString() {
+        String pattern = ":(.*?);";
+        String text = "name:Milk;";
+
+        String expected = "Milk";
+        String actual = parser.matchedString(text,pattern);
+
+        Assert.assertEquals(expected,actual);
     }
 }
