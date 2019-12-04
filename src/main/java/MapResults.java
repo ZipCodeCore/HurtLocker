@@ -59,7 +59,7 @@ public class MapResults {
         ArrayList<GroceryObjects> list = finder.createGroceryObjects();
         Integer countBread = 0;
         for (int i = 0; i < list.size(); i++) {
-            if(list.get(i).getName().equals("Milk")){
+            if(list.get(i).getName().equals("Bread")){
                 countBread++;
             }
         }
@@ -70,7 +70,7 @@ public class MapResults {
         ArrayList<GroceryObjects> list = finder.createGroceryObjects();
         Integer countCookies = 0;
         for (int i = 0; i < list.size(); i++) {
-            if(list.get(i).getName().equals("Milk")){
+            if(list.get(i).getName().equals("Cookies")){
                 countCookies++;
             }
         }
@@ -81,7 +81,7 @@ public class MapResults {
         ArrayList<GroceryObjects> list = finder.createGroceryObjects();
         Integer countApples = 0;
         for (int i = 0; i < list.size(); i++) {
-            if(list.get(i).getName().equals("Milk")){
+            if(list.get(i).getName().equals("Apples")){
                 countApples++;
             }
         }

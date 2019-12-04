@@ -7,7 +7,16 @@ public class PrintResultsTest {
     @Before
     public void setUp() throws Exception {
         printer = new PrintResults();
+    }
 
+    @Test
+    public void printAllItems () {
+        printer.printAllItems();
+    }
+
+    @Test
+    public void printLines () {
+        printer.printDoubleLines();
     }
 
     @Test
@@ -15,8 +24,5 @@ public class PrintResultsTest {
         printer.printMilk();
     }
 
-    @Test
-    public void printLines () {
-        printer.printDoubleLines();
-    }
+
 }
