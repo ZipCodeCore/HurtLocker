@@ -22,9 +22,6 @@ public class DataChart {
     }
 
 
-
-
-
     public static Stream<ParsedItems> getFoodStream(DataChart itemDock, String itemType) {
 
         return itemDock.get().stream().filter(z -> z.getName() == itemType);
@@ -32,19 +29,34 @@ public class DataChart {
 
 
     public static Integer getFoodCount(DataChart itemDock, String itemType) {
-        return itemDock.get().stream().filter(z -> z.getName() == itemType).map(e -> 1).reduce(0, Integer::sum);
+        Long foodcount = itemDock.get().stream().filter(z -> z.getName().equals(itemType)).count();
+        return foodcount.intValue();
+        // map(e -> 1).reduce(0, Integer::sum);
 
     }
 
-    public static ArrayList getPrices(Stream<ParsedItems> stream) {
+    public static ArrayList<Double> getPrices(Stream<ParsedItems> stream) {
         ArrayList<Double> prices = new ArrayList<>(stream.map(ParsedItems::getPrice)
                 .collect(Collectors.toSet()));
         return prices;
     }
 
-    public static Integer priceCount(Stream<ParsedItems> stream, ArrayList list, int index) {
-        return stream.filter(z -> z.getPrice() == list.get(index)).map(e -> 1).reduce(0, Integer::sum);
+
+    public static HashMap<Double, Integer> priceCount(ArrayList<ParsedItems> typeList) {
+        HashMap<Double, Integer> prices = new HashMap<>();
+        typeList.stream().forEach(t -> {
+            Double currentPrice = t.getPrice();
+            if (!prices.containsKey(currentPrice)) {
+                prices.put(currentPrice, 1);
+            } else {
+                prices.put(currentPrice, prices.get(currentPrice) + 1);
+            }
+        });
+        return prices;
+        /* for (Double a: priceList){
+            pCount.add(typeList.stream().filter(z -> z.getPrice() == a).map(e -> 1).reduce(0, Integer::sum));
+        }
+        return pCount:
+    }*/
     }
-
-
 }

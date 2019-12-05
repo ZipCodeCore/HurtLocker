@@ -2,11 +2,14 @@ import org.apache.commons.io.IOUtils;
 import sun.tools.jstat.Token;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.function.IntToDoubleFunction;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Main {
 
@@ -23,9 +26,13 @@ public class Main {
         String chicken = DataCleaner.jerkSeasoning7(cumin);
         String cloves = DataCleaner.jerkSeasoning8(chicken);
         ArrayList<ParsedItems> pairedList = DataCleaner.pairParser(cloves);
+        ArrayList<ParsedItems> appleList = listByFood(pairedList, "Apples");
+        ArrayList<Double> applePrices = getPrices(appleList);
+         HashMap<Double,Integer> price = priceOccurence(appleList);
+        System.out.println(price);
         DataChart chart = new DataChart(pairedList);
-
         getPrices(pairedList);
+
 
 
         return null;
@@ -44,26 +51,45 @@ public class Main {
         System.out.println(output);
 
     }
+    public static ArrayList<ParsedItems> listByFood (ArrayList<ParsedItems> list, String itemType) {
 
-
-    public static HashMap<Double, String> getPrices(ArrayList<ParsedItems> list) {
-
-        HashMap<Double, String> foodPrices = new HashMap<>();
-        for (ParsedItems i : list) {
-            foodPrices.put(i.getPrice(), i.getName());
-        }
-
-        return foodPrices;
-
+        return (ArrayList<ParsedItems>) list.stream().filter(z -> z.getName().equals(itemType)).collect(Collectors.toList());
     }
+
+
+
+
+
+
     public static Integer getFoodCount(ArrayList<ParsedItems>list, String itemType) {
-        return list.stream().filter(z -> z.getName() == itemType).map(e -> 1).reduce(0, Integer::sum);
+        return list.stream().filter(z -> z.getName().equals(itemType)).map(e -> 1).reduce(0, Integer::sum);
 
     }
-    public Integer priceCount(HashMap<Double,String>price){
-        return null;
+    public static ArrayList<Double> getPrices(ArrayList<ParsedItems>items)  {
+        ArrayList<Double> prices = new ArrayList<>(items.stream().map(ParsedItems::getPrice)
+                .collect(Collectors.toSet()));
+        return prices;
     }
+    public static HashMap<Double, Integer> priceOccurence(ArrayList<ParsedItems> typeList) {
+        HashMap<Double, Integer> prices = new HashMap<>();
+        typeList.stream().forEach(t -> {
+            Double currentPrice = t.getPrice();
+            if (!prices.containsKey(currentPrice)) {
+                prices.put(currentPrice, 1);
+            } else {
+                prices.put(currentPrice, prices.get(currentPrice) + 1);
+            }
+        });
+        return prices;
+ /*   public static ArrayList<Integer> priceCount(ArrayList<ParsedItems>typeList, ArrayList<Double> priceList, int index) {
+        ArrayList<Integer> pCount = new ArrayList<>();
+        for (Double a : priceList) {
+            pCount.add(typeList.stream().filter(z -> z.getPrice() == a).map(e -> 1).reduce(0, Integer::sum));
+        }
+        return pCount;
+    }*/
 
+    }
 
 
     public static String itemChart(ArrayList<ParsedItems>list, String itemtype) {
