@@ -7,8 +7,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class DataCleaner {
-    int errorCount = 0;
+    Integer errorCount;
 
+    public DataCleaner() {
+        this.errorCount = 0;
+    }
 
     public static String jerkSeasoning(String string) {
         Pattern p1 = Pattern.compile("[;*^%!@]");
@@ -27,13 +30,14 @@ public class DataCleaner {
             count++;
         }
         System.out.println(count);
-        return m2.replaceAll("},\n");
+        return m2.replaceAll("\n");
     }
 
     public static String jerkSeasoning3(String string) {
         Pattern p3 = Pattern.compile("/");
         Matcher m3 = p3.matcher(string);
         m3.find();
+
         return m3.replaceAll("-");
     }
 
@@ -74,17 +78,17 @@ public class DataCleaner {
         return m8.replaceAll("Apples");
     }
 
-    public static ArrayList<ParsedItems> pairParser(String string) {
-        Pattern p8 = Pattern.compile("(\\S+):(\\S*)\\s(\\S+):(\\S*)\\s(\\S+):(\\S*)\\s(\\S+):(\\S*)\\s(?:\\b(?!:)|$)");
+    public ArrayList<ParsedItems> pairParser(String string) {
+        Pattern p8 = Pattern.compile("(\\S+):(\\S*)\\s(\\S+):(\\S*)\\s(\\S+):(\\S*)\\s(\\S+):(\\S*)");
         Matcher m8 = p8.matcher(string);
         ArrayList food = new ArrayList<ParsedItems>();
         while (m8.find()) {
             String price = m8.group(4);
-            String type = m8.group(2) ;
-            if ("".equals(price)||"".equals(type)){
-
+            String type = m8.group(2);
+            if ("".equals(price) || "".equals(type)) {
+                errorCount++;
             } else {
-                System.out.println(type + " " + price);
+                //System.out.println(type + " " + price);
                 ParsedItems item = new ParsedItems(type, Double.valueOf(price));
                 food.add(item);
             }
@@ -92,6 +96,22 @@ public class DataCleaner {
         }
 
         return food;
+    }
+
+    public String dataConverter(String result) {
+        String pepper = DataCleaner.jerkSeasoning(result);
+        String cinnamon = DataCleaner.jerkSeasoning2(pepper);
+        String tumeric = DataCleaner.jerkSeasoning3(cinnamon);
+        String thyme = DataCleaner.jerkSeasoning4(tumeric);
+        String lemon = DataCleaner.jerkSeasoning5(thyme);
+        String cumin = DataCleaner.jerkSeasoning6(lemon);
+        String chicken = DataCleaner.jerkSeasoning7(cumin);
+        String cloves = DataCleaner.jerkSeasoning8(chicken);
+        return cloves;
+    }
+
+    public Integer getErrorCount() {
+        return errorCount;
     }
 }
 
