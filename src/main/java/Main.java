@@ -13,5 +13,7 @@ public class Main {
         String output = (new Main()).readRawDataToString();
         System.out.println(output);
 
+        JerkSONParser jp = new JerkSONParser(output);
+        jp.processFile();
     }
 }
