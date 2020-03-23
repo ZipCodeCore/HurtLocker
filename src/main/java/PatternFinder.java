@@ -20,6 +20,7 @@ public class PatternFinder {
 
         Integer total = count();
         ArrayList<Grocery> valid = createGroceryList();
+        System.out.println("\nTotal valid Grocery Items: " + valid.size());
         return total - valid.size();
 
     }
