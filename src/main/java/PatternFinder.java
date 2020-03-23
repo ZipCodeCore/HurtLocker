@@ -5,15 +5,13 @@ import java.util.regex.Pattern;
 public class PatternFinder {
 
     private Formater cleaner = new Formater();
-    private ArrayList<String> itemWords;
-    private ArrayList<String> validData;
     private ArrayList<Grocery> groceryObjectsList;
 
 
     public Integer count() {
 
         Pattern pattern = Pattern.compile("##");
-        String[] myRawData = pattern.split(Main.formatedFile());
+        String[] myRawData = pattern.split(Main.readRawDataToString());
         return myRawData.length;
     }
 
@@ -42,11 +40,4 @@ public class PatternFinder {
         return groceryObjectsList;
     }
 
-//        public void printResults () {
-//
-//            ArrayList<Grocery> resultsToPrint = createGrocery();
-//            for (int i = 0; i < resultsToPrint.size(); i++) {
-//                System.out.println(resultsToPrint.get(i).toString());
-//            }
-//        }
 }

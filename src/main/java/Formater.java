@@ -39,7 +39,7 @@ public class Formater {
 
     public String replaceMilk () {
 
-        String rText = Main.formatedFile();
+        String rText = Main.readRawDataToString();
         Pattern milkPattern = Pattern.compile("(milk)|(Milk)", Pattern.CASE_INSENSITIVE);
         Matcher milkMatcher = milkPattern.matcher(rText);
         String milkFormat = milkMatcher.replaceAll("Milk");
