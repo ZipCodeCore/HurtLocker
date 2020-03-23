@@ -1,17 +1,31 @@
 import org.apache.commons.io.IOUtils;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Scanner;
 
 public class Main {
 
-    public String readRawDataToString() throws Exception{
-        ClassLoader classLoader = getClass().getClassLoader();
-        String result = IOUtils.toString(classLoader.getResourceAsStream("RawData.txt"));
+    public static String readRawDataToString() {
+
+        String result = null;
+        try {
+            ClassLoader classLoader = Main.class.getClassLoader();
+            result = IOUtils.toString(classLoader.getResourceAsStream("RawData.txt"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return result;
     }
 
-    public static void main(String[] args) throws Exception{
-        String output = (new Main()).readRawDataToString();
-        System.out.println(output);
 
+    public static void main(String[] args) {
+
+        System.out.println((new Main()).readRawDataToString());
+        OutputResults printer = new OutputResults();
+        printer.printAllItems();
     }
+
 }
+
+
