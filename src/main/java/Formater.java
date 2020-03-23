@@ -1,12 +1,7 @@
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Formater {
-
-    ArrayList<String> results;
 
     public String[] splitItems() {
 
@@ -36,7 +31,7 @@ public class Formater {
     public String replaceCookies () {
 
         String rText = replaceMilk();
-        Pattern cookiePattern = Pattern.compile("(cookies)|(co0kies)", Pattern.CASE_INSENSITIVE);
+        Pattern cookiePattern = Pattern.compile("(cookies)|(Co0kieS)", Pattern.CASE_INSENSITIVE);
         Matcher cookieMatcher = cookiePattern.matcher(rText);
         String cookieFormat = cookieMatcher.replaceAll("Cookies");
         return cookieFormat;
@@ -44,11 +39,10 @@ public class Formater {
 
     public String replaceMilk () {
 
-        String rText = Main.loadFile();
-        Pattern milkPattern = Pattern.compile("(milk)", Pattern.CASE_INSENSITIVE);
+        String rText = Main.formatedFile();
+        Pattern milkPattern = Pattern.compile("(milk)|(Milk)", Pattern.CASE_INSENSITIVE);
         Matcher milkMatcher = milkPattern.matcher(rText);
         String milkFormat = milkMatcher.replaceAll("Milk");
         return milkFormat;
     }
 }
-
