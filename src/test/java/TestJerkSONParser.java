@@ -21,14 +21,14 @@ public class TestJerkSONParser {
     @Test
     public void findPattern1(){
         String pattern = "##";
-        Boolean actual = jp.findPattern(testData,pattern);
+        Boolean actual = ParserUtils.findPattern(testData,pattern);
         Assert.assertTrue(actual);
     }
 
     @Test
     public void findPattern2(){
         String pattern = "qg";
-        Boolean actual = jp.findPattern(testData,pattern);
+        Boolean actual = ParserUtils.findPattern(testData,pattern);
         Assert.assertFalse(actual);
     }
 
@@ -39,7 +39,7 @@ public class TestJerkSONParser {
         String test = "type:Food;";
 
         String expected = "Food";
-        String actual = jp.matchedString(test, pattern);
+        String actual = ParserUtils.matchedString(test, pattern);
 
         Assert.assertEquals(expected,actual);
     }

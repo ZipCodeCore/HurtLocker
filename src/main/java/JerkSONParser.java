@@ -1,29 +1,21 @@
 import java.io.*;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-//count exceptions
-//all letters to lower
-//## for new object
-//map of objects
-
-//try to add to parser utils if time
 public class JerkSONParser {
     private String data;
     private int exceptionCount;
     private List<String> pairedValues;
     private List<String> linesToPrint;
     private Set<String> uniqueValues;
-    private Writer console;
+    private Writer writer;
 
 
-    public JerkSONParser(String rawData){
-        this.data = rawData;
+    public JerkSONParser(String data){
+        this.data = data;
         pairedValues = new ArrayList<>();
         linesToPrint = new ArrayList<>();
         uniqueValues = new HashSet<>();
-        console = new Writer();
+        writer = new Writer();
     }
 
     public void processFile(){
@@ -31,7 +23,7 @@ public class JerkSONParser {
         countItems();
         createPrintLine(exceptionCount, "errors\t\t");
         try {
-            console.writeToFile(linesToPrint);
+            writer.writeToFile(linesToPrint);
         } catch (IOException e){
             e.printStackTrace();
         }
@@ -50,11 +42,11 @@ public class JerkSONParser {
     }
 
     public void storeValues(String toParse){
-        String name = "";
-        String price = "";
+        String name;
+        String price;
 
-        name = matchedString(toParse, "(?i)name:(.*?);");
-        price = matchedString(toParse, "(?i)price:(.*?);");
+        name = ParserUtils.matchedString(toParse, "(?i)name:(.*?);");
+        price = ParserUtils.matchedString(toParse, "(?i)price:(.*?);");
 
         if(price.equals("") || name.equals("")){
         }
@@ -62,8 +54,6 @@ public class JerkSONParser {
             name = name.toLowerCase();
             pairedValues.add(name + "-" + price + "-");
             uniqueValues.add(name);
-            price = "";
-            name = "";
         }
     }
 
@@ -77,21 +67,21 @@ public class JerkSONParser {
         for(String s : pairedValues){
             if(s.matches("(.*)(?i)" + item + "(.*)")) {
                 if (priceCounter == 0) {
-                    previousPrice = matchedString(s, "-(.*?)-");
+                    previousPrice = ParserUtils.matchedString(s, "-(.*?)-");
                 }
-                price = matchedString(s, "-(.*?)-");
+                price = ParserUtils.matchedString(s, "-(.*?)-");
 
 
                 if (price.equals(previousPrice)) {
                     priceCounter++;
                 } else {
-                    createPrintLine(priceCounter, "price:" + printPadding(previousPrice, 9));
+                    createPrintLine(priceCounter, "price:" + ParserUtils.printPadding(previousPrice, 9));
                     previousPrice = price;
                     priceCounter = 1;
                 }
             }
             else if(priceCounter != 0){
-                createPrintLine(priceCounter, "price:" + printPadding(price, 9));
+                createPrintLine(priceCounter, "price:" + ParserUtils.printPadding(price, 9));
                 price = "";
                 priceCounter = 0;
             }
@@ -113,7 +103,7 @@ public class JerkSONParser {
                     counter++;
                 }
             }
-            createPrintLine(counter, "name:" + printPadding(element,10).toLowerCase());
+            createPrintLine(counter, "name:" + ParserUtils.printPadding(element,10).toLowerCase());
             counter = 0;
             getPriceCounter(element.toLowerCase());
         }
@@ -126,7 +116,7 @@ public class JerkSONParser {
 
         while (sc.hasNext()){
             String line = sc.next();
-            if(!findPattern(lineIn, ":")){
+            if(!ParserUtils.findPattern(lineIn, ":")){
                 exceptionCount++;
             }
             else{
@@ -149,25 +139,7 @@ public class JerkSONParser {
         }
     }
 
-    public String matchedString(String textToSearch, String pattern){
-        Pattern pattern1 = Pattern.compile(pattern);
-        Matcher matcher = pattern1.matcher(textToSearch);
-        if(matcher.find()){
-            return matcher.group(1);
-        }
-        return "";
-    }
 
-    public Boolean findPattern(String textToSearch, String pattern){
-        Pattern pattern1 = Pattern.compile(pattern);
-        return pattern1.matcher(textToSearch).find();
-    }
-
-
-
-    public String printPadding(String s, int  n){
-        return String.format("%" + n + "s", s);
-    }
 
     public void createPrintLine(Integer counter, String item){
         linesToPrint.add(item + "\t\tseen: " + counter + " times\n");
@@ -175,13 +147,13 @@ public class JerkSONParser {
     }
 
     public void printDividers(String item){
-        if(findPattern(item, "name")){
+        if(ParserUtils.findPattern(item, "name")){
             String line = "=================\t\t=================";
             linesToPrint.add(line);
         }
-        else if(findPattern(item, "errors")){
+        else if(ParserUtils.findPattern(item, "errors")){
         }
-        else if(findPattern(item, "new")){
+        else if(ParserUtils.findPattern(item, "new")){
             linesToPrint.add("\n");
         }
         else{
@@ -189,9 +161,4 @@ public class JerkSONParser {
             linesToPrint.add(line);
         }
     }
-
-
-
-
-
 }
