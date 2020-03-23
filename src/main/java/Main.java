@@ -1,5 +1,4 @@
 import org.apache.commons.io.IOUtils;
-import java.io.IOException;
 
 public class Main {
 
@@ -12,13 +11,8 @@ public class Main {
     public static void main(String[] args) throws Exception{
         String output = (new Main()).readRawDataToString();
         JerksonParser jp = new JerksonParser();
-//        jp.test(jp.getObjects(output));
-//        jp.test2();
 
         jp.makeObjects(jp.getObjects(output));
-        jp.test2();
-
-//        jp.makeObjects(jp.getObjects(output));
-//        jp.count();
+        jp.count();
     }
 }

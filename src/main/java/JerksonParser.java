@@ -1,16 +1,16 @@
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class JerksonParser {
-    private final String seperator = "##";
+
     private Pattern patt;
-    private Matcher match;
     List<JerksonObject> grocery;
 
     public JerksonParser(){
-        grocery = new LinkedList();
+        grocery = new ArrayList<JerksonObject>();
     }
 
     public String[] getObjects(String input){
@@ -25,7 +25,7 @@ public class JerksonParser {
         Pattern exp = Pattern.compile("(?<=expiration:).*");
         for(int i = 0; i < inputArr.length; i++){
             JerksonObject obj = new JerksonObject();
-            match = patt.matcher(inputArr[i]);
+            Matcher match = patt.matcher(inputArr[i]);
             if(match.find())
                 obj.getObj().put("name", makeCorrectName(match.group()));
             else
@@ -108,36 +108,31 @@ public class JerksonParser {
                 }
             }
         }
-        printOutput(milk,mp2,mp2,bread,bp,cookies,cp,apples,ap1,ap2,error);
+        printOutput(milk,mp1,mp2,bread,bp,cookies,cp,apples,ap1,ap2,error);
     }
 
-    public void printOutput(int m, int mp1, int mp2, int b, int bp, int c, int cp, int a, int ap1, int ap2,int err){
-        System.out.printf("name:%9s%12s: %d times\n", "Milk", "seen", m);
-        System.out.printf("Price:%8s%12s: %d times\n", "3.23", "seen", mp1);
-        System.out.printf("Price:%8s%12s: %d times\n", "1.23", "seen", mp2);
-        System.out.printf("name:%9s%12s: %d times\n", "Bread", "seen", b);
-        System.out.printf("Price:%8s%12s: %d times\n", "1.23", "seen", bp);
-        System.out.printf("name:%9s%12s: %d times\n", "Cookies", "seen", c);
-        System.out.printf("Price:%8s%12s: %d times\n", "2.25", "seen", cp);
-        System.out.printf("name:%9s%12s: %d times\n", "Apples", "seen", a);
-        System.out.printf("Price:%8s%12s: %d times\n", "0.25", "seen", ap1);
-        System.out.printf("Price:%8s%12s: %d times\n", "0.23", "seen", ap2);
-        System.out.printf("%-16s%10s: %d times\n", "Errors", "seen", err);
-    }
-
-    public void test(String[] input){
-        for(String s : input){
-            System.out.println(s);
-        }
-    }
-
-    public void test2(){
-        for(JerksonObject i : grocery){
-            System.out.println(i.getObj().get("name"));
-            System.out.println(i.getObj().get("price"));
-            System.out.println(i.getObj().get("type"));
-            System.out.println(i.getObj().get("exp"));
-            System.out.println();
-        }
+    public void printOutput(int m, int mp1, int mp2, int b, int bp,
+                            int c, int cp, int a, int ap1, int ap2,int err){
+        String line = "=============";
+        String lin = "-------------";
+        System.out.printf("name:%8s%12s: %d times\n", "Milk", "seen", m);
+        System.out.printf("%s%8s%s\n", line, "", line);
+        System.out.printf("Price:%7s%12s: %d times\n", "3.23", "seen", mp1);
+        System.out.printf("%s%8s%s\n", lin, "", lin);
+        System.out.printf("Price:%7s%12s: %d times\n\n", "1.23", "seen", mp2);
+        System.out.printf("name:%8s%12s: %d times\n", "Bread", "seen", b);
+        System.out.printf("%s%8s%s\n", line, "", line);
+        System.out.printf("Price:%7s%12s: %d times\n", "1.23", "seen", bp);
+        System.out.printf("%s%8s%s\n\n", lin, "", lin);
+        System.out.printf("name:%8s%12s: %d times\n", "Cookies", "seen", c);
+        System.out.printf("%s%8s%s\n", line, "", line);
+        System.out.printf("Price:%7s%12s: %d times\n", "2.25", "seen", cp);
+        System.out.printf("%s%8s%s\n\n", lin, "", lin);
+        System.out.printf("name:%8s%12s: %d times\n", "Apples", "seen", a);
+        System.out.printf("%s%8s%s\n", line, "", line);
+        System.out.printf("Price:%7s%12s: %d times\n", "0.25", "seen", ap1);
+        System.out.printf("%s%8s%s\n", lin, "", lin);
+        System.out.printf("Price:%7s%12s: %d times\n\n", "0.23", "seen", ap2);
+        System.out.printf("%-15s%10s: %d times\n", "Errors", "seen", err);
     }
 }

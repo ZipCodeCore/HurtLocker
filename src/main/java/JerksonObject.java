@@ -11,8 +11,4 @@ public class JerksonObject {
     public Map<String, String> getObj(){
         return obj;
     }
-
-    public Boolean containsValue(String value){
-        return obj.containsValue(value);
-    }
 }
