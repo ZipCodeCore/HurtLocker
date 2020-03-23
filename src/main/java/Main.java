@@ -11,7 +11,14 @@ public class Main {
 
     public static void main(String[] args) throws Exception{
         String output = (new Main()).readRawDataToString();
-        System.out.println(output);
+        JerksonParser jp = new JerksonParser();
+//        jp.test(jp.getObjects(output));
+//        jp.test2();
 
+        jp.makeObjects(jp.getObjects(output));
+        jp.test2();
+
+//        jp.makeObjects(jp.getObjects(output));
+//        jp.count();
     }
 }
