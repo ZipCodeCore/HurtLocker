@@ -6,7 +6,6 @@ import java.util.regex.Pattern;
 
 public class JerksonParser {
 
-    private Pattern patt;
     List<JerksonObject> grocery;
 
     public JerksonParser(){
@@ -14,47 +13,63 @@ public class JerksonParser {
     }
 
     public String[] getObjects(String input){
-        patt = Pattern.compile("[!;%*^#@]");
+        Pattern patt = Pattern.compile("[!;%*^#@]");
         return patt.split(input);
     }
 
     public void makeObjects(String[] inputArr){
-        patt = Pattern.compile("(?i)(?<=name:).*");
-        Pattern price = Pattern.compile("(?i)(?<=price:).*");
-        Pattern type = Pattern.compile("(?<=type:).*");
-        Pattern exp = Pattern.compile("(?<=expiration:).*");
         for(int i = 0; i < inputArr.length; i++){
             JerksonObject obj = new JerksonObject();
-            Matcher match = patt.matcher(inputArr[i]);
-            if(match.find())
-                obj.getObj().put("name", makeCorrectName(match.group()));
-            else
-                obj.getObj().put("name", "null");
+            putName(obj, inputArr[i]);
             i++;
-            match = price.matcher(inputArr[i]);
-            if(match.find()) {
-                if(!match.group().equals(""))
-                    obj.getObj().put("price", match.group());
-                else
-                    obj.getObj().put("price", "null");
-            }
-            else
-                obj.getObj().put("price", "null");
+            putPrice(obj, inputArr[i]);
             i++;
-            match = type.matcher(inputArr[i]);
-            if(match.find())
-                obj.getObj().put("type", match.group());
-            else
-                obj.getObj().put("type", "null");
+            putType(obj,inputArr[i]);
             i++;
-            match = exp.matcher(inputArr[i]);
-            if(match.find())
-                obj.getObj().put("exp", match.group());
-            else
-                obj.getObj().put("exp", "null");
+            putExp(obj, inputArr[i]);
             grocery.add(obj);
             i++;
         }
+    }
+
+    public void putName(JerksonObject obj, String keyValue){
+        Pattern name = Pattern.compile("(?i)(?<=name:).*");
+        Matcher match = name.matcher(keyValue);
+        if(match.find())
+            obj.getObj().put("name", makeCorrectName(match.group()));
+        else
+            obj.getObj().put("name", "null");
+    }
+
+    public void putPrice(JerksonObject obj, String keyValue){
+        Pattern price = Pattern.compile("(?i)(?<=price:).*");
+        Matcher match = price.matcher(keyValue);
+        if(match.find()) {
+            if(!match.group().equals(""))
+                obj.getObj().put("price", match.group());
+            else
+                obj.getObj().put("price", "null");
+        }
+        else
+            obj.getObj().put("price", "null");
+    }
+
+    public void putType(JerksonObject obj, String keyValue){
+        Pattern type = Pattern.compile("(?i)(?<=type:).*");
+        Matcher match = type.matcher(keyValue);
+        if(match.find())
+            obj.getObj().put("type", match.group());
+        else
+            obj.getObj().put("type", "null");
+    }
+
+    public void putExp(JerksonObject obj, String keyValue){
+        Pattern exp = Pattern.compile("(?i)(?<=expiration:).*");
+        Matcher match = exp.matcher(keyValue);
+        if(match.find())
+            obj.getObj().put("exp", match.group());
+        else
+            obj.getObj().put("exp", "null");
     }
 
     public String makeCorrectName(String wrong){
