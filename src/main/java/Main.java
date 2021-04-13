@@ -21,36 +21,13 @@ public class Main {
 
     public static void main(String[] args) throws Exception{
         String output = (new Main()).readRawDataToString();
-        //System.out.println(output);
+        System.out.println(output);
 
-        List<String> shoppingList = (List<String>) Pattern.compile("RawData.txt", Pattern.UNIX_LINES)
-                .splitAsStream(output).map(String::toLowerCase).collect(Collectors.toList());
-
-       /* Map<String, Integer> shop = new LinkedHashMap<>();
-        shoppingList.forEach(word ->
-                shop.compute(word, (k, v) -> v != null ? v + 1 : 1));
-        shop.forEach((k,v) -> System.out.println(String.format("%-20s Seen: %d", k, v))); */
 
 
     }
 
-    private String uploadedFile() {
-        ClassLoader classLoader = getClass().getClassLoader();
-        File file = new File(classLoader.getResource("RawData.txt").getFile());
-        StringBuilder result = new StringBuilder("");
 
-        try(Scanner scanner = new Scanner(file)){
-            while(scanner.hasNextLine()) {
-                String line = scanner.nextLine();
-                result.append(line).append("\n");
-            }
-            scanner.close();
-        } catch(IOException e) {
-            e.printStackTrace();
-        }
-
-        return result.toString();
-    }
 
 
 
