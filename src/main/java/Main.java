@@ -30,6 +30,20 @@ public class Main {
         return result.toString();
 
     }
+    public String findAlphabetCharacters() {
+        String result = "";
+        String jerkTest = readRawDataToString();
+        Pattern pattern = Pattern.compile("[A-Z]", Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(jerkTest);
+        String horation = "";
+        while (matcher.find()) {
+            horation = matcher.group();
+            result += horation;
+        }
+
+        return result;
+    }
+
     public String nameChange(String input){
         try{
             Pattern pattern = Pattern.compile("name", Pattern.CASE_INSENSITIVE);
@@ -96,18 +110,18 @@ public class Main {
         System.out.println(output);
 
     }
-//    public int countMilk(){
-//        List<Integer> index = new ArrayList<>();
-//        String jerk = readRawDataToString();
-//        Pattern pattern = Pattern.compile("milk", Pattern.CASE_INSENSITIVE);
-//        Matcher matcher = pattern.matcher(jerk);
-//
-//        for (int i = 0; matcher.find(); i++) {
-//            index.add(matcher.start());
-//        }
-//        return index.size();
-//
-//    }
+    public int countMilk(){
+        List<Integer> index = new ArrayList<>();
+        String jerk = readRawDataToString();
+        Pattern pattern = Pattern.compile("milk", Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(jerk);
+
+        for (int i = 0; matcher.find(); i++) {
+            index.add(matcher.start());
+        }
+        return index.size();
+
+    }
     public String listEm(String input) {
         try {
             Pattern pattern = Pattern.compile("##");
