@@ -5,8 +5,6 @@ import java.util.regex.Pattern;
 
 public class Main {
 
-    Integer counter = 0;
-
     public String readRawDataToString() throws Exception{
         ClassLoader classLoader = getClass().getClassLoader();
         String result = IOUtils.toString(classLoader.getResourceAsStream("RawData.txt"));
@@ -49,7 +47,6 @@ public class Main {
             Pattern pattern = Pattern.compile("c[o0][o0]kies", Pattern.CASE_INSENSITIVE);
             Matcher matcher = pattern.matcher(input);
             String milk = matcher.replaceAll("Cookies");
-
             return milk;
         } catch (Exception e) {
             throw new UnsupportedOperationException();
@@ -61,7 +58,6 @@ public class Main {
             Pattern pattern = Pattern.compile("apples", Pattern.CASE_INSENSITIVE);
             Matcher matcher = pattern.matcher(input);
             String milk = matcher.replaceAll("Apples");
-
             return milk;
         } catch (Exception e) {
             throw new UnsupportedOperationException();
@@ -97,7 +93,6 @@ public class Main {
             Pattern pattern = Pattern.compile("name", Pattern.CASE_INSENSITIVE);
             Matcher matcher = pattern.matcher(input);
             String milk = matcher.replaceAll("Name");
-
             return milk;
         } catch (Exception e) {
             throw new UnsupportedOperationException();
@@ -109,7 +104,6 @@ public class Main {
             Pattern pattern = Pattern.compile("price", Pattern.CASE_INSENSITIVE);
             Matcher matcher = pattern.matcher(input);
             String milk = matcher.replaceAll("Price");
-
             return milk;
         } catch (Exception e) {
             throw new UnsupportedOperationException();
@@ -117,7 +111,7 @@ public class Main {
     }
 
     public int findGroceries(String input) {
-        Integer holdingValue = 0;
+        Integer counter = 0;
         Boolean checkVal = false;
         Pattern pattern = Pattern.compile(input, Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(readyForFormatting());
@@ -126,9 +120,9 @@ public class Main {
                 checkVal = true;
                 continue;
             }
-            holdingValue++;
+            counter++;
         }
-        return holdingValue;
+        return counter;
     }
 
 
@@ -164,8 +158,6 @@ public class Main {
         int counter = 0;
         // beware
         // receive 2 errors on 'milk' - milk shows more than the given prices (2 times)
-        // and there are 2 errors upon not having a price
-//             counter += findGroceries("apples") - (findGroceries("apples;price:0.25") + findGroceries("apples;price:0.23"));
              counter += findGroceries("Name:;");
              counter += findGroceries("milk") - (findGroceries("milk;price:3.23") + findGroceries("milk;price:1.23"));
         return counter;
@@ -180,5 +172,28 @@ public class Main {
         String result5 = nameChange(result4);
         String result6 = priceChange(result5);
         return result6;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public void parsingToObject(String input) {
+     Pattern pattern = Pattern.compile(input);
+     Matcher matcher = pattern.matcher(readyForFormatting());
+
     }
 }
