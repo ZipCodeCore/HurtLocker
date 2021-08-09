@@ -1,6 +1,9 @@
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class MainTest {
     Main test = new Main();
 
@@ -42,5 +45,9 @@ public class MainTest {
     @Test
     public void printTest(){
         System.out.println(test.doingFormatting());
+    }
+    @Test
+    public void nameChangeTest(){
+
     }
 }

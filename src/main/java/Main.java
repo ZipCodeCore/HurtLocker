@@ -101,10 +101,10 @@ public class Main {
 
     public String changeBread(String input){
         try{
-            Pattern pattern = Pattern.compile("bread", Pattern.CASE_INSENSITIVE);
+            Pattern pattern = Pattern.compile("Bread", Pattern.CASE_INSENSITIVE);
             Matcher matcher = pattern.matcher(input);
-            String milk = matcher.replaceAll("Bread");
-            return  milk;
+            String bread = matcher.replaceAll("Bread");
+            return  bread;
         }catch (Exception e){
             throw new UnsupportedOperationException();
         }
@@ -126,8 +126,8 @@ public class Main {
         try{
             Pattern pattern = Pattern.compile("c[o0][o0]kies", Pattern.CASE_INSENSITIVE);
             Matcher matcher = pattern.matcher(input);
-            String milk = matcher.replaceAll("Cookies");
-            return milk;
+            String cookies = matcher.replaceAll("Cookies");
+            return cookies;
         }catch (Exception e){
             throw new UnsupportedOperationException();
         }
@@ -137,8 +137,8 @@ public class Main {
         try{
             Pattern pattern = Pattern.compile("apples", Pattern.CASE_INSENSITIVE);
             Matcher matcher = pattern.matcher(input);
-            String milk = matcher.replaceAll("Apples");
-            return  milk;
+            String apples = matcher.replaceAll("Apples");
+            return  apples;
         }catch (Exception e){
             throw new UnsupportedOperationException();
         }
@@ -149,9 +149,9 @@ public class Main {
         try{
             Pattern pattern = Pattern.compile("name", Pattern.CASE_INSENSITIVE);
             Matcher matcher = pattern.matcher(input);
-            String milk = matcher.replaceAll("Name");
+            String nameCh = matcher.replaceAll("Name");
 
-            return milk;
+            return nameCh;
         }catch (Exception e){
             throw new UnsupportedOperationException();
         }
@@ -161,9 +161,9 @@ public class Main {
         try{
             Pattern pattern = Pattern.compile("price", Pattern.CASE_INSENSITIVE);
             Matcher matcher = pattern.matcher(input);
-            String milk = matcher.replaceAll("Price");
+            String pricCh = matcher.replaceAll("Price");
 
-            return  milk;
+            return  pricCh;
         }catch (Exception e){
             throw new UnsupportedOperationException();
         }
@@ -187,7 +187,7 @@ public class Main {
 
     public String doingFormatting(){
         String result =
-                "name:      Milk        seen: " + findGroceries("milk") + " times\n" +
+                "name:   Milk         seen: " + findGroceries("milk") + " times\n" +
                            "=============        =============\n" +
                            "Price:   3.23        seen: " + findGroceries("milk;price:3.23") + " times\n" +
                            "-------------        --------------\n" +
@@ -195,12 +195,12 @@ public class Main {
 
                            "name:    Bread       seen: " + findGroceries("bread") + " times\n" +
                            "==============       ==============\n" +
-                           "Price:   1.23        seen: " + findGroceries("price:1.23") + " times\n\n" +
+                           "Price:   1.23        seen: " + findGroceries("bread") + " times\n\n" +
                            "--------------       ---------------\n" +
 
                            "name:   Cookies      seen: " + findGroceries("cookies") + " times\n" +
                            "===============      ===============\n" +
-                           "Price:   2.25        seen: " + findGroceries("price:2.25") + " times\n" +
+                           "Price:   2.25        seen: " + findGroceries("cookies") + " times\n\n" +
                            "---------------      ---------------\n" +
 
                            "name:    Apples      seen: " + findGroceries("apples") + " times\n" +
@@ -231,4 +231,6 @@ public class Main {
         String result6 = priceChange(result5);
         return  result6;
     }
+
+
 }
