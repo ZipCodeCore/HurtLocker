@@ -69,7 +69,7 @@ public class Main {
         try{
             Pattern pattern = Pattern.compile("price", Pattern.CASE_INSENSITIVE);
             Matcher matcher = pattern.matcher(input);
-            String priceString = matcher.replaceAll("Name");
+            String priceString = matcher.replaceAll("Price");
             return priceString;
         }catch (Exception e){
             throw new UnsupportedOperationException();
@@ -169,12 +169,12 @@ public class Main {
 
                 "name:    Bread       seen: " + findGroceries("bread") + " times\n" +
                 "==============       ==============\n" +
-                "Price:   1.23        seen: " + findGroceries("price:1.23") + " times\n\n" +
+                "Price:   1.23        seen: " + findGroceries("bread") + " times\n\n" +
                 "--------------       ---------------\n" +
 
                 "name:   Cookies      seen: " + findGroceries("cookies") + " times\n" +
                 "===============      ===============\n" +
-                "Price:   2.25        seen: " + findGroceries("price:2.25") + " times\n" +
+                "Price:   2.25        seen: " + findGroceries("cookies") + " times\n" +
                 "---------------      ---------------\n" +
 
                 "name:    Apples      seen: " + findGroceries("apples") + " times\n" +
