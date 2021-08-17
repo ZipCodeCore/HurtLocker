@@ -158,9 +158,9 @@ public class Main {
     }
     public String changeCookies(String input){
         try{
-            Pattern pattern = Pattern.compile("Cookie", Pattern.CASE_INSENSITIVE);
+            Pattern pattern = Pattern.compile("C[0o][0o]kies", Pattern.CASE_INSENSITIVE);
             Matcher matcher = pattern.matcher(input);
-            String bread = matcher.replaceAll("Cookie");
+            String bread = matcher.replaceAll("Cookies");
             return bread;
         }catch (Exception e){
             throw new UnsupportedOperationException();
@@ -197,7 +197,7 @@ public class Main {
 
                 "name:    Bread       seen: " + findGroceries("bread") + " times\n" +
                 "==============       ==============\n" +
-                "Price:   1.23        seen: " + findGroceries("price:1.23") + " times\n\n" +
+                "Price:   1.23        seen: " + findGroceries( "bread;price:1.23") + " times\n\n" +
                 "--------------       ---------------\n" +
 
                 "name:   Cookies      seen: " + findGroceries("cookies") + " times\n" +
@@ -222,11 +222,11 @@ public class Main {
     public String readyForFormatting() {
         String result = getList(correctSeparator());
         String result1 = changeApples(result);
-        String result2 = changeBread(result);
-        String result3 = changeCookies(result);
-        String result4 = changeMilk(result);
-        String result5 = nameChange(result);
-        String result6 = priceChange(result);
+        String result2 = changeBread(result1);
+        String result3 = changeCookies(result2);
+        String result4 = changeMilk(result3);
+        String result5 = nameChange(result4);
+        String result6 = priceChange(result5);
         return result6;
     }
 }
