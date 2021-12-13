@@ -8,11 +8,10 @@ public class Summarization {
         StringBuilder sb = new StringBuilder();
         Map<String,Map<String,Integer>> headcount = new HashMap<>();
         for(Item item: items){
-            //make this non case-sensitive
             if(!headcount.containsKey(item.getName())){
-                headcount.put(item.getName(),(new HashMap<String, Integer>()));
-                if(item.getName() == null){
-                    headcount.get(item.getName()).put("-1",1);
+                headcount.put(item.getName(),(new HashMap<>()));
+                if(item.getName() == null || item.getPrice() == null){
+                    headcount.get(null).put("-1",1);
                 }
                 else{
                     headcount.get(item.getName()).put(item.getPrice(),1);
@@ -21,6 +20,10 @@ public class Summarization {
             else{
                 if(!headcount.get(item.getName()).containsKey(item.getPrice())){
                     headcount.get(item.getName()).put(item.getPrice(),1);
+                }
+                else if(item.getPrice() == null){
+                    Integer temp = headcount.get(null).get(item.getPrice());
+                    headcount.get("error").replace("-1",temp + 1);
                 }
                 else{
                     Integer temp = headcount.get(item.getName()).get(item.getPrice());
