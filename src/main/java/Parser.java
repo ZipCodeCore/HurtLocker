@@ -34,12 +34,12 @@ public class Parser {
         String parsedString = "";
         Pattern pattern = Pattern.compile("(?i)(name)");
         Matcher matcher = pattern.matcher(loadFile());
-        parsedString = matcher.replaceAll("name");
+        parsedString = matcher.replaceAll("{name");
 
 
         Pattern pattern1 = Pattern.compile("(?i)(##)");
         Matcher matcher1 = pattern1.matcher(parsedString);
-        parsedString = matcher1.replaceAll(",\n");
+        parsedString = matcher1.replaceAll("},\n");
 
         Pattern cookies = Pattern.compile("(?i)(C[o0][o0]kies[;])");
         Matcher matcherCookies = cookies.matcher(parsedString);
