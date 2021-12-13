@@ -12,8 +12,9 @@ public class Main {
     public static void main(String[] args) throws Exception{
         String output = (new Main()).readRawDataToString();
         System.out.println("Raw Data:");
-        System.out.println(output);
+        System.out.println(output + "\n");
         System.out.println("Regexed & Encapsulated:");
-        System.out.println(RegexThis.regexer(output));
+        System.out.println(RegexThis.regexer(output) + "\n");
+
     }
 }
