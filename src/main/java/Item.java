@@ -86,6 +86,7 @@ public class Item {
         public void checkError(String input){
             if(input == null){
                 this.isError = true;
+                this.name = "error";
             }
         }
 
