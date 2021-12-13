@@ -11,8 +11,7 @@ public class RegexThis {
         Matcher m = p.matcher(raw);
         List<Item> items = new ArrayList<Item>();
         while(m.find()){
-            if(m.groupCount() != 4 || ){
-                System.out.println("OOF");
+            if(m.groupCount() != 4){
                 Item defect = new Item.ItemBuilder()
                         .denoteError()
                         .build();
@@ -29,7 +28,6 @@ public class RegexThis {
             }
         }
         //TODO:
-        //take off the last entry as it is an empty string
         //find a way to enforce error (maybe think about checking if any of the groups are null)(could be a one and done command for this)
         //nicely formatted summary
 

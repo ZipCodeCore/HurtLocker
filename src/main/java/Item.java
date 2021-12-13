@@ -57,27 +57,36 @@ public class Item {
         public ItemBuilder(){
         }
         public ItemBuilder setName(String name) {
+            checkError(name);
             this.name = name;
             return this;
         }
 
         public ItemBuilder setPrice(String price) {
+            checkError(price);
             this.price = price;
             return this;
         }
 
         public ItemBuilder setType(String type) {
+            checkError(type);
             this.type = type;
             return this;
         }
 
         public ItemBuilder setExpiration(String expiration) {
+            checkError(expiration);
             this.expiration = expiration;
             return this;
         }
         public ItemBuilder denoteError(){
             this.isError = true;
             return this;
+        }
+        public void checkError(String input){
+            if(input == null){
+                this.isError = true;
+            }
         }
 
         public String getName() {
