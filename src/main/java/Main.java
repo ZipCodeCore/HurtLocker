@@ -1,5 +1,6 @@
 import org.apache.commons.io.IOUtils;
 import java.io.IOException;
+import java.util.List;
 
 public class Main {
 
@@ -14,7 +15,10 @@ public class Main {
         System.out.println("Raw Data:");
         System.out.println(output + "\n");
         System.out.println("Regexed & Encapsulated:");
-        System.out.println(RegexThis.regexer(output) + "\n");
+        List<Item> items = RegexThis.regexer(output);
+        System.out.println(items + "\n");
+        System.out.println("Summarization: ");
+        System.out.println(Summarization.summarize(items));
 
     }
 }
