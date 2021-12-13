@@ -34,8 +34,8 @@ public class Summarization {
         int errorCount = 0;
         for(String name: headcount.keySet()){
             //error if
-            if(name == null){
-                errorCount = headcount.get(null).get("-1");
+            if(name == null || name.equals("error")){
+                errorCount++;
             }
             else{
                 int total = 0;
