@@ -43,9 +43,9 @@ public class Item {
                     ", price='" + price + '\'' +
                     ", type='" + type + '\'' +
                     ", expiration='" + expiration + '\'' +
-                    '}';
+                    "}\n";
         }
-        return "Erroneous entry";
+        return "Erroneous entry\n";
     }
 
     public static class ItemBuilder{

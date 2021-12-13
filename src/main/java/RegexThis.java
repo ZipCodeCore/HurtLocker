@@ -1,4 +1,3 @@
-import com.sun.media.sound.InvalidFormatException;
 
 import java.util.*;
 import java.util.regex.Matcher;
@@ -12,7 +11,8 @@ public class RegexThis {
         Matcher m = p.matcher(raw);
         List<Item> items = new ArrayList<Item>();
         while(m.find()){
-            if(m.groupCount() != 4){
+            if(m.groupCount() != 4 || ){
+                System.out.println("OOF");
                 Item defect = new Item.ItemBuilder()
                         .denoteError()
                         .build();
@@ -20,14 +20,22 @@ public class RegexThis {
             }
             else{
                 Item newbie = new Item.ItemBuilder()
-                        .setName(m.group(0))
-                        .setPrice(m.group(1))
-                        .setType(m.group(2))
-                        .setExpiration(m.group(3))
+                        .setName(m.group(1))
+                        .setPrice(m.group(2))
+                        .setType(m.group(3))
+                        .setExpiration(m.group(4))
                         .build();
                 items.add(newbie);
             }
         }
+        //TODO:
+        //take off the last entry as it is an empty string
+        //find a way to enforce error (maybe think about checking if any of the groups are null)(could be a one and done command for this)
+        //nicely formatted summary
+
+        //MAYBE:
+        //replace inconsistent casing with regular casing
+        //fix regex to not include empty string
         return items;
     }
 }
