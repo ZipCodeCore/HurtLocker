@@ -1,5 +1,5 @@
 public class Item {
-    private final String name;
+    private String name;
     private final String price;
     private final String type;
     private final String expiration;
@@ -12,7 +12,9 @@ public class Item {
         this.expiration = builder.getExpiration();
         this.isError = builder.getIsError();
     }
-
+    public void setName(String newName){
+        this.name = newName;
+    }
     public String getName() {
         return name;
     }
@@ -49,10 +51,10 @@ public class Item {
     }
 
     public static class ItemBuilder{
-        private String name = "";
-        private String price = "";
-        private String type = "";
-        private String expiration = "";
+        private String name;
+        private String price;
+        private String type;
+        private String expiration;
         private boolean isError = false;
         public ItemBuilder(){
         }

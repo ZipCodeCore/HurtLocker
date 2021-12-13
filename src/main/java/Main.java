@@ -17,8 +17,9 @@ public class Main {
         System.out.println("Regexed & Encapsulated:");
         List<Item> items = RegexThis.regexer(output);
         System.out.println(items + "\n");
+        List<Item> beautifiedItems = RegexThis.beautifier(items);
         System.out.println("Summarization: ");
-        System.out.println(Summarization.summarize(items));
+        System.out.println(Summarization.summarize(beautifiedItems));
 
     }
 }
