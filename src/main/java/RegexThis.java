@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 public class RegexThis {
     //3 to 5 lines of regex
     public static List<Item> regexer(String raw){
-        Pattern p = Pattern.compile("(?:##)?(?:name\\W)?([\\w]+)?(?:\\Wprice\\W)?([\\w\\.]+)?(?:\\Wtype\\W)?([\\w]+)?(?:\\Wexpiration\\W)?([\\w\\/]+)?"
+        Pattern p = Pattern.compile("(?:name\\W)?([\\w]+)?(?:\\Wprice\\W)?([\\w\\.]+)?(?:\\Wtype\\W)?([\\w]+)?(?:\\Wexpiration\\W)?([\\w\\/]+)?(?:##)"
         ,Pattern.CASE_INSENSITIVE);
         Matcher m = p.matcher(raw);
         List<Item> items = new ArrayList<Item>();
@@ -35,7 +35,6 @@ public class RegexThis {
 
         //MAYBE:
         //replace inconsistent casing with regular casing
-        //fix regex to not include empty string
         return items;
     }
 }
