@@ -8,8 +8,9 @@ public class RegexThis {
     //3 to 5 lines of regex
     private String orig;
     public static String[] splitter(String raw){
-         return Arrays.copyOf((Pattern.compile("##")).split(raw),(Pattern.compile("##")).split(raw).length - 1);
+        return (Pattern.compile("##")).split(raw);
     }
-    private static 
-
+    public static String[][] paramSplitter(String[] raw){
+        return (Pattern.compile)
+    }
 }
