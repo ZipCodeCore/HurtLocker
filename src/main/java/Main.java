@@ -1,5 +1,9 @@
 import org.apache.commons.io.IOUtils;
+
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Formatter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -14,10 +18,12 @@ public class Main {
 
     public static void main(String[] args) throws Exception{
         String output = (new Main()).readRawDataToString();
-        System.out.println(output);
+        System.out.println("JerkSON");
+        System.out.println(output+"\n");
 
         Parser parser = new Parser();
-       System.out.println(parser.dataParser());
+        System.out.println("JSON");
+        System.out.println(parser.dataParser());
 
         Main main = new Main();
 
@@ -25,9 +31,11 @@ public class Main {
 //        System.out.println("1.23 Price seen: "+main.countItemAtPrice(parser.dataParser(),"Milk,price:1[.]23"));
 //        System.out.println("3.23 Price seen : "+main.countItemAtPrice(parser.dataParser(), "Milk,price:3[.]23"));
 //        System.out.println("No Price seen: "+main.countItemNoPrice(parser.dataParser(),"Milk,price:,"));
+        // System.out.println(main.errorCounter());
 
-        System.out.println(main.formattedOutput());
-       // System.out.println(main.errorCounter());
+        System.out.println(main.formatedOutput());
+        main.outputToTXT();
+
     }
 
     public Integer countItem(String parsedData, String item){
@@ -49,7 +57,7 @@ public class Main {
         return count;
     }
 
-    public Integer countItemNoValue(String parsedData, String noValue){
+    public Integer countKeyNoValue(String parsedData, String noValue){
         Integer count = 0;
         Pattern pattern = Pattern.compile(noValue);
         Matcher matcher = pattern.matcher(parsedData);
@@ -58,10 +66,18 @@ public class Main {
         }
         return count;
     }
+    public Integer errorCounter(){
+        Integer count = 0;
+        String[] keys = {"name","price","type","expiration"};
+        for (int i = 0; i < keys.length; i++) {
+            count += countKeyNoValue(parsedData.dataParser(),keys[i]+":,");
+        }
+        return count;
+    }
 
 
 
-    public String formattedOutput(){
+    public String formatedOutput(){
       String result = "";
         result = "name:    Milk \t\t seen: "+countItem(parsedData.dataParser(), "Milk")+" times\n" +
                 "============= \t \t =============\n" +
@@ -91,13 +107,14 @@ public class Main {
       return result;
     }
 
-    public Integer errorCounter(){
-     Integer count = 0;
-     String[] keys = {"name","price","type","expiration"};
-        for (int i = 0; i < keys.length; i++) {
-        count += countItemNoValue(parsedData.dataParser(),keys[i]+":,");
-        }
-        return count;
+    public void outputToTXT() throws FileNotFoundException {
+
+        FileOutputStream outputStream= new FileOutputStream("outputFormat.txt");
+        Formatter formatter = new Formatter(outputStream);
+        formatter.format(formatedOutput());
+        formatter.flush();
+
     }
 
+   
 }
