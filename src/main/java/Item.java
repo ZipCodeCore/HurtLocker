@@ -31,10 +31,10 @@ public class Item {
     //equals method
 
     public static class ItemBuilder{
-        private String name;
-        private String price;
-        private String type;
-        private String expiration;
+        private String name = "";
+        private String price = "";
+        private String type = "";
+        private String expiration = "";
         private boolean isError = false;
         public ItemBuilder(){
         }
