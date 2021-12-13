@@ -41,9 +41,33 @@ public class Parser {
         Matcher matcher1 = pattern1.matcher(parsedString);
         parsedString = matcher1.replaceAll(",\n");
 
-        Pattern pattern2 = Pattern.compile("(?i)(C[o0][o0]kies[;])");
-        Matcher matcher2 = pattern2.matcher(parsedString);
-        parsedString = matcher2.replaceAll("Cookies,");
+        Pattern cookies = Pattern.compile("(?i)(C[o0][o0]kies[;])");
+        Matcher matcherCookies = cookies.matcher(parsedString);
+        parsedString = matcherCookies.replaceAll("Cookies,");
+
+        Pattern milk = Pattern.compile("(?i)(milk[;])");
+        Matcher matcherMilk = milk.matcher(parsedString);
+        parsedString = matcherMilk.replaceAll("Milk,");
+
+        Pattern bread = Pattern.compile("(?i)(bread[;])");
+        Matcher matcherBread = bread.matcher(parsedString);
+        parsedString = matcherBread.replaceAll("Bread,");
+
+        Pattern apple = Pattern.compile("(?i)(apples)");
+        Matcher matcherApple = apple.matcher(parsedString);
+        parsedString = matcherApple.replaceAll("Apples");
+
+        Pattern pattern5 = Pattern.compile("(?i)[;,](price)");
+        Matcher matcher5 = pattern5.matcher(parsedString);
+        parsedString = matcher5.replaceAll(",price");
+
+        Pattern pattern6 = Pattern.compile("(?i)(;type)");
+        Matcher matcher6 = pattern6.matcher(parsedString);
+        parsedString = matcher6.replaceAll(",type");
+
+        Pattern pattern7 = Pattern.compile("(?i)(food)[!;@^*%]");
+        Matcher matcher7 = pattern7.matcher(parsedString);
+        parsedString = matcher7.replaceAll("Food,");
 
         return  parsedString;
     }
