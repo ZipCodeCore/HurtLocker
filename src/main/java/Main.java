@@ -13,7 +13,7 @@ public class Main {
         String output = (new Main()).readRawDataToString();
         System.out.println("Raw Data:");
         System.out.println(output);
-        System.out.println("Regexed & Encapsulated");
+        System.out.println("Regexed & Encapsulated:");
         System.out.println(RegexThis.regexer(output));
     }
 }

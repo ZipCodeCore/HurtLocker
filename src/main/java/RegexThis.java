@@ -9,30 +9,23 @@ public class RegexThis {
         Pattern p = Pattern.compile("(?:name\\W)?([\\w]+)?(?:\\Wprice\\W)?([\\w\\.]+)?(?:\\Wtype\\W)?([\\w]+)?(?:\\Wexpiration\\W)?([\\w\\/]+)?(?:##)"
         ,Pattern.CASE_INSENSITIVE);
         Matcher m = p.matcher(raw);
+        //matches gotten
         List<Item> items = new ArrayList<Item>();
+        //encapsulate entries
         while(m.find()){
-            if(m.groupCount() != 4){
-                Item defect = new Item.ItemBuilder()
-                        .denoteError()
-                        .build();
-                items.add(defect);
-            }
-            else{
-                Item newbie = new Item.ItemBuilder()
-                        .setName(m.group(1))
-                        .setPrice(m.group(2))
-                        .setType(m.group(3))
-                        .setExpiration(m.group(4))
-                        .build();
-                items.add(newbie);
-            }
+            Item newbie = new Item.ItemBuilder()
+                    .setName(m.group(1) != null ? (Pattern.compile("0")).matcher(m.group(1)).replaceAll("o") : null)
+                    .setPrice(m.group(2))
+                    .setType(m.group(3))
+                    .setExpiration(m.group(4))
+                    .build();
+            items.add(newbie);
         }
-        //TODO:
-        //find a way to enforce error (maybe think about checking if any of the groups are null)(could be a one and done command for this)
-        //nicely formatted summary
-
-        //MAYBE:
-        //replace inconsistent casing with regular casing
         return items;
     }
 }
+//TODO:
+//nicely formatted summary
+//give each group a fitting name
+//replace inconsistent casing with regular casing
+
