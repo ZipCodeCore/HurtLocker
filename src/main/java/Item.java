@@ -28,7 +28,25 @@ public class Item {
     public String getExpiration() {
         return expiration;
     }
+    public boolean isError(){
+        return isError;
+    }
     //equals method
+    //toString method
+
+
+    @Override
+    public String toString() {
+        if(!isError) {
+            return "Item{" +
+                    "name='" + name + '\'' +
+                    ", price='" + price + '\'' +
+                    ", type='" + type + '\'' +
+                    ", expiration='" + expiration + '\'' +
+                    '}';
+        }
+        return "Erroneous entry";
+    }
 
     public static class ItemBuilder{
         private String name = "";
