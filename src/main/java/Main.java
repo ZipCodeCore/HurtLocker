@@ -1,5 +1,6 @@
 import org.apache.commons.io.IOUtils;
 import java.io.IOException;
+import java.util.List;
 
 public class Main {
 
@@ -11,7 +12,14 @@ public class Main {
 
     public static void main(String[] args) throws Exception{
         String output = (new Main()).readRawDataToString();
-        System.out.println(output);
+        System.out.println("Raw Data:");
+        System.out.println(output + "\n");
+        System.out.println("Regexed & Encapsulated:");
+        List<Item> items = RegexThis.regexer(output);
+        System.out.println(items + "\n");
+        List<Item> beautifiedItems = RegexThis.beautifier(items);
+        System.out.println("Summarization: ");
+        System.out.println(Summarization.summarize(beautifiedItems));
 
     }
 }
